@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
@@ -22,6 +23,8 @@ import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
+import org.springframework.ws.wsdl.wsdl11.SimpleWsdl11Definition;
+import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 
 @EnableWs
 @Configuration
@@ -72,5 +75,26 @@ public class SoapConfig extends WsConfigurerAdapter {
         messageFactory.setMessageProperties(props);
         messageFactory.setSoapVersion(SoapVersion.SOAP_12);
         return messageFactory;
+    }
+
+    @Bean(name = "JusticePCSSCommon.wsProvider:pcssCommon")
+    public Wsdl11Definition JusticePCSSCommonWSDL() {
+        SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
+        wsdl11Definition.setWsdl(new ClassPathResource("xsdSchemas/pcss-common.wsdl"));
+        return wsdl11Definition;
+    }
+
+    @Bean(name = "JusticePCSSCommon.wsProvider:pcssCommonSecure")
+    public Wsdl11Definition JusticeSecurePCSSCommonWSDL() {
+        SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
+        wsdl11Definition.setWsdl(new ClassPathResource("xsdSchemas/pcss-common-secure.wsdl"));
+        return wsdl11Definition;
+    }
+
+    @Bean(name = "JusticePCSSCommon.wsProvider:pcssReport")
+    public Wsdl11Definition JusticePCSSReportsWSDL() {
+        SimpleWsdl11Definition wsdl11Definition = new SimpleWsdl11Definition();
+        wsdl11Definition.setWsdl(new ClassPathResource("xsdSchemas/pcss-reports.wsdl"));
+        return wsdl11Definition;
     }
 }
