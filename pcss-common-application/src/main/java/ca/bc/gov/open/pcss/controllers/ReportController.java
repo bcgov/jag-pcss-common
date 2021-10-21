@@ -161,7 +161,7 @@ public class ReportController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getJustinReport", inner)));
+                                    "Error received from ORDS", "getOperationReport", inner)));
             throw new ORDSException();
         }
     }
