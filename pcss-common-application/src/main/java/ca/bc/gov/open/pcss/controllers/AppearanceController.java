@@ -147,7 +147,7 @@ public class AppearanceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getFileSearchSecure", inner)));
+                                    "Error received from ORDS", "setAppearanceStatus", inner)));
             throw new ORDSException();
         }
     }
