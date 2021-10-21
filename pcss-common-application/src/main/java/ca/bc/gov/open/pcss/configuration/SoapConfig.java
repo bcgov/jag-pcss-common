@@ -1,4 +1,4 @@
-package ca.bc.gov.open.pcss.Configuration;
+package ca.bc.gov.open.pcss.configuration;
 
 import ca.bc.gov.open.pcss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
