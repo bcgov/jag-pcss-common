@@ -56,7 +56,7 @@ public class AppearanceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceUpdateResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.PUT,
                             body,
                             ca.bc.gov.open.wsdl.pcss.one.SetAppearanceUpdateResponse.class);
 
@@ -69,7 +69,10 @@ public class AppearanceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setAppearanceUpdate", inner)));
+                                    "Error received from ORDS",
+                                    "setAppearanceUpdate",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -95,7 +98,7 @@ public class AppearanceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.POST,
                             body,
                             ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveResponse.class);
 
@@ -108,7 +111,10 @@ public class AppearanceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setAppearanceMove", inner)));
+                                    "Error received from ORDS",
+                                    "setAppearanceMove",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -134,7 +140,7 @@ public class AppearanceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceStatusResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.POST,
                             body,
                             ca.bc.gov.open.wsdl.pcss.one.SetAppearanceStatusResponse.class);
 
@@ -147,7 +153,10 @@ public class AppearanceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setAppearanceStatus", inner)));
+                                    "Error received from ORDS",
+                                    "setAppearanceStatus",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
