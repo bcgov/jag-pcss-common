@@ -81,7 +81,17 @@ public class CourtControllerTests {
     public void getCourtCalendarDetailByDayTest() throws JsonProcessingException {
         var req = new GetCourtCalendarDetailByDay();
         var one = new GetCourtCalendarDetailByDayRequest();
-        var twp = new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest();
+        var two = new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest();
+
+        two.setCourtAgencyId("A");
+        two.setAppearanceDt(Instant.now());
+        two.setCourtRoomCd("A");
+        two.setRequestDtm(Instant.now());
+        two.setRequestPartId("A");
+        two.setRequestAgencyIdentifierId("A");
+
+        one.setGetCourtCalendarDetailByDayRequest(two);
+        req.setGetCourtCalendarDetailByDayRequest(one);
 
         var out = new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayResponse();
         out.setResponseCd("A");
