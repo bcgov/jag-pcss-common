@@ -58,7 +58,7 @@ public class CourtController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.POST,
                             body,
                             ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse.class);
 
@@ -71,7 +71,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setCourtListMove", inner)));
+                                    "Error received from ORDS",
+                                    "setCourtListMove",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -121,6 +124,7 @@ public class CourtController {
                             new OrdsErrorLog(
                                     "Error received from ORDS",
                                     "getCourtCalendarDetailByDay",
+                                    ex.getMessage(),
                                     inner)));
             throw new ORDSException();
         }
@@ -145,7 +149,7 @@ public class CourtController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.POST,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarResponse.class);
 
@@ -159,7 +163,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setCourtCalendar", inner)));
+                                    "Error received from ORDS",
+                                    "setCourtCalendar",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -198,7 +205,10 @@ public class CourtController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getReservedJudgment", inner)));
+                                    "Error received from ORDS",
+                                    "getReservedJudgment",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -234,7 +244,11 @@ public class CourtController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error received from ORDS", "getFileSearch", inner)));
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "getFileSearch",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }

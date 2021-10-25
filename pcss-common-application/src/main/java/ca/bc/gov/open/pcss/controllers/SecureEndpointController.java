@@ -69,7 +69,10 @@ public class SecureEndpointController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getFileSearchSecure", inner)));
+                                    "Error received from ORDS",
+                                    "getFileSearchSecure",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -113,7 +116,10 @@ public class SecureEndpointController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getCodesValuesSecure", inner)));
+                                    "Error received from ORDS",
+                                    "getCodesValuesSecure",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -168,6 +174,7 @@ public class SecureEndpointController {
                             new OrdsErrorLog(
                                     "Error received from ORDS",
                                     "getCourtCalendarDetailByDaySecure",
+                                    ex.getMessage(),
                                     inner)));
             throw new ORDSException();
         }

@@ -8,7 +8,7 @@
 
     <jxb:bindings schemaLocation="../xsdSchemas/pcss-reports-models-1.xsd">
         <jxb:schemaBindings>
-            <jxb:package name="ca.bc.gov.open.wsdl.pcss.secure.one"/>
+            <jxb:package name="ca.bc.gov.open.wsdl.pcss.report.one"/>
         </jxb:schemaBindings>
         <jxb:bindings>
             <namespace:prefix name="ser-root"/>
@@ -18,7 +18,7 @@
     </jxb:bindings>
     <jxb:bindings schemaLocation="../xsdSchemas/pcss-reports-models-2.xsd">
         <jxb:schemaBindings>
-            <jxb:package name="ca.bc.gov.open.wsdl.pcss.secure.two"/>
+            <jxb:package name="ca.bc.gov.open.wsdl.pcss.report.two"/>
         </jxb:schemaBindings>
         <jxb:bindings>
             <namespace:prefix name="ser-root"/>
@@ -29,7 +29,7 @@
 
     <jxb:bindings schemaLocation="../xsdSchemas/pcss-reports-models-3.xsd">
         <jxb:schemaBindings>
-            <jxb:package name="ca.bc.gov.open.wsdl.pcss.secure.three"/>
+            <jxb:package name="ca.bc.gov.open.wsdl.pcss.report.three"/>
         </jxb:schemaBindings>
         <jxb:bindings>
             <namespace:prefix name="ser-root"/>

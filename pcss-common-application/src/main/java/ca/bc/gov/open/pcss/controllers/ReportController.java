@@ -5,7 +5,7 @@ import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest;
-import ca.bc.gov.open.wsdl.pcss.secure.two.*;
+import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -79,7 +79,10 @@ public class ReportController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getJustinAdobeReport", inner)));
+                                    "Error received from ORDS",
+                                    "getJustinAdobeReport",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -94,7 +97,7 @@ public class ReportController {
                                 && search.getGetJustinReportRequest().getGetJustinReportRequest()
                                         != null
                         ? search.getGetJustinReportRequest().getGetJustinReportRequest()
-                        : new ca.bc.gov.open.wsdl.pcss.secure.one.GetJustinReportRequest();
+                        : new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
 
         //    TODO Add parameter list handling
         UriComponentsBuilder builder =
@@ -105,12 +108,12 @@ public class ReportController {
                         .queryParam("reportName", inner.getReportName());
 
         try {
-            HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetJustinReportResponse> resp =
+            HttpEntity<ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            ca.bc.gov.open.wsdl.pcss.secure.one.GetJustinReportResponse.class);
+                            ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse.class);
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
@@ -121,7 +124,10 @@ public class ReportController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getJustinReport", inner)));
+                                    "Error received from ORDS",
+                                    "getJustinReport",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -161,7 +167,10 @@ public class ReportController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getOperationReport", inner)));
+                                    "Error received from ORDS",
+                                    "getOperationReport",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -203,7 +212,10 @@ public class ReportController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getOperationReportLov", inner)));
+                                    "Error received from ORDS",
+                                    "getOperationReportLov",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
