@@ -3,11 +3,16 @@ package ca.bc.gov.open.pcss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.pcss.controllers.ReportController;
+import ca.bc.gov.open.wsdl.pcss.one.Lov;
 import ca.bc.gov.open.wsdl.pcss.one.Parm;
+import ca.bc.gov.open.wsdl.pcss.one.ParmValue;
 import ca.bc.gov.open.wsdl.pcss.one.Report;
+import ca.bc.gov.open.wsdl.pcss.report.one.Parameters;
 import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.three.YesNoType;
 import ca.bc.gov.open.wsdl.pcss.two.GetOperationReport;
+import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportLov;
+import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -82,6 +87,94 @@ public class ReportsControllerTests {
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
         var resp = resourceController.getOperationReport(req);
+        assert resp != null;
+    }
+
+    @Test
+    public void getOperationReportLovTest() throws JsonProcessingException {
+        var req = new GetOperationReportLov();
+        var one = new GetOperationReportLovRequest();
+        var two = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest();
+
+        two.setRequestAgencyIdentifierId("A");
+        two.setRequestPartId("A");
+        two.setRequestDtm(Instant.now());
+        two.setReportNm("A");
+        two.setParmNm("A");
+
+        ParmValue pv = new ParmValue();
+        pv.setValTxt("A");
+        two.setParmValue(Collections.singletonList(pv));
+
+        one.setGetOperationReportLovRequest(two);
+        req.setGetOperationReportLovRequest(one);
+
+        var out = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse();
+        out.setResponseCd("A");
+        out.setResponseMessageTxt("A");
+        Lov lv = new Lov();
+        lv.setCd("A");
+        lv.setVal("A");
+        out.setLov(Collections.singletonList(lv));
+
+        ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse> responseEntity =
+                new ResponseEntity<>(out, HttpStatus.OK);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito
+                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
+                                        any()))
+                .thenReturn(responseEntity);
+
+        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        var resp = resourceController.getOperationReportLov(req);
+        assert resp != null;
+    }
+
+    @Test
+    public void getJustinReportTest() throws JsonProcessingException {
+        var req = new GetJustinReport();
+        var one = new GetJustinReportRequest();
+        var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
+
+        two.setRequestAgencyIdentifierId("A");
+        two.setRequestPartId("A");
+        two.setRequestDtm(Instant.now());
+        two.setReportName("A");
+        Parameters p = new Parameters();
+        p.setParmNm("A");
+        p.setParmValue("A");
+        two.setParameters(Collections.singletonList(p));
+
+        one.setGetJustinReportRequest(two);
+        req.setGetJustinReportRequest(one);
+
+        var out = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse();
+        out.setReportContent("A");
+        out.setResponseCd("A");
+        out.setResponseMessageTxt("A");
+
+        ResponseEntity<ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse> responseEntity =
+                new ResponseEntity<>(out, HttpStatus.OK);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito
+                                .<Class<
+                                                ca.bc.gov.open.wsdl.pcss.report.one
+                                                        .GetJustinReportResponse>>
+                                        any()))
+                .thenReturn(responseEntity);
+
+        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        var resp = resourceController.getJustinReport(req);
         assert resp != null;
     }
 

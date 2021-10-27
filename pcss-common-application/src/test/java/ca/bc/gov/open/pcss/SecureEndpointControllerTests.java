@@ -208,6 +208,7 @@ public class SecureEndpointControllerTests {
         out.setResponseMessageTxt("A");
         Appearance ap = new Appearance();
 
+        ap.setAppearanceId("A");
         ap.setCourtDivisionCd(CourtDivisionType.I);
         ap.setCourtClassCd(CourtClassType.Y);
         ap.setCourtRoomCd("A");
