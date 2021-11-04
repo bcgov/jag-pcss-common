@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import ca.bc.gov.open.pcss.controllers.*;
+import ca.bc.gov.open.pcss.exceptions.BadRequestException;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.wsdl.pcss.report.two.GetJustinAdobeReport;
 import ca.bc.gov.open.wsdl.pcss.report.two.GetJustinReport;
@@ -248,7 +249,7 @@ public class OrdsErrorTests {
 
         try {
             reportController.getJustinReport(new GetJustinReport());
-        } catch (ORDSException ex) {
+        } catch (ORDSException | BadRequestException ex) {
             // Exception caught as expected
             assert true;
             return;

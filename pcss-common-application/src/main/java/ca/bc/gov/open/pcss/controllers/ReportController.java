@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pcss.controllers;
 
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
+import ca.bc.gov.open.pcss.exceptions.BadRequestException;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest;
@@ -9,6 +10,8 @@ import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,13 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class ReportController {
 
     @Value("${pcss.host}")
-    private String host = "https://127.0.0.1/";
+    private String ords_host = "https://127.0.0.1/";
+
+    @Value("${pcss.oracle_host}")
+    private String oracle_host = "http://orafr-1.dev.ag.bcgov:8080/reports/rwservlet";
+
+    @Value("${pcss.oracle_name}")
+    private String oracleServerName;
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -52,7 +61,7 @@ public class ReportController {
         Map<String, String> paramMap = objectMapper.convertValue(inner, Map.class);
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm())
@@ -90,7 +99,7 @@ public class ReportController {
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getJustinReport")
     @ResponsePayload
     public GetJustinReportResponse getJustinReport(@RequestPayload GetJustinReport search)
-            throws JsonProcessingException {
+            throws JsonProcessingException, BadRequestException {
 
         var inner =
                 search.getGetJustinReportRequest() != null
@@ -99,25 +108,35 @@ public class ReportController {
                         ? search.getGetJustinReportRequest().getGetJustinReportRequest()
                         : new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
 
-        //    TODO Add parameter list handling
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm())
-                        .queryParam("reportName", inner.getReportName());
+        if (inner.getReportName() == null || inner.getReportName().isBlank()) {
+            throw new BadRequestException();
+        }
 
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(oracle_host);
+
+        builder.queryParam("cmdKey", "pcss_" + inner.getReportName().toLowerCase());
+        builder.queryParam("server", oracleServerName);
+
+        for (var param : inner.getParameters()) {
+            builder.queryParam(param.getParmNm(), param.getParmValue());
+        }
         try {
-            HttpEntity<ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse> resp =
+            HttpEntity<String> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse.class);
+                            String.class);
+
+            String b64EncodedReport =
+                    Base64.getEncoder()
+                            .encodeToString(resp.getBody().getBytes(StandardCharsets.UTF_8));
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
-            one.setGetJustinReportResponse(resp.getBody());
+            var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse();
+            two.setReportContent(b64EncodedReport);
+            two.setResponseCd("0");
             out.setGetJustinReportResponse(one);
             return out;
         } catch (Exception ex) {
@@ -145,7 +164,7 @@ public class ReportController {
                         : new GetOperationReportRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());
@@ -190,7 +209,7 @@ public class ReportController {
 
         // TODO figure out how to send parameters
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());

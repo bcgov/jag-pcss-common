@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.pcss.controllers.ReportController;
+import ca.bc.gov.open.pcss.exceptions.BadRequestException;
 import ca.bc.gov.open.wsdl.pcss.one.Lov;
 import ca.bc.gov.open.wsdl.pcss.one.Parm;
 import ca.bc.gov.open.wsdl.pcss.one.ParmValue;
@@ -136,7 +137,7 @@ public class ReportsControllerTests {
     }
 
     @Test
-    public void getJustinReportTest() throws JsonProcessingException {
+    public void getJustinReportTest() throws JsonProcessingException, BadRequestException {
         var req = new GetJustinReport();
         var one = new GetJustinReportRequest();
         var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
@@ -153,24 +154,16 @@ public class ReportsControllerTests {
         one.setGetJustinReportRequest(two);
         req.setGetJustinReportRequest(one);
 
-        var out = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse();
-        out.setReportContent("A");
-        out.setResponseCd("A");
-        out.setResponseMessageTxt("A");
+        var out = "Report";
 
-        ResponseEntity<ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse> responseEntity =
-                new ResponseEntity<>(out, HttpStatus.OK);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<
-                                                ca.bc.gov.open.wsdl.pcss.report.one
-                                                        .GetJustinReportResponse>>
-                                        any()))
+                        Mockito.<Class<String>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
