@@ -5,3 +5,5 @@ security:
 pcss:
   host: http://127.0.0.1/
   namespace: ${PCSS_NAMESPACE}
+  oracle_host: http://127.0.0.1/
+  oracle_name: oracle
