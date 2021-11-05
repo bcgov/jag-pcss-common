@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,31 +57,34 @@ public class ReportController {
                         ? search.getGetJustinAdobeReportRequest()
                         : new GetJustinReportAdobeRequest();
 
-        Map<String, String> paramMap = objectMapper.convertValue(inner, Map.class);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ords_host + "appearance");
 
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm())
-                        .queryParam("formNm", inner.getFormNm())
-                        .queryParam("printYn", inner.getPrintYn());
-
-        for (int i = 1; i < 16; i++) {
-            builder.queryParam("param" + i, paramMap.get("Param" + i));
-        }
-
+        var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
-            HttpEntity<GetJustinReportAdobeResponse> resp =
+            HttpEntity<String> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.toUriString(), HttpMethod.POST, body, String.class);
+
+            resp =
+                    restTemplate.exchange(
+                            resp.getBody(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            GetJustinReportAdobeResponse.class);
+                            String.class);
+
+            String bs64 =
+                    resp.getBody() != null
+                            ? Base64.getEncoder()
+                                    .encodeToString(resp.getBody().getBytes(StandardCharsets.UTF_8))
+                            : "";
 
             var out = new GetJustinAdobeReportResponse();
-            out.setGetJustinAdobeReportResponse(resp.getBody());
 
+            var one = new ca.bc.gov.open.wsdl.pcss.report.two.GetJustinReportAdobeResponse();
+            one.setReportContent(bs64);
+            one.setResponseCd("0");
+
+            out.setGetJustinAdobeReportResponse(one);
             return out;
         } catch (Exception ex) {
             log.error(
