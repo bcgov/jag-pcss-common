@@ -84,7 +84,10 @@ public class ResourceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getResourceAvailability", inner)));
+                                    "Error received from ORDS",
+                                    "getResourceAvailability",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -124,7 +127,7 @@ public class ResourceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.POST,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingResponse.class);
 
@@ -137,7 +140,10 @@ public class ResourceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setResourceBooking", inner)));
+                                    "Error received from ORDS",
+                                    "setResourceBooking",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -167,7 +173,7 @@ public class ResourceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.PUT,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelResponse.class);
 
@@ -180,7 +186,10 @@ public class ResourceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setResourceCancel", inner)));
+                                    "Error received from ORDS",
+                                    "setResourceCancel",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -222,7 +231,11 @@ public class ResourceController {
         } catch (Exception ex) {
             log.error(
                     objectMapper.writeValueAsString(
-                            new OrdsErrorLog("Error received from ORDS", "getCodeValues", inner)));
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "getCodeValues",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -259,7 +272,7 @@ public class ResourceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.PUT,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse.class);
 
@@ -272,7 +285,10 @@ public class ResourceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "setSyncComplete", inner)));
+                                    "Error received from ORDS",
+                                    "setSyncComplete",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }
@@ -312,7 +328,10 @@ public class ResourceController {
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
-                                    "Error received from ORDS", "getUserLogin", inner)));
+                                    "Error received from ORDS",
+                                    "getUserLogin",
+                                    ex.getMessage(),
+                                    inner)));
             throw new ORDSException();
         }
     }

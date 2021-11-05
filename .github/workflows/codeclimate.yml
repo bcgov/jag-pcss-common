@@ -85,7 +85,7 @@ jobs:
 
         # Formatting the Code Coverage Report
       - name: Format the coverage report
-        run: JACOCO_SOURCE_PATH="pcss-common-application/src/main/java pcss-models/target/generated-sources/xjc  pcss-common-models/src/main/java pcss-common-secure-models/src/main/java pcss-common-secure-models/target/generated-sources/xjc" ./cc-test-reporter format-coverage pcss-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml --input-type jacoco -o ./target/site/jacoco/codeclimate.json
+        run: JACOCO_SOURCE_PATH="pcss-common-application/src/main/java pcss-common-models/target/generated-sources/xjc pcss-common-models/target/generated-sources/xjc  pcss-reports-models/src/main/java  pcss-reports-models/target/generated-sources/xjc  pcss-common-models/src/main/java pcss-common-secure-models/src/main/java pcss-common-secure-models/target/generated-sources/xjc" ./cc-test-reporter format-coverage pcss-code-coverage/target/site/jacoco-aggregate/jacoco-codeclimatecompat.xml --input-type jacoco -o ./target/site/jacoco/codeclimate.json
 
 
 # Upload JSON for debugging purposes
