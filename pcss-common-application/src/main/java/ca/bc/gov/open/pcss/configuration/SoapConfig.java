@@ -30,7 +30,7 @@ import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 @Configuration
 public class SoapConfig extends WsConfigurerAdapter {
 
-    public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/xml/ns/pcss/common/v1";
+    public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0";
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(
