@@ -48,7 +48,8 @@ public class SecureEndpointController {
                         ? search.getGetFileSearchSecureRequest().getGetFileSearchRequest()
                         : new ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(host + "secure/file-search");
 
         HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchRequest> body =
                 new HttpEntity<>(inner, new HttpHeaders());
@@ -90,7 +91,7 @@ public class SecureEndpointController {
                         : new ca.bc.gov.open.wsdl.pcss.secure.one.GetGetCodeValueSecureRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(host + "secure/code-values")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
@@ -142,7 +143,7 @@ public class SecureEndpointController {
                                 .GetCourtCalendarDetailByDaySecureRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(host + "secure/calendar-detail")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))

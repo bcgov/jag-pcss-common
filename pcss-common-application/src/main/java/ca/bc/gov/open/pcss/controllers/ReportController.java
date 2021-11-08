@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,9 @@ public class ReportController {
         this.objectMapper = objectMapper;
     }
 
-    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getJustinAdobeReport")
+    @PayloadRoot(
+            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            localPart = "getJustinAdobeReport")
     @ResponsePayload
     public GetJustinAdobeReportResponse getJustinAdobeReport(
             @RequestPayload GetJustinAdobeReport search) throws JsonProcessingException {
@@ -57,17 +60,16 @@ public class ReportController {
                         ? search.getGetJustinAdobeReportRequest()
                         : new GetJustinReportAdobeRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ords_host + "appearance");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ords_host + "adobe-report");
 
         var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
-            HttpEntity<String> resp =
-                    restTemplate.exchange(
-                            builder.toUriString(), HttpMethod.POST, body, String.class);
+            HttpEntity<Map> resp =
+                    restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
 
-            resp =
+            HttpEntity<String> resp2 =
                     restTemplate.exchange(
-                            resp.getBody(),
+                            (String) resp.getBody().get("url"),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             String.class);
@@ -75,7 +77,8 @@ public class ReportController {
             String bs64 =
                     resp.getBody() != null
                             ? Base64.getEncoder()
-                                    .encodeToString(resp.getBody().getBytes(StandardCharsets.UTF_8))
+                                    .encodeToString(
+                                            resp2.getBody().getBytes(StandardCharsets.UTF_8))
                             : "";
 
             var out = new GetJustinAdobeReportResponse();
@@ -209,19 +212,17 @@ public class ReportController {
                         ? search.getGetOperationReportLovRequest().getGetOperationReportLovRequest()
                         : new GetOperationReportLovRequest();
 
-        // TODO figure out how to send parameters
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm());
+                UriComponentsBuilder.fromHttpUrl(ords_host + "operation-report-lov");
+
+        var body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            HttpMethod.POST,
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse.class);
 
             var out = new GetOperationReportLovResponse();
