@@ -51,7 +51,7 @@ public class CourtController {
                         ? search.getSetCourtListMoveRequest().getSetCourtListMoveRequest()
                         : new SetCourtListMoveRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "court-list-move");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "courtlist/move");
         HttpEntity<SetCourtListMoveRequest> body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
