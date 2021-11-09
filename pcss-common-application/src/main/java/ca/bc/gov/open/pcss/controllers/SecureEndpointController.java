@@ -78,7 +78,7 @@ public class SecureEndpointController {
         }
     }
 
-    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCodesValuesSecure")
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCodeValuesSecure")
     @ResponsePayload
     public GetCodeValuesSecureResponse getCodesValuesSecure(
             @RequestPayload GetCodeValuesSecure search) throws JsonProcessingException {
@@ -92,10 +92,10 @@ public class SecureEndpointController {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "secure/code-values")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("applciationCd", inner.getApplicationCd())
+                        .queryParam("applicationCd", inner.getApplicationCd())
                         .queryParam(
                                 "lastRetrievedDate",
                                 InstantSerializer.convert(inner.getLastRetrievedDate()));

@@ -56,7 +56,7 @@ public class ResourceController {
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("bookingDate", InstantSerializer.convert(inner.getBookingDt()))
+                        .queryParam("bookingDt", InstantSerializer.convert2(inner.getBookingDt()))
                         .queryParam("modeCd", inner.getModeCd())
                         .queryParam("assetTypeCd", inner.getAssetTypeCd())
                         .queryParam("bookingForRoleCd", inner.getBookingForRoleCd())

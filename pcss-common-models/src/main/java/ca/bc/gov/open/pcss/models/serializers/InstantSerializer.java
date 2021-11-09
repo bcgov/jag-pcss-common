@@ -10,25 +10,29 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class InstantSerializer extends JsonSerializer<Instant> {
-    @Override
-    public void serialize(Instant value, JsonGenerator gen, SerializerProvider serializers)
-            throws IOException {
-        String out =
-                DateTimeFormatter.ofPattern("dd-MMM-yyyy")
-                        .withZone(ZoneId.of("GMT-7"))
-                        .withLocale(Locale.US)
-                        .format(value);
-        gen.writeString(out);
+  @Override
+  public void serialize(Instant value, JsonGenerator gen, SerializerProvider serializers)
+      throws IOException {
+    String out =
+        DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+            .withZone(ZoneId.of("GMT-7"))
+            .withLocale(Locale.US)
+            .format(value);
+    gen.writeString(out);
+  }
+
+  public static String convert2(Instant value) {
+    return value.toString().replace("T"," ").replace("Z",".0");
+  }
+
+  public static String convert(Instant value) {
+    if (value == null) {
+      return null;
     }
 
-    public static String convert(Instant value) {
-        if (value == null) {
-            return null;
-        }
-
-        return DateTimeFormatter.ofPattern("dd-MMM-yyyy")
-                .withZone(ZoneId.of("GMT-7"))
-                .withLocale(Locale.US)
-                .format(value);
-    }
+    return DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+        .withZone(ZoneId.of("GMT-7"))
+        .withLocale(Locale.US)
+        .format(value);
+  }
 }
