@@ -169,7 +169,7 @@ public class ReportController {
                         : new GetOperationReportRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(ords_host + "operation-report")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());
