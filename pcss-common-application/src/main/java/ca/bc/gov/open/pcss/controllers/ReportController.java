@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -103,7 +104,7 @@ public class ReportController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getJustinReport")
     @ResponsePayload
-    public GetJustinReportResponse getJustinReport(@RequestPayload GetJustinReport search)
+    public GetJustinReportResponse getJustinReport(@RequestPayload @Valid GetJustinReport search)
             throws JsonProcessingException, BadRequestException {
 
         var inner =
@@ -169,7 +170,7 @@ public class ReportController {
                         : new GetOperationReportRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(ords_host + "operation-report")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());

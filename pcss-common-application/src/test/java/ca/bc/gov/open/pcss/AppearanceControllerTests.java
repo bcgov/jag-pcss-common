@@ -10,7 +10,6 @@ import ca.bc.gov.open.wsdl.pcss.three.OperationModeSchdType;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -40,7 +39,7 @@ public class AppearanceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setFileDivisionCd(CourtDivisionType.I);
         two.setAppearanceId("A");
         two.setAppearanceReasonCd("A");
@@ -86,7 +85,7 @@ public class AppearanceControllerTests {
         var two = new ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveRequest();
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
 
         Detail2 dt = new Detail2();
         dt.setFileDivisionCd(CourtDivisionType.I);
@@ -128,7 +127,7 @@ public class AppearanceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         Detail dt = new Detail();
         dt.setAppearanceCcn("A");
         dt.setAppearanceId("A");
