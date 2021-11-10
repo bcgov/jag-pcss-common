@@ -17,7 +17,6 @@ import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -44,7 +43,7 @@ public class ReportsControllerTests {
         var one = new GetOperationReportRequest();
         var two = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest();
 
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setRequestPartId("A");
         two.setRequestAgencyIdentifierId("A");
 
@@ -99,7 +98,7 @@ public class ReportsControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setReportNm("A");
         two.setParmNm("A");
 
@@ -144,7 +143,7 @@ public class ReportsControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setReportName("A");
         Parameters p = new Parameters();
         p.setParmNm("A");
