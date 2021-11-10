@@ -13,7 +13,6 @@ import ca.bc.gov.open.wsdl.pcss.two.SetCourtCalendarRequest;
 import ca.bc.gov.open.wsdl.pcss.two.SetCourtListMoveRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -43,9 +42,9 @@ public class CourtControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setApplicationCd("A");
-        two.setCourtListDate(Instant.now());
+        two.setCourtListDate("A");
         two.setOldAgencyIdentifierId("A");
         two.setOldCourtRoomCd("A");
         two.setFileDivisionCd(CourtDivisionType.I);
@@ -84,9 +83,9 @@ public class CourtControllerTests {
         var two = new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest();
 
         two.setCourtAgencyId("A");
-        two.setAppearanceDt(Instant.now());
+        two.setAppearanceDt("A");
         two.setCourtRoomCd("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setRequestPartId("A");
         two.setRequestAgencyIdentifierId("A");
 
@@ -101,7 +100,7 @@ public class CourtControllerTests {
         app.setCourtDivisionCd(CourtDivisionType.I);
         app.setCourtClassCd(CourtClassType.Y);
         app.setCourtRoomCd("A");
-        app.setAppearanceDt(Instant.now());
+        app.setAppearanceDt("A");
         app.setAppearanceTm("A");
         app.setAppearanceReasonCd("A");
         app.setDurationHour("A");
@@ -164,11 +163,11 @@ public class CourtControllerTests {
         var two = new ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarRequest();
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         Detail3 dt = new Detail3();
         dt.setCourtAgencyId("A");
         dt.setCourtRoomCd("A");
-        dt.setAvailableDt(Instant.now());
+        dt.setAvailableDt("A");
         dt.setCourtRoomSittingCd(CourtRoomSittingType.D);
         dt.setAdjudicatorPartId("A");
         dt.setJudgeSeizedYn(YesNoType.Y);
@@ -209,7 +208,7 @@ public class CourtControllerTests {
         var two = new ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest();
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
 
         one.setGetReservedJudgmentRequest(two);
         req.setGetReservedJudgmentRequest(one);
@@ -222,7 +221,7 @@ public class CourtControllerTests {
         rj.setCourtDivisionCd(CourtDivisionType.I);
         rj.setCourtClassCd(CourtClassType.Y);
         rj.setFileNumberTxt("A");
-        rj.setNextAppearancetDt(Instant.now());
+        rj.setNextAppearancetDt("A");
         rj.setNextAppearancetAgencyId("A");
         rj.setAccusedNm("A");
         rj.setSocTxt("A");
@@ -257,7 +256,7 @@ public class CourtControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setSearchMode(SearchModeType.FILENO);
         two.setFileDivisionCd(CourtDivisionType.I);
         two.setFileHomeAgencyId("A");
@@ -306,7 +305,7 @@ public class CourtControllerTests {
         fd.setCourtClassCd(CourtClassType.C);
         fd.setWarrantYN(YesNoType.Y);
         fd.setInCustodyYN(YesNoType.Y);
-        fd.setNextApprDt(Instant.now());
+        fd.setNextApprDt("A");
         fd.setPcssCourtDivisionCd("A");
         fd.setSealStatusCd("A");
         fd.setApprovalCrownAgencyTypeCd("A");

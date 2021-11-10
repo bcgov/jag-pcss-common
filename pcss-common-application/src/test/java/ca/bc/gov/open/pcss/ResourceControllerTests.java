@@ -11,7 +11,6 @@ import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -41,9 +40,9 @@ public class ResourceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setModeCd(OperationModeRscAvType.D);
-        two.setBookingDt(Instant.now());
+        two.setBookingDt("A");
         two.setAssetTypeCd("A");
         two.setBookingForRoleCd("A");
         two.setBookingFromTm("A");
@@ -74,7 +73,7 @@ public class ResourceControllerTests {
         r1.setAvailableRoom(Collections.singletonList(ar));
 
         Day d = new Day();
-        d.setAvailabilityDt(Instant.now());
+        d.setAvailabilityDt("A");
         d.setBookedHours("A");
         d.setDayOfMonth("A");
         d.setDayOfWeek(DayOfWeekType.MO);
@@ -136,7 +135,7 @@ public class ResourceControllerTests {
         two.setAppearanceId("A");
         two.setCourtDivisionCd(CourtDivisionType.I);
         two.setResourceId("A");
-        two.setBookingDt(Instant.now());
+        two.setBookingDt("A");
         two.setBookingFromTm("A");
         two.setBookingToTm("A");
         two.setCourtAgencyId("A");
@@ -180,7 +179,7 @@ public class ResourceControllerTests {
 
         two.setBookingCcn("A");
         two.setBookingId("A");
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
         two.setRequestPartId("A");
         two.setRequestAgencyIdentifierId("A");
 
@@ -217,8 +216,8 @@ public class ResourceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
-        two.setLastRetrievedDate(Instant.now());
+        two.setRequestDtm("A");
+        two.setLastRetrievedDate("A");
 
         one.setGetCodeValuesRequest(two);
         req.setGetCodeValuesRequest(one);
@@ -272,8 +271,8 @@ public class ResourceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm(Instant.now());
-        two.setProcessUpToDtm(Instant.now());
+        two.setRequestDtm("A");
+        two.setProcessUpToDtm("A");
         two.setCriminalAppearanceYn(YesNoType.Y);
         two.setCivilAppearanceYn(YesNoType.Y);
         two.setCivilHearingRestrictionYn(YesNoType.Y);
@@ -307,7 +306,7 @@ public class ResourceControllerTests {
         var req = new GetUserLogin();
         var one = new GetUserLoginRequest();
         var two = new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
-        two.setRequestDtm(Instant.now());
+        two.setRequestDtm("A");
 
         two.setDomainNm(DomainNmType.IDIR);
         two.setDomainUserGuid("A");
