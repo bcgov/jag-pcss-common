@@ -3,11 +3,11 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
-import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,8 +55,8 @@ public class ResourceController {
                 UriComponentsBuilder.fromHttpUrl(host + "resource")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("bookingDt", InstantSerializer.convert2(inner.getBookingDt()))
+                        .queryParam("requestDtm", inner.getRequestDtm())
+                        .queryParam("bookingDt", inner.getBookingDt())
                         .queryParam("modeCd", inner.getModeCd())
                         .queryParam("assetTypeCd", inner.getAssetTypeCd())
                         .queryParam("bookingForRoleCd", inner.getBookingForRoleCd())
@@ -178,7 +178,7 @@ public class ResourceController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCodeValues")
     @ResponsePayload
-    public GetCodeValuesResponse getCodeValues(@RequestPayload GetCodeValues search)
+    public GetCodeValuesResponse getCodeValues(@RequestPayload @Valid GetCodeValues search)
             throws JsonProcessingException {
 
         var inner =
@@ -192,10 +192,8 @@ public class ResourceController {
                 UriComponentsBuilder.fromHttpUrl(host + "code-values")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam(
-                                "lastRetrievedDate",
-                                InstantSerializer.convert(inner.getLastRetrievedDate()));
+                        .queryParam("requestDtm", inner.getRequestDtm())
+                        .queryParam("lastRetrievedDate", inner.getLastRetrievedDate());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse> resp =

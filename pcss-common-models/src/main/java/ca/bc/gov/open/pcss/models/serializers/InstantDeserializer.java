@@ -17,9 +17,7 @@ public class InstantDeserializer extends JsonDeserializer<Instant> {
     public Instant deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {
         try {
-            Date d =
-                    new SimpleDateFormat("dd-MMM-yy hh.mm.ss.SSSSSS a", Locale.US)
-                            .parse(jsonParser.getText());
+            Date d = new SimpleDateFormat("dd-MMM-yy", Locale.US).parse(jsonParser.getText());
             return d.toInstant();
         } catch (ParseException e) {
             log.error(e.getLocalizedMessage());
