@@ -76,7 +76,7 @@ public class ReportController {
                             String.class);
 
             String bs64 =
-                    resp.getBody() != null
+                    resp2.getBody() != null
                             ? Base64.getEncoder()
                                     .encodeToString(
                                             resp2.getBody().getBytes(StandardCharsets.UTF_8))
