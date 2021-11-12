@@ -56,8 +56,8 @@ public class SoapConfig extends WsConfigurerAdapter {
     public void addInterceptors(List<EndpointInterceptor> interceptors) {
         var validatingInterceptor1 = interceptor1();
         var validatingInterceptor2 = interceptor2();
-//        Has to be done in 2 parts due to name spacing issues
-//        When not done in 2 parts its unable to find models in the reports xsd
+        //        Has to be done in 2 parts due to name spacing issues
+        //        When not done in 2 parts its unable to find models in the reports xsd
         interceptors.add(validatingInterceptor1);
         interceptors.add(validatingInterceptor2);
     }
@@ -93,9 +93,9 @@ public class SoapConfig extends WsConfigurerAdapter {
 
                     public Resource[] getSchemas() {
                         return new Resource[] {
-                            new ClassPathResource("xsdSchemas/pcss-reports-models-1.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-reports-models-2.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-reports-models-3.xsd")
+                            new ClassPathResource("xsdSchemas/pcss-reports-models-1v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-reports-models-2v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-reports-models-3v.xsd")
                         };
                     }
                 });
@@ -112,20 +112,20 @@ public class SoapConfig extends WsConfigurerAdapter {
                     public XsdSchema[] getXsdSchemas() {
                         return new XsdSchema[] {
                             new SimpleXsdSchema(
-                                    new ClassPathResource("xsdSchemas/pcss-common-models-1.xsd")),
+                                    new ClassPathResource("xsdSchemas/pcss-common-models-1v.xsd")),
                             new SimpleXsdSchema(
-                                    new ClassPathResource("xsdSchemas/pcss-common-models-2.xsd")),
+                                    new ClassPathResource("xsdSchemas/pcss-common-models-2v.xsd")),
                             new SimpleXsdSchema(
-                                    new ClassPathResource("xsdSchemas/pcss-common-models-3.xsd")),
-                            new SimpleXsdSchema(
-                                    new ClassPathResource(
-                                            "xsdSchemas/pcss-common-secure-models-1.xsd")),
+                                    new ClassPathResource("xsdSchemas/pcss-common-models-3v.xsd")),
                             new SimpleXsdSchema(
                                     new ClassPathResource(
-                                            "xsdSchemas/pcss-common-secure-models-2.xsd")),
+                                            "xsdSchemas/pcss-common-secure-models-1v.xsd")),
                             new SimpleXsdSchema(
                                     new ClassPathResource(
-                                            "xsdSchemas/pcss-common-secure-models-3.xsd")),
+                                            "xsdSchemas/pcss-common-secure-models-2v.xsd")),
+                            new SimpleXsdSchema(
+                                    new ClassPathResource(
+                                            "xsdSchemas/pcss-common-secure-models-3v.xsd")),
                         };
                     }
 
@@ -142,12 +142,12 @@ public class SoapConfig extends WsConfigurerAdapter {
 
                     public Resource[] getSchemas() {
                         return new Resource[] {
-                            new ClassPathResource("xsdSchemas/pcss-common-models-1.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-common-models-2.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-common-models-3.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-common-secure-models-1.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-common-secure-models-2.xsd"),
-                            new ClassPathResource("xsdSchemas/pcss-common-secure-models-3.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-common-models-1v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-common-models-2v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-common-models-3v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-common-secure-models-1v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-common-secure-models-2v.xsd"),
+                            new ClassPathResource("xsdSchemas/pcss-common-secure-models-3v.xsd"),
                         };
                     }
                 });
