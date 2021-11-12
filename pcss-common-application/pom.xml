@@ -239,7 +239,7 @@
         </profile>
     </profiles>
     <build>
-        <finalName>pcss-civil-application</finalName>
+        <finalName>pcss-common-application</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
