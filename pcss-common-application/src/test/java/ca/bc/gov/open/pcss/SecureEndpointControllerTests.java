@@ -115,7 +115,7 @@ public class SecureEndpointControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
                                 .<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse>>

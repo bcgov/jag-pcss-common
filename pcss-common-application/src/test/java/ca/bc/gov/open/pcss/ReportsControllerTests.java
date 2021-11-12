@@ -18,6 +18,8 @@ import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -123,7 +125,7 @@ public class ReportsControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
                                 .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
@@ -189,21 +191,26 @@ public class ReportsControllerTests {
 
         req.setGetJustinAdobeReportRequest(one);
 
-        var out = new GetJustinReportAdobeResponse();
-        out.setReportContent("A");
-        out.setResponseMessageTxt("A");
-        out.setResponseCd("A");
-
-        ResponseEntity<GetJustinReportAdobeResponse> responseEntity =
-                new ResponseEntity<>(out, HttpStatus.OK);
+        var out = "A";
+        ResponseEntity<String> responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<GetJustinReportAdobeResponse>>any()))
+                        Mockito.<Class<String>>any()))
                 .thenReturn(responseEntity);
+
+        Map m = new HashMap();
+        m.put("url", "A");
+        ResponseEntity<Map> responseEntity2 = new ResponseEntity<>(m, HttpStatus.OK);
+        when(restTemplate.exchange(
+                        Mockito.any(String.class),
+                        Mockito.eq(HttpMethod.POST),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<Map>>any()))
+                .thenReturn(responseEntity2);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
         var resp = resourceController.getJustinAdobeReport(req);
