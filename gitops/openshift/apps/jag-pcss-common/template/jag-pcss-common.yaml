@@ -115,6 +115,16 @@ objects:
                 secretKeyRef:
                   name: pcss-common-application-secrets
                   key: ORDS_HOST
+            - name: ORACLE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: ORACLE_HOST
+            - name: ORACLE_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: ORACLE_NAME
             resources:
               limits:
                 cpu: 1000m
