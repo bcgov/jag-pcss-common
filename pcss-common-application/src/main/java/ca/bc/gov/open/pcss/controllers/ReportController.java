@@ -102,7 +102,9 @@ public class ReportController {
         }
     }
 
-    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getJustinReport")
+    @PayloadRoot(
+            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            localPart = "getJustinReport")
     @ResponsePayload
     public GetJustinReportResponse getJustinReport(@RequestPayload @Valid GetJustinReport search)
             throws JsonProcessingException, BadRequestException {
