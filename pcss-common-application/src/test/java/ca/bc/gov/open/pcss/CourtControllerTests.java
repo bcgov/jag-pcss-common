@@ -64,7 +64,7 @@ public class CourtControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.POST),
+                        Mockito.eq(HttpMethod.PUT),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
                                 .<Class<ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse>>
@@ -325,7 +325,7 @@ public class CourtControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetFileSearchResponse>>any()))
                 .thenReturn(responseEntity);

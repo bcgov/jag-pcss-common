@@ -291,7 +291,7 @@ public class ResourceControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.PUT),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse>>any()))
                 .thenReturn(responseEntity);

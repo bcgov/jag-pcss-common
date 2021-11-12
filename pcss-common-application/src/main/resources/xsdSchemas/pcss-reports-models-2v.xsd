@@ -2,7 +2,7 @@
             targetNamespace="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:tns="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport">
-    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0" />
+    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0" schemaLocation="pcss-reports-models-1v.xsd"/>
 
 
     <xsd:element name="getJustinAdobeReport">
