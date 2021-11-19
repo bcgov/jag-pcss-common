@@ -65,7 +65,6 @@ public class SoapConfig extends WsConfigurerAdapter {
     private PayloadValidatingInterceptor interceptor2() {
         PayloadValidatingInterceptor validatingInterceptor = new PayloadValidatingInterceptor();
         validatingInterceptor.setValidateRequest(true);
-        validatingInterceptor.setValidateResponse(true);
         validatingInterceptor.setXsdSchemaCollection(
                 new XsdSchemaCollection() {
                     @Override
@@ -105,7 +104,6 @@ public class SoapConfig extends WsConfigurerAdapter {
     private PayloadValidatingInterceptor interceptor1() {
         PayloadValidatingInterceptor validatingInterceptor = new PayloadValidatingInterceptor();
         validatingInterceptor.setValidateRequest(true);
-        validatingInterceptor.setValidateResponse(true);
         validatingInterceptor.setXsdSchemaCollection(
                 new XsdSchemaCollection() {
                     @Override
