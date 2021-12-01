@@ -293,6 +293,8 @@ public class ResourceController {
             out.setGetUserLoginResponse(one);
             return out;
         } catch (Exception ex) {
+            inner.setDomainUserId("");
+            inner.setTemporaryAccessGuid("");
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
