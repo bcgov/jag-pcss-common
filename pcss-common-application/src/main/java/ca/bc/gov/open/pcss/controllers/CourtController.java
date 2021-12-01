@@ -241,6 +241,9 @@ public class CourtController {
 
             return out;
         } catch (Exception ex) {
+            inner.setGivenNm("");
+            inner.setLastNm("");
+            inner.setBirthDt("");
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
