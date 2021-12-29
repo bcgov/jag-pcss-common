@@ -58,8 +58,8 @@ public class SoapConfig extends WsConfigurerAdapter {
         var validatingInterceptor2 = interceptor2();
         //        Has to be done in 2 parts due to name spacing issues
         //        When not done in 2 parts its unable to find models in the reports xsd
-//        interceptors.add(validatingInterceptor1);
-//        interceptors.add(validatingInterceptor2);
+        //        interceptors.add(validatingInterceptor1);
+        //        interceptors.add(validatingInterceptor2);
     }
 
     private PayloadValidatingInterceptor interceptor2() {
