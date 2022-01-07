@@ -167,7 +167,7 @@ public class ReportsControllerTests {
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
         var resp = resourceController.getJustinReport(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test

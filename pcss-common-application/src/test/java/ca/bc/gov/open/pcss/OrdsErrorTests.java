@@ -46,9 +46,8 @@ public class OrdsErrorTests {
     @Autowired private ObjectMapper objectMapper;
 
     @Autowired private MockMvc mockMvc;
-
     @Test
-    public void testHealthPingOrdsFail() throws JsonProcessingException {
+    public void healthPingOrdsFail() {
         HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -57,7 +56,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testHealthHealthOrdsFail() throws JsonProcessingException {
+    public void healthHealthOrdsFail() {
         HealthController healthController = new HealthController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -66,7 +65,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testsetAppearanceUpdateOrdsFail() throws JsonProcessingException {
+    public void appearanceUpdateOrdsFail() {
         AppearanceController appearanceController =
                 new AppearanceController(restTemplate, objectMapper);
 
@@ -76,7 +75,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetAppearanceMoveOrdsFail() throws JsonProcessingException {
+    public void setAppearanceMoveOrdsFail()  {
         AppearanceController appearanceController =
                 new AppearanceController(restTemplate, objectMapper);
 
@@ -86,7 +85,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetAppearanceStatusOrdsFail() throws JsonProcessingException {
+    public void setAppearanceStatusOrdsFail()  {
         AppearanceController appearanceController =
                 new AppearanceController(restTemplate, objectMapper);
 
@@ -96,7 +95,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetCourtListMoveOrdsFail() throws JsonProcessingException {
+    public void setCourtListMoveOrdsFail()  {
         CourtController courtController = new CourtController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -105,7 +104,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetCourtCalendarDetailByDayOrdsFail() throws JsonProcessingException {
+    public void getCourtCalendarDetailByDayOrdsFail()  {
         CourtController courtController = new CourtController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -114,7 +113,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetCourtCalendarOrdsFail() throws JsonProcessingException {
+    public void setCourtCalendarOrdsFail()  {
         CourtController courtController = new CourtController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -123,7 +122,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetReservedJudgmentOrdsFail() throws JsonProcessingException {
+    public void getReservedJudgmentOrdsFail()  {
         CourtController courtController = new CourtController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -132,7 +131,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetFileSearchOrdsFail() throws JsonProcessingException {
+    public void getFileSearchOrdsFail()  {
         CourtController courtController = new CourtController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -141,7 +140,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetJustinAdobeReportOrdsFail() throws JsonProcessingException {
+    public void getJustinAdobeReportOrdsFail()  {
         ReportController reportController = new ReportController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -150,8 +149,8 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetJustinReportOrdsFail() throws JsonProcessingException {
-        var resourceController = new ReportController(restTemplate, objectMapper);
+    public void getJustinReportOrdsFail()  {
+        ReportController reportController = new ReportController(restTemplate, objectMapper);
         var req = new GetJustinReport();
         var reqInner = new GetJustinReportRequest();
         var reqInnest = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
@@ -165,11 +164,11 @@ public class OrdsErrorTests {
         reqInnest.setRequestDtm("A");
 
         Assertions.assertThrows(
-                ORDSException.class, () -> resourceController.getJustinReport(req));
+                ORDSException.class, () -> reportController.getJustinReport(req));
     }
 
     @Test
-    public void testGetOperationReportOrdsFail() throws JsonProcessingException {
+    public void getOperationReportOrdsFail()  {
         ReportController reportController = new ReportController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -178,7 +177,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetOperationReportLovOrdsFail() throws JsonProcessingException {
+    public void getOperationReportLovOrdsFail()  {
         ReportController reportController = new ReportController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -187,7 +186,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetResourceAvailabilityOrdsFail() throws JsonProcessingException {
+    public void getResourceAvailabilityOrdsFail()  {
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -196,7 +195,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetResourceBookingOrdsFail() throws JsonProcessingException {
+    public void setResourceBookingOrdsFail()  {
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -205,7 +204,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetResourceCancelOrdsFail() throws JsonProcessingException {
+    public void setResourceCancelOrdsFail()  {
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -214,7 +213,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetCodeValuesOrdsFail() throws JsonProcessingException {
+    public void getCodeValuesOrdsFail()  {
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -223,7 +222,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testSetSyncCompleteOrdsFail() throws JsonProcessingException {
+    public void setSyncCompleteOrdsFail()  {
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -232,7 +231,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetUserLoginOrdsFail() throws JsonProcessingException {
+    public void getUserLoginOrdsFail()  {
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
@@ -241,7 +240,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetFileSearchSecureOrdsFail() throws JsonProcessingException {
+    public void getFileSearchSecureOrdsFail()  {
         SecureEndpointController secureEndpointController =
                 new SecureEndpointController(restTemplate, objectMapper);
 
@@ -251,7 +250,7 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetCodeValuesSecureOrdsFail() throws JsonProcessingException {
+    public void getCodeValuesSecureOrdsFail()  {
         SecureEndpointController secureEndpointController =
                 new SecureEndpointController(restTemplate, objectMapper);
 
@@ -261,12 +260,22 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void testGetCourtCalendarDetailByDaySecureOrdsFail() throws JsonProcessingException {
+    public void getCourtCalendarDetailByDaySecureOrdsFail() {
         SecureEndpointController secureEndpointController =
                 new SecureEndpointController(restTemplate, objectMapper);
 
         Assertions.assertThrows(
                 ORDSException.class, () -> secureEndpointController.getCourtCalendarDetailByDaySecure(
                         new GetCourtCalendarDetailByDaySecure()));
+    }
+
+    @Test
+    public void securityTestFail_Then401() throws Exception {
+        var response =
+                mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))
+                        .andExpect(status().is4xxClientError())
+                        .andReturn();
+        Assertions.assertEquals(
+                HttpStatus.UNAUTHORIZED.value(), response.getResponse().getStatus());
     }
 }
