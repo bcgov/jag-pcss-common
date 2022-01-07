@@ -12,6 +12,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.Collections;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -30,7 +32,7 @@ public class SecureEndpointControllerTests {
 
     @Autowired private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void getFileSecureTest() throws JsonProcessingException {
@@ -117,15 +119,13 @@ public class SecureEndpointControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse>>any()))
                 .thenReturn(responseEntity);
 
         SecureEndpointController secureEndpointController =
                 new SecureEndpointController(restTemplate, objectMapper);
-        var res = secureEndpointController.getFileSearchSecure(req);
-        assert res != null;
+        var resp = secureEndpointController.getFileSearchSecure(req);
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -174,15 +174,13 @@ public class SecureEndpointControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetCodeValuesResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetCodeValuesResponse>>any()))
                 .thenReturn(responseEntity);
 
         SecureEndpointController secureEndpointController =
                 new SecureEndpointController(restTemplate, objectMapper);
-        var res = secureEndpointController.getCodesValuesSecure(req);
-        assert res != null;
+        var resp = secureEndpointController.getCodesValuesSecure(req);
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -255,16 +253,12 @@ public class SecureEndpointControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<
-                                                ca.bc.gov.open.wsdl.pcss.secure.one
-                                                        .GetCourtCalendarDetailByDayResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetCourtCalendarDetailByDayResponse>>any()))
                 .thenReturn(responseEntity);
 
         SecureEndpointController secureEndpointController =
                 new SecureEndpointController(restTemplate, objectMapper);
-        var res = secureEndpointController.getCourtCalendarDetailByDaySecure(req);
-        assert res != null;
+        var resp = secureEndpointController.getCourtCalendarDetailByDaySecure(req);
+        Assertions.assertNotNull(resp);
     }
 }

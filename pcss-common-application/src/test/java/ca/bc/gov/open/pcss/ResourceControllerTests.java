@@ -12,6 +12,8 @@ import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -30,7 +32,7 @@ public class ResourceControllerTests {
 
     @Autowired private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void getResourceAvailabilityTest() throws JsonProcessingException {
@@ -111,16 +113,14 @@ public class ResourceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<
+                        Mockito.<Class<
                                                 ca.bc.gov.open.wsdl.pcss.one
-                                                        .GetResourceAvailabilityResponse>>
-                                        any()))
+                                                        .GetResourceAvailabilityResponse>>any()))
                 .thenReturn(responseEntity);
 
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.getResourceAvailability(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -161,14 +161,12 @@ public class ResourceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingResponse>>any()))
                 .thenReturn(responseEntity);
 
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.setResourceBooking(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -198,14 +196,12 @@ public class ResourceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.PUT),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelResponse>>any()))
                 .thenReturn(responseEntity);
 
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.setResourceCancel(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -260,7 +256,7 @@ public class ResourceControllerTests {
 
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.getCodeValues(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -298,7 +294,7 @@ public class ResourceControllerTests {
 
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.setSyncComplete(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -336,6 +332,6 @@ public class ResourceControllerTests {
 
         ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.getUserLogin(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 }

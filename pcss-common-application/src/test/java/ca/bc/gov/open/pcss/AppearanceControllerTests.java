@@ -11,6 +11,8 @@ import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -29,7 +31,7 @@ public class AppearanceControllerTests {
 
     @Autowired private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void setAppearanceUpdateTest() throws JsonProcessingException {
@@ -67,15 +69,13 @@ public class AppearanceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.PUT),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceUpdateResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceUpdateResponse>>any()))
                 .thenReturn(responseEntity);
 
         AppearanceController appearanceController =
                 new AppearanceController(restTemplate, objectMapper);
         var resp = appearanceController.setAppearanceUpdate(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -108,15 +108,13 @@ public class AppearanceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.PUT),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveResponse>>any()))
                 .thenReturn(responseEntity);
 
         AppearanceController appearanceController =
                 new AppearanceController(restTemplate, objectMapper);
         var resp = appearanceController.setAppearanceMove(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -150,14 +148,12 @@ public class AppearanceControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceStatusResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceStatusResponse>>any()))
                 .thenReturn(responseEntity);
 
         AppearanceController appearanceController =
                 new AppearanceController(restTemplate, objectMapper);
         var resp = appearanceController.setAppearanceStatus(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 }

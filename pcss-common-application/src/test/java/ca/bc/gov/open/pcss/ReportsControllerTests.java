@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -37,7 +39,7 @@ import org.springframework.web.client.RestTemplate;
 public class ReportsControllerTests {
     @Autowired private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void getOperationReportTest() throws JsonProcessingException {
@@ -82,14 +84,12 @@ public class ReportsControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
         var resp = resourceController.getOperationReport(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -127,14 +127,12 @@ public class ReportsControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
         var resp = resourceController.getOperationReportLov(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -214,6 +212,6 @@ public class ReportsControllerTests {
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
         var resp = resourceController.getJustinAdobeReport(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 }

@@ -9,9 +9,11 @@ import ca.bc.gov.open.wsdl.pcss.two.GetPing;
 import ca.bc.gov.open.wsdl.pcss.two.GetPingResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -24,10 +26,11 @@ import org.springframework.web.client.RestTemplate;
 @ActiveProfiles("test")
 public class HealthControllerTests {
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
+    @Autowired
     private HealthController healthController;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
     @Test
     public void getPingTest() throws JsonProcessingException {
@@ -48,8 +51,7 @@ public class HealthControllerTests {
                 .thenReturn(responseEntity);
 
         var resp = healthController.getPing(get);
-
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -77,7 +79,6 @@ public class HealthControllerTests {
                 .thenReturn(responseEntity);
 
         var resp = healthController.getHealth(get);
-
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 }

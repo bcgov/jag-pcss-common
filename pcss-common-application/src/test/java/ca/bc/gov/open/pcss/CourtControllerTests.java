@@ -14,6 +14,8 @@ import ca.bc.gov.open.wsdl.pcss.two.SetCourtListMoveRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -32,7 +34,7 @@ public class CourtControllerTests {
 
     @Autowired private ObjectMapper objectMapper;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private RestTemplate restTemplate;
 
     @Test
     public void setCourtListMoveTest() throws JsonProcessingException {
@@ -66,14 +68,12 @@ public class CourtControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.PUT),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse>>any()))
                 .thenReturn(responseEntity);
 
         CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.setCourtListMove(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);;
     }
 
     @Test
@@ -144,16 +144,12 @@ public class CourtControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<
-                                                ca.bc.gov.open.wsdl.pcss.one
-                                                        .GetCourtCalendarDetailByDayResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayResponse>>any()))
                 .thenReturn(responseEntity);
 
         CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.getCourtCalendarDetailByDay(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -191,14 +187,12 @@ public class CourtControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarResponse>>any()))
                 .thenReturn(responseEntity);
 
         CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.setCourtCalendar(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -238,14 +232,12 @@ public class CourtControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentResponse>>
-                                        any()))
+                        Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentResponse>>any()))
                 .thenReturn(responseEntity);
 
         CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.getReservedJudgment(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 
     @Test
@@ -332,6 +324,6 @@ public class CourtControllerTests {
 
         CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.getFileSearch(req);
-        assert resp != null;
+        Assertions.assertNotNull(resp);
     }
 }
