@@ -168,6 +168,15 @@ public class OrdsErrorTests {
     }
 
     @Test
+    public void getJustinReportBadRequestFail()  {
+        ReportController reportController = new ReportController(restTemplate, objectMapper);
+        var req = new GetJustinReport();
+
+        Assertions.assertThrows(
+                BadRequestException.class, () -> reportController.getJustinReport(req));
+    }
+
+    @Test
     public void getOperationReportOrdsFail()  {
         ReportController reportController = new ReportController(restTemplate, objectMapper);
 
