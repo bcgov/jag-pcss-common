@@ -170,7 +170,7 @@
     </wsdl:binding>
     <wsdl:service name="pcssReport">
         <wsdl:port name="JusticePCSSCommon_wsProvider_pcssReport_Port" binding="tns:JusticePCSSCommon_wsProvider_pcssReport_Binder">
-            <soap12:address location="http://reeks.bcgov:5555/common/JusticePCSSCommon.wsProvider:pcssReport/JusticePCSSCommon_wsProvider_pcssReport_Port"/>
+            <soap12:address location="http://reeks.bcgov:5555/ws/JusticePCSSCommon.wsProvider:pcssReport/JusticePCSSCommon_wsProvider_pcssReport_Port"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>
