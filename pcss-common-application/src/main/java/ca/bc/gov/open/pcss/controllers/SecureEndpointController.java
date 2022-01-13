@@ -97,7 +97,7 @@ public class SecureEndpointController {
                 UriComponentsBuilder.fromHttpUrl(host + "secure/code-values")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
+                        .queryParam("requestDtm", inner.getRequestDtm())
                         .queryParam("applicationCd", inner.getApplicationCd())
                         .queryParam(
                                 "lastRetrievedDate",
