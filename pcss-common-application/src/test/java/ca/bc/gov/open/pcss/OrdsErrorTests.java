@@ -493,7 +493,7 @@ public class OrdsErrorTests {
     @Test
     public void securityTestFail_Then403() throws Exception {
         var response =
-                mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))
+                mockMvc.perform(post("/common").contentType(MediaType.TEXT_XML))
                         .andExpect(status().is4xxClientError())
                         .andReturn();
         assert response.getResponse().getStatus() == 401;
