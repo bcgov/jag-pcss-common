@@ -11,6 +11,7 @@ import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -40,7 +41,7 @@ public class ResourceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setModeCd(OperationModeRscAvType.D);
         two.setBookingDt("A");
         two.setAssetTypeCd("A");
@@ -179,7 +180,7 @@ public class ResourceControllerTests {
 
         two.setBookingCcn("A");
         two.setBookingId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setRequestPartId("A");
         two.setRequestAgencyIdentifierId("A");
 
@@ -216,7 +217,7 @@ public class ResourceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setLastRetrievedDate("A");
 
         one.setGetCodeValuesRequest(two);
@@ -271,8 +272,8 @@ public class ResourceControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
-        two.setProcessUpToDtm("A");
+        two.setRequestDtm(Instant.now());
+        two.setProcessUpToDtm(Instant.now());
         two.setCriminalAppearanceYn(YesNoType.Y);
         two.setCivilAppearanceYn(YesNoType.Y);
         two.setCivilHearingRestrictionYn(YesNoType.Y);
@@ -306,7 +307,7 @@ public class ResourceControllerTests {
         var req = new GetUserLogin();
         var one = new GetUserLoginRequest();
         var two = new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
 
         two.setDomainNm(DomainNmType.IDIR);
         two.setDomainUserGuid("A");
