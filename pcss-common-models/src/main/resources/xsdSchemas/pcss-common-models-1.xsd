@@ -473,8 +473,8 @@
             <xsd:element form="qualified" name="CourtDivisionCd" type="dx:CourtDivisionType"/>
             <xsd:element form="qualified" name="CourtClassCd" type="dx:CourtClassType"/>
             <xsd:element form="qualified" name="CourtRoomCd" type="dx:CourtRoomCdType"/>
-            <xsd:element form="qualified" name="AppearanceDt" type="dx:DateType"/>
-            <xsd:element form="qualified" name="AppearanceTm" type="dx:TimeType"/>
+            <xsd:element form="qualified" name="AppearanceDt" type="dx:DateTimeType"/>
+            <xsd:element form="qualified" name="AppearanceTm" type="dx:DateTimeType"/>
             <xsd:element form="qualified" name="AppearanceReasonCd" type="dx:AppearanceReasonCriminalType"/>
             <xsd:element form="qualified" minOccurs="0" name="DurationHour" type="xsd:string"/>
             <xsd:element form="qualified" minOccurs="0" name="DurationMin" type="xsd:string"/>
