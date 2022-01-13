@@ -43,7 +43,7 @@ public class ResourceControllerTests {
         two.setRequestPartId("A");
         two.setRequestDtm(Instant.now());
         two.setModeCd(OperationModeRscAvType.D);
-        two.setBookingDt("A");
+        two.setBookingDt(Instant.now());
         two.setAssetTypeCd("A");
         two.setBookingForRoleCd("A");
         two.setBookingFromTm("A");
@@ -74,7 +74,7 @@ public class ResourceControllerTests {
         r1.setAvailableRoom(Collections.singletonList(ar));
 
         Day d = new Day();
-        d.setAvailabilityDt("A");
+        d.setAvailabilityDt(Instant.now());
         d.setBookedHours("A");
         d.setDayOfMonth("A");
         d.setDayOfWeek(DayOfWeekType.MO);
@@ -136,7 +136,7 @@ public class ResourceControllerTests {
         two.setAppearanceId("A");
         two.setCourtDivisionCd(CourtDivisionType.I);
         two.setResourceId("A");
-        two.setBookingDt("A");
+        two.setBookingDt(Instant.now());
         two.setBookingFromTm("A");
         two.setBookingToTm("A");
         two.setCourtAgencyId("A");
@@ -218,7 +218,7 @@ public class ResourceControllerTests {
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
         two.setRequestDtm(Instant.now());
-        two.setLastRetrievedDate("A");
+        two.setLastRetrievedDate(Instant.now());
 
         one.setGetCodeValuesRequest(two);
         req.setGetCodeValuesRequest(one);
