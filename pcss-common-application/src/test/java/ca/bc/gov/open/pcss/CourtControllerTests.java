@@ -13,6 +13,7 @@ import ca.bc.gov.open.wsdl.pcss.two.SetCourtCalendarRequest;
 import ca.bc.gov.open.wsdl.pcss.two.SetCourtListMoveRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -42,7 +43,7 @@ public class CourtControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setApplicationCd("A");
         two.setCourtListDate("A");
         two.setOldAgencyIdentifierId("A");
@@ -85,7 +86,7 @@ public class CourtControllerTests {
         two.setCourtAgencyId("A");
         two.setAppearanceDt("A");
         two.setCourtRoomCd("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setRequestPartId("A");
         two.setRequestAgencyIdentifierId("A");
 
@@ -100,8 +101,8 @@ public class CourtControllerTests {
         app.setCourtDivisionCd(CourtDivisionType.I);
         app.setCourtClassCd(CourtClassType.Y);
         app.setCourtRoomCd("A");
-        app.setAppearanceDt("A");
-        app.setAppearanceTm("A");
+        app.setAppearanceDt(Instant.now());
+        app.setAppearanceTm(Instant.now());
         app.setAppearanceReasonCd("A");
         app.setDurationHour("A");
         app.setDurationMin("A");
@@ -163,7 +164,7 @@ public class CourtControllerTests {
         var two = new ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarRequest();
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         Detail3 dt = new Detail3();
         dt.setCourtAgencyId("A");
         dt.setCourtRoomCd("A");
@@ -208,7 +209,7 @@ public class CourtControllerTests {
         var two = new ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest();
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
 
         one.setGetReservedJudgmentRequest(two);
         req.setGetReservedJudgmentRequest(one);
@@ -256,7 +257,7 @@ public class CourtControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setSearchMode(SearchModeType.FILENO);
         two.setFileDivisionCd(CourtDivisionType.I);
         two.setFileHomeAgencyId("A");
