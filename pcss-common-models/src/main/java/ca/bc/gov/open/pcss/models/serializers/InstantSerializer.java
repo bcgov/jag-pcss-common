@@ -30,7 +30,7 @@ public class InstantSerializer extends JsonSerializer<Instant> {
             return null;
         }
 
-        return DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss.0")
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")
                 .withZone(ZoneId.of("GMT-7"))
                 .withLocale(Locale.US)
                 .format(value);

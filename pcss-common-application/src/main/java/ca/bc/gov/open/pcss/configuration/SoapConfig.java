@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -44,10 +47,17 @@ public class SoapConfig extends WsConfigurerAdapter {
     }
 
     @Bean
-    public RestTemplate restTemplate() {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
-        return restTemplate;
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+
+        var rt =
+                restTemplateBuilder
+                        .setConnectTimeout(Duration.of(100, ChronoUnit.SECONDS))
+                        .setReadTimeout(Duration.of(100, ChronoUnit.SECONDS))
+                        .build();
+
+        rt.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
+
+        return rt;
     }
 
     private MappingJackson2HttpMessageConverter createMappingJacksonHttpMessageConverter() {

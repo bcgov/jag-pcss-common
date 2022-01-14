@@ -11,6 +11,8 @@ import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -253,7 +255,7 @@ public class ResourceControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse>>any()))

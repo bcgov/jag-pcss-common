@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -192,13 +193,15 @@ public class ResourceController {
                 UriComponentsBuilder.fromHttpUrl(host + "code-values")
                         .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm())
-                        .queryParam("lastRetrievedDate", inner.getLastRetrievedDate());
+                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
+                        .queryParam(
+                                "lastRetrievedDate",
+                                InstantSerializer.convert(inner.getLastRetrievedDate()));
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse.class);
