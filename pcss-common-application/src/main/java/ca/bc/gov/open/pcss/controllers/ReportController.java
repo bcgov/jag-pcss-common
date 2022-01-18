@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -68,19 +69,15 @@ public class ReportController {
             HttpEntity<Map> resp =
                     restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
 
-            HttpEntity<String> resp2 =
+            HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
                             (String) resp.getBody().get("url"),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            String.class);
+                            byte[].class);
 
             String bs64 =
-                    resp2.getBody() != null
-                            ? Base64.getEncoder()
-                                    .encodeToString(
-                                            resp2.getBody().getBytes(StandardCharsets.UTF_8))
-                            : "";
+                    resp2.getBody() != null ? Base64Utils.encodeToString(resp2.getBody()) : "";
 
             var out = new GetJustinAdobeReportResponse();
 
