@@ -10,6 +10,7 @@ import ca.bc.gov.open.wsdl.pcss.secure.two.GetCourtCalendarDetailByDaySecureRequ
 import ca.bc.gov.open.wsdl.pcss.secure.two.GetFileSearchRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -171,7 +172,7 @@ public class SecureEndpointControllerTests {
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito

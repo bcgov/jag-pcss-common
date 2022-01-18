@@ -183,7 +183,7 @@ public class CourtController {
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "reserved-judgement")
                         .queryParam("requestDt", inner.getRequestDtm())
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId());
 
         try {
