@@ -97,7 +97,7 @@ public class SecureEndpointController {
                 UriComponentsBuilder.fromHttpUrl(host + "secure/code-values")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm())
+                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
                         .queryParam("applicationCd", inner.getApplicationCd())
                         .queryParam(
                                 "lastRetrievedDate",
@@ -106,7 +106,7 @@ public class SecureEndpointController {
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetCodeValuesResponse> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.secure.one.GetCodeValuesResponse.class);
