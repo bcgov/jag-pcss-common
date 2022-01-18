@@ -173,7 +173,7 @@ public class ReportController {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(ords_host + "operation-report")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());
 
