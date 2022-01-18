@@ -17,6 +17,7 @@ import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
@@ -185,7 +186,7 @@ public class ReportsControllerTests {
         s = s.substring(0, s.length() - 1) + "}";
         var one = objectMapper.readValue(s, GetJustinReportAdobeRequest.class);
         one.setFormNm("A");
-        one.setRequestDtm("A");
+        one.setRequestDtm(Instant.now());
         one.setFormNm("A");
         one.setPrintYn("A");
         one.setRequestAgencyIdentifierId("A");
@@ -193,14 +194,15 @@ public class ReportsControllerTests {
         req.setGetJustinAdobeReportRequest(one);
 
         var out = "A";
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
+        ResponseEntity<byte[]> responseEntity =
+                new ResponseEntity<>(out.getBytes(StandardCharsets.UTF_8), HttpStatus.OK);
 
-        //     Set up to mock ords response
+        // Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<String>>any()))
+                        Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         Map m = new HashMap();
