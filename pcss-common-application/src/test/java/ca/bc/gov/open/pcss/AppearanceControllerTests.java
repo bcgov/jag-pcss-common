@@ -44,7 +44,7 @@ public class AppearanceControllerTests {
         two.setFileDivisionCd(CourtDivisionType.I);
         two.setAppearanceId("A");
         two.setAppearanceReasonCd("A");
-        two.setAppearanceTm("A");
+        two.setAppearanceTm(Instant.now());
         two.setEstimatedTimeHour("A");
         two.setEstimatedTimeMin("A");
         two.setSupplementalEquipmentTxt("A");

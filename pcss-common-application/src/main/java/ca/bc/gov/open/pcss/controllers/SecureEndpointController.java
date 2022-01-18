@@ -149,7 +149,7 @@ public class SecureEndpointController {
                 UriComponentsBuilder.fromHttpUrl(host + "secure/calendar-detail")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert3(inner.getRequestDtm()))
+                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
                         .queryParam(
                                 "appearanceDt", InstantSerializer.convert(inner.getAppearanceDt()))
                         .queryParam("applicationCd", inner.getApplicationCd())
@@ -160,7 +160,7 @@ public class SecureEndpointController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetCourtCalendarDetailByDayResponse>
                     resp =
                             restTemplate.exchange(
-                                    builder.toUriString(),
+                                    builder.build().toUri(),
                                     HttpMethod.GET,
                                     new HttpEntity<>(new HttpHeaders()),
                                     ca.bc.gov.open.wsdl.pcss.secure.one

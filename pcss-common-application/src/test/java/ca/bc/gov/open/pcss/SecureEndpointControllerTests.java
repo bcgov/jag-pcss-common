@@ -214,7 +214,7 @@ public class SecureEndpointControllerTests {
         ap.setCourtClassCd(CourtClassType.Y);
         ap.setCourtRoomCd("A");
         ap.setAppearanceDt(Instant.now());
-        ap.setAppearanceTm("A");
+        ap.setAppearanceTm(Instant.now());
         ap.setAppearanceReasonCd("A");
         ap.setDurationHour("A");
         ap.setDurationMin("A");
@@ -253,7 +253,7 @@ public class SecureEndpointControllerTests {
                 responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
 
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito

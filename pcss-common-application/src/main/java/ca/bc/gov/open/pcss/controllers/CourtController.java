@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest;
 import ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayResponse;
 import ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveRequest;
@@ -96,8 +97,9 @@ public class CourtController {
                 UriComponentsBuilder.fromHttpUrl(host + "calendar-detail")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm())
-                        .queryParam("appearanceDt", inner.getAppearanceDt())
+                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
+                        .queryParam(
+                                "appearanceDt", InstantSerializer.convert(inner.getAppearanceDt()))
                         .queryParam("courtRoomCd", inner.getCourtRoomCd())
                         .queryParam("courtAgencyId", inner.getCourtAgencyId());
 
