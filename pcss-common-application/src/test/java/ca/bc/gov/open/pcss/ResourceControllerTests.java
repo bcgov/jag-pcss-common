@@ -47,8 +47,8 @@ public class ResourceControllerTests {
         two.setBookingDt(Instant.now());
         two.setAssetTypeCd("A");
         two.setBookingForRoleCd("A");
-        two.setBookingFromTm("A");
-        two.setBookingToTm("A");
+        two.setBookingFromTm(Instant.now());
+        two.setBookingToTm(Instant.now());
         two.setPrimaryAgencyId("A");
         two.setPrimaryCourtRoomCd("A");
         two.setSecondaryAgencyId("A");
@@ -81,8 +81,8 @@ public class ResourceControllerTests {
         d.setDayOfWeek(DayOfWeekType.MO);
 
         BookedTime bt = new BookedTime();
-        bt.setBookedFromTm("A");
-        bt.setBookedToTm("A");
+        bt.setBookedFromTm(Instant.now());
+        bt.setBookedToTm(Instant.now());
         bt.setCourtAgencyId("A");
         bt.setCourtRoomCd("A");
         bt.setBookedByNm("A");
@@ -138,8 +138,8 @@ public class ResourceControllerTests {
         two.setCourtDivisionCd(CourtDivisionType.I);
         two.setResourceId("A");
         two.setBookingDt(Instant.now());
-        two.setBookingFromTm("A");
-        two.setBookingToTm("A");
+        two.setBookingFromTm(Instant.now());
+        two.setBookingToTm(Instant.now());
         two.setCourtAgencyId("A");
         two.setCourtRoomCd("A");
         two.setBookingCommentTxt("A");
