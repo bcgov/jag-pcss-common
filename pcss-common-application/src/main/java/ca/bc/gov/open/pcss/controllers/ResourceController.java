@@ -54,7 +54,7 @@ public class ResourceController {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "resource")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm())
                         .queryParam("bookingDt", inner.getBookingDt())
@@ -191,7 +191,7 @@ public class ResourceController {
 
         UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(host + "code-values")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
                         .queryParam(
