@@ -18,7 +18,7 @@
         <xsd:sequence>
             <xsd:element name="RequestAgencyIdentifierId" type="xsd:string"/>
             <xsd:element name="RequestPartId" nillable="true" type="xsd:string"/>
-            <xsd:element name="RequestDtm" nillable="true" type="xsd:string"/>
+            <xsd:element name="RequestDtm" nillable="true" type="xsd:dateTime"/>
             <xsd:element name="FormNm" nillable="true" type="xsd:string"/>
             <xsd:element name="PrintYn" nillable="true" type="xsd:string"/>
             <xsd:element name="Param1" nillable="true" type="xsd:string"/>
