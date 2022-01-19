@@ -147,7 +147,7 @@ public class ReportsControllerTests {
 
         two.setRequestAgencyIdentifierId("A");
         two.setRequestPartId("A");
-        two.setRequestDtm("A");
+        two.setRequestDtm(Instant.now());
         two.setReportName("A");
         Parameters p = new Parameters();
         p.setParmNm("A");
