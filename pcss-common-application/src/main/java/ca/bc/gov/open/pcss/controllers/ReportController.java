@@ -10,8 +10,6 @@ import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Map;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +34,7 @@ public class ReportController {
     private String ords_host = "https://127.0.0.1/";
 
     @Value("${pcss.oracle_host}")
-    private String oracle_host = "http://orafr-1.dev.ag.bcgov:8080/reports/rwservlet";
+    private String oracle_host = "https://127.0.0.1/";
 
     @Value("${pcss.oracle_name}")
     private String oracleServerName;
@@ -134,12 +132,14 @@ public class ReportController {
                             String.class);
 
             String b64EncodedReport =
-                    Base64.getEncoder()
-                            .encodeToString(resp.getBody().getBytes(StandardCharsets.UTF_8));
+                    resp.getBody() != null
+                            ? Base64Utils.encodeToString(resp.getBody().getBytes())
+                            : "";
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
             var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse();
+            one.setGetJustinReportResponse(two);
             two.setReportContent(b64EncodedReport);
             two.setResponseCd("0");
             out.setGetJustinReportResponse(one);
