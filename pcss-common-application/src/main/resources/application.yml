@@ -5,8 +5,9 @@ security:
 pcss:
   host: ${ORDS_HOST}
   namespace: ${PCSS_NAMESPACE}
-  oracle_host: ${ORACLE_HOST}
-  oracle_name: ${ORACLE_NAME}
+  oracle-host: ${ORACLE_HOST}
+  oracle-name: ${ORACLE_NAME}
+  adobe-host: ${ADOBE_HOST}
 management:
   trace:
     http:
