@@ -4,7 +4,6 @@ security:
     username: ${BASIC_AUTH_USER}
 pcss:
   host: ${ORDS_HOST}
-  namespace: ${PCSS_NAMESPACE}
   oracle_host: ${ORACLE_HOST}
   oracle_name: ${ORACLE_NAME}
 management:
