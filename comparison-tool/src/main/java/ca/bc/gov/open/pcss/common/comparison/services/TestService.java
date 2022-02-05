@@ -8,9 +8,8 @@ import java.util.stream.Stream;
 import ca.bc.gov.open.pcss.common.comparison.config.DualProtocolSaajSoapMessageFactory;
 import ca.bc.gov.open.pcss.common.comparison.config.WebServiceSenderWithAuth;
 import ca.bc.gov.open.pcss.models.serializers.InstantSoapConverter;
-import ca.bc.gov.open.wsdl.pcss.two.GetCourtCalendarDetailByDay;
-import ca.bc.gov.open.wsdl.pcss.two.GetCourtCalendarDetailByDayRequest;
-import ca.bc.gov.open.wsdl.pcss.two.GetCourtCalendarDetailByDayResponse;
+import ca.bc.gov.open.wsdl.pcss.three.OperationModeRscAvType;
+import ca.bc.gov.open.wsdl.pcss.two.*;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
@@ -63,72 +62,74 @@ public class TestService {
     public void runCompares() throws IOException {
         System.out.println("INFO: PCSS Common Diff testing started");
 
-        getCourtCalendarCompare();
+        //getCourtCalendarCompare();
 
         //getFileSearchCompare();
+
+        getResourceAvailabilityCompare();
     }
 
-    private void getFileSearchCompare()
+    private void getResourceAvailabilityCompare()
             throws FileNotFoundException, UnsupportedEncodingException {
         int diffCounter = 0;
 
-        GetCourtCalendarDetailByDay request = new GetCourtCalendarDetailByDay();
-        GetCourtCalendarDetailByDayRequest two = new GetCourtCalendarDetailByDayRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest();
+        GetResourceAvailability request = new GetResourceAvailability();
+        GetResourceAvailabilityRequest two = new GetResourceAvailabilityRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest();
         one.setRequestDtm(dtm);
-        one.setRequestAgencyIdentifierId(RAID);
         one.setRequestPartId(partId);
-        two.setGetCourtCalendarDetailByDayRequest(one);
-        request.setGetCourtCalendarDetailByDayRequest(two);
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setModeCd(OperationModeRscAvType.W);
+        one.setBookingDt(dtm);
+        two.setGetResourceAvailabilityRequest(one);
+        request.setGetResourceAvailabilityRequest(two);
 
         InputStream inputIds =
-                getClass().getResourceAsStream("/getCourtCalendar.csv");
+                getClass().getResourceAsStream("/getFileSearchPrimaryAgencyId.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
-        fileOutput = new PrintWriter(outputDir + "GetCourtCalendarDetailByDay.txt", "UTF-8");
+        fileOutput = new PrintWriter(outputDir + "GetResourceAvailability.txt", "UTF-8");
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String[] params = line.split(",");
 
-            System.out.println("\nINFO: GetCourtCalendarDetailByDay with CourtAgencyId: "
-                    + params[0]
-                    + " CourtRoomCd: " + params[1]
-                    + " AppearanceDt: " + params[2]);
-            one.setCourtAgencyId(params[0]);
-            one.setCourtRoomCd(params[1]);
-            one.setAppearanceDt(InstantSoapConverter.parse(params[2]));
+            System.out.println("\nINFO: GetResourceAvailability with PrimaryAgencyId: "
+                    + line);
+            one.setPrimaryAgencyId(line);
 
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three",
                     "ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
-            if (!compare(new GetCourtCalendarDetailByDayResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetCourtCalendarDetailByDay with CourtAgencyId: "
-                        + params[0]
-                        + " CourtRoomCd: " + params[1]
-                        + " AppearanceDt: " + params[2] + "\n\n");
+            if (!compare(new GetResourceAvailabilityResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetResourceAvailability with PrimaryAgencyId: "
+                        + line + "\n\n");
                 ++diffCounter;
             }
         }
 
         System.out.println(
                 "########################################################\n"
-                        + "INFO: GetCourtCalendarDetailByDay Completed there are "
+                        + "INFO: GetResourceAvailability Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
 
         fileOutput.println(
                 "########################################################\n"
-                        + "INFO: GetCourtCalendarDetailByDay Completed there are "
+                        + "INFO: GetResourceAvailability Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
 
         overallDiff += diffCounter;
         fileOutput.close();
+    }
+
+    private void getFileSearchCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        // Might need to split to multiple (based on search mode)
     }
 
     private void getCourtCalendarCompare()
