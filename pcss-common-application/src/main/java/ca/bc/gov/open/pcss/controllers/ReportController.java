@@ -36,6 +36,9 @@ public class ReportController {
     @Value("${pcss.oracle_host}")
     private String oracle_host = "https://127.0.0.1/";
 
+    @Value("${pcss.adobe_host}")
+    private String adobe_host = "https://127.0.0.1/";
+
     @Value("${pcss.oracle_name}")
     private String oracleServerName;
 
@@ -67,9 +70,13 @@ public class ReportController {
             HttpEntity<Map> resp =
                     restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
 
+            String url = (String) resp.getBody().get("url");
+            String adobe_url = (url.indexOf('?') == -1) ?
+                    "" : adobe_host + url.substring(url.indexOf('?'));
+
             HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
-                            (String) resp.getBody().get("url"),
+                            adobe_url,
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             byte[].class);
