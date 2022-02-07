@@ -71,8 +71,8 @@ public class ReportController {
                     restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
 
             String url = (String) resp.getBody().get("url");
-            String adobe_url = (url.indexOf('?') == -1) ?
-                    "" : adobe_host + url.substring(url.indexOf('?'));
+            String adobe_url =
+                    (url.indexOf('?') == -1) ? "" : adobe_host + url.substring(url.indexOf('?'));
 
             HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
