@@ -66,7 +66,184 @@ public class TestService {
 
         //getFileSearchCompare();
 
-        getResourceAvailabilityCompare();
+        //getResourceAvailabilityCompare();
+
+        //getOperationLovReportCompare();
+
+        getOperationReportCompare();
+
+        //getUserLoginCompare();
+    }
+
+    private void getUserLoginCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetUserLogin request = new GetUserLogin();
+        GetUserLoginRequest two = new GetUserLoginRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
+        one.setRequestDtm(dtm);
+        two.setGetUserLoginRequest(one);
+        request.setGetUserLoginRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getUserLoginUserGUID.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetUserLogin.txt", "UTF-8");
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+
+            System.out.println("\nINFO: GetUserLogin with PrimaryAgencyId: "
+                    + line);
+            one.setDomainUserGuid(line);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three",
+                    "ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetResourceAvailabilityResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetUserLogin with PrimaryAgencyId: "
+                        + line + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetUserLogin Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetUserLogin Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    private void getOperationReportCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetOperationReport request = new GetOperationReport();
+        GetOperationReportRequest two = new GetOperationReportRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest();
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setRequestDtm(dtm);
+        two.setGetOperationReportRequest(one);
+        request.setGetOperationReportRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getOperationReportPartId.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetOperationReport.txt", "UTF-8");
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+
+            System.out.println("\nINFO: GetOperationReport with PartId: "
+                    + line);
+            one.setRequestPartId(line);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetResourceAvailabilityResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetOperationReport with PartId: "
+                        + line + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetOperationReport Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetOperationReport Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    // diffs detected -wm acting crazy?
+    private void getOperationLovReportCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetOperationReportLov request = new GetOperationReportLov();
+        GetOperationReportLovRequest two = new GetOperationReportLovRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest();
+        one.setRequestDtm(dtm);
+        one.setRequestAgencyIdentifierId(RAID);
+        // partId 83.0001 results in "Error fetching JUSTIN UserId for part_id 83.0001"
+        one.setRequestPartId("19014.0001");
+        two.setGetOperationReportLovRequest(one);
+        request.setGetOperationReportLovRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getOperationLovReport.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetOperationReportLov.txt", "UTF-8");
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] params = line.split(",");
+
+            System.out.println("\nINFO: GetOperationReportLov with"
+                    + " ReportNm: " + params[0]
+                    + " ParmNm: " + params[1]);
+            one.setReportNm(params[0]);
+            one.setParmNm(params[1]);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetCourtCalendarDetailByDayResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetOperationReportLov with"
+                        + " ReportNm: " + params[0]
+                        + " ParmNm: " + params[1] + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetOperationReportLov Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetOperationReportLov Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     private void getResourceAvailabilityCompare()
@@ -127,9 +304,10 @@ public class TestService {
         fileOutput.close();
     }
 
+    // Might need to split to multiple (based on search mode)
     private void getFileSearchCompare()
             throws FileNotFoundException, UnsupportedEncodingException {
-        // Might need to split to multiple (based on search mode)
+
     }
 
     private void getCourtCalendarCompare()
