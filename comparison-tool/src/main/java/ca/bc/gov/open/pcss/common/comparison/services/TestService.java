@@ -1,7 +1,6 @@
 package ca.bc.gov.open.pcss.common.comparison.services;
 
 import java.io.*;
-import java.lang.ref.ReferenceQueue;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
@@ -9,8 +8,8 @@ import java.util.stream.Stream;
 import ca.bc.gov.open.pcss.common.comparison.config.DualProtocolSaajSoapMessageFactory;
 import ca.bc.gov.open.pcss.common.comparison.config.WebServiceSenderWithAuth;
 import ca.bc.gov.open.pcss.models.serializers.InstantSoapConverter;
-import ca.bc.gov.open.wsdl.pcss.three.DomainNmType;
-import ca.bc.gov.open.wsdl.pcss.three.OperationModeRscAvType;
+import ca.bc.gov.open.wsdl.pcss.one.Permission;
+import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.javers.core.Javers;
@@ -40,10 +39,10 @@ public class TestService {
         this.webServiceSenderWithAuth = webServiceSenderWithAuth;
     }
 
-    @Value("${host.api_host}")
+    @Value("${host.api-host}")
     private String apiHost;
 
-    @Value("${host.wm_host}")
+    @Value("${host.wm-host}")
     private String wmHost;
 
     @Value("${host.username}")
@@ -65,19 +64,23 @@ public class TestService {
     public void runCompares() throws IOException {
         System.out.println("INFO: PCSS Common Diff testing started");
 
-        getCourtCalendarCompare();
+//        getCourtCalendarCompare();
+//
+//        getResourceAvailabilityCompare();
+//
+//        getOperationLovReportCompare();
+//
+//        getOperationReportCompare();
+//
+//        getUserLoginCompare();
+//
+//        getCodeValuesCompare();
+//
+//        getReservedJudgementCompare();
 
-        getResourceAvailabilityCompare();
-
-        getOperationLovReportCompare();
-
-        getOperationReportCompare();
-
-        getUserLoginCompare();
-
-        getCodeValuesCompare();
-
-        getReservedJudgementCompare();
+        //getFileSearchFILENOCompare();
+        getFileSearchPARTNAMECompare();
+        getFileSearchCROWNCompare();
 
         //TODO:
         //getFileSearchCompare();
@@ -85,8 +88,7 @@ public class TestService {
         //getJustinAdobeReportCompare();
     }
 
-    // Might need to split to multiple (based on search mode)
-    private void getFileSearchCompare()
+    private void getFileSearchCROWNCompare()
             throws FileNotFoundException, UnsupportedEncodingException {
         int diffCounter = 0;
 
@@ -97,15 +99,232 @@ public class TestService {
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
+        one.setSearchMode(SearchModeType.PARTNAME);
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
-        //getFileSearchPCSSCompare();
-        //getFileSearchCCSSCompare();
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getFileSearchPARTNAME.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetFileSearchPARTNAME.txt", "UTF-8");
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] params = line.split("\\|", -1);
+
+            System.out.println("\nINFO: GetFileSearch with SearchType: PARTNAME"
+                    + " OrgNm: " + params[0]
+                    + " LastNm: " + params[1]
+                    + " GivenNm: " + params[2]);
+            if (params[0] == "" && params[1] == "") {
+                System.out.println("WARN: Invalid data - OrgName and LastName both are empty");
+                fileOutput.println("WARN: Invalid data - OrgName and LastName both are empty");
+            }
+            if (params[0] != "") {
+                one.setOrgNm(params[0]);
+            }
+            if (params[1] != "") {
+                one.setLastNm(params[1]);
+            }
+            if (params[2] != "") {
+                one.setGivenNm(params[2]);
+            }
+            Permission permission = new Permission();
+            permission.setCourtClassCd(CourtClassType.A);
+            List<Permission> permissions = new ArrayList();
+            permissions.add(permission);
+            one.setPermission(permissions);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetFileSearchResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetFileSearch with SearchType: PARTNAME"
+                        + " OrgNm: " + params[0]
+                        + " LastNm: " + params[1]
+                        + " GivenNm: " + params[2] + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch PARTNAME Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch PARTNAME Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
-    private void getFileSearchPCSSCompare() {
+    private void getFileSearchPARTNAMECompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
 
+        GetFileSearch request = new GetFileSearch();
+        GetFileSearchRequest two = new GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        one.setRequestDtm(dtm);
+        one.setRequestPartId(partId);
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setSearchMode(SearchModeType.PARTNAME);
+        two.setGetFileSearchRequest(one);
+        request.setGetFileSearchRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getFileSearchPARTNAME.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetFileSearchPARTNAME.txt", "UTF-8");
+
+        for (int idx = 0; scanner.hasNextLine(); idx++) {
+            String[] params = scanner.nextLine().split("\\|", -1);
+
+            switch (idx % 3) {
+                case 0:
+                    one.setNameSearchTypeCd(NameSearchType.S);
+                    break;
+                case 1:
+                    one.setNameSearchTypeCd(NameSearchType.E);
+                    break;
+                case 2:
+                    one.setNameSearchTypeCd(NameSearchType.P);
+                    break;
+                default:
+                    break;
+            }
+
+            System.out.println("\nINFO: GetFileSearch with SearchType: PARTNAME"
+                    + " NameSearchType: " + one.getNameSearchTypeCd().toString()
+                    + " OrgNm: " + params[0]
+                    + " LastNm: " + params[1]
+                    + " GivenNm: " + params[2]);
+            if (params[0] == "" && params[1] == "") {
+                System.out.println("WARN: Invalid data - OrgName and LastName both are empty");
+                fileOutput.println("WARN: Invalid data - OrgName and LastName both are empty");
+            }
+            if (params[0] != "") {
+                one.setOrgNm(params[0]);
+            }
+            if (params[1] != "") {
+                one.setLastNm(params[1]);
+            }
+            if (params[2] != "") {
+                one.setGivenNm(params[2]);
+            }
+            Permission permission = new Permission();
+            permission.setCourtClassCd(CourtClassType.A);
+            List<Permission> permissions = new ArrayList();
+            permissions.add(permission);
+            one.setPermission(permissions);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetFileSearchResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetFileSearch with SearchType: PARTNAME"
+                        + " NameSearchType: " + one.getNameSearchTypeCd().toString()
+                        + " OrgNm: " + params[0]
+                        + " LastNm: " + params[1]
+                        + " GivenNm: " + params[2] + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch PARTNAME Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch PARTNAME Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    private void getFileSearchFILENOCompare()
+        throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetFileSearch request = new GetFileSearch();
+        GetFileSearchRequest two = new GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        one.setRequestDtm(dtm);
+        one.setRequestPartId(partId);
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setSearchMode(SearchModeType.FILENO);
+        two.setGetFileSearchRequest(one);
+        request.setGetFileSearchRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getFileSearchFILENO.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetFileSearchFILENO.txt", "UTF-8");
+
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            String[] params = line.split(",");
+
+            System.out.println("\nINFO: GetFileSearch with SearchType: FILENO"
+                    + " FileHomeAgencyId: " + params[0]
+                    + " FileNumberTxt: " + params[1]);
+            one.setFileHomeAgencyId(params[0]);
+            one.setFileNumberTxt(params[1]);
+            Permission permission = new Permission();
+            permission.setCourtClassCd(CourtClassType.A);
+            List<Permission> permissions = new ArrayList();
+            permissions.add(permission);
+            one.setPermission(permissions);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetFileSearchResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetFileSearch with SearchType: FILENO"
+                        + " FileHomeAgencyId: " + params[0]
+                        + " FileNumberTxt: " + params[1] + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch FILENO Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch FILENO Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     private void getReservedJudgementCompare()
