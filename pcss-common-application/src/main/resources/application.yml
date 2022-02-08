@@ -4,9 +4,9 @@ security:
     username: ${BASIC_AUTH_USER}
 pcss:
   host: ${ORDS_HOST}
-  adobe_host: ${ADOBE_HOST}
-  oracle_host: ${ORACLE_HOST}
-  oracle_name: ${ORACLE_NAME}
+  adobe-host: ${ADOBE_HOST}
+  oracle-host: ${ORACLE_HOST}
+  oracle-name: ${ORACLE_NAME}
 management:
   trace:
     http:
