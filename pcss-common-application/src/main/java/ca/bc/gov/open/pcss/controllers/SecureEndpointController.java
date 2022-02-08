@@ -63,6 +63,14 @@ public class SecureEndpointController {
 
             var out = new GetFileSearchSecureResponse();
             var one = new GetFileSearchResponse();
+            if (resp.getBody().getFileDetail() != null) {
+                resp.getBody().getFileDetail().forEach(
+                    d -> {
+                        if (d.getPcssCourtDivisionCd() == null) {
+                        d.setPcssCourtDivisionCd("");
+                        }
+                    });
+            }
             one.setGetFileSearchResponse(resp.getBody());
             out.setGetFileSearchResponse(one);
             return out;
