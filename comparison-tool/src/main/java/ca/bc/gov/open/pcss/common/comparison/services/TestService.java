@@ -1,6 +1,7 @@
 package ca.bc.gov.open.pcss.common.comparison.services;
 
 import java.io.*;
+import java.lang.ref.ReferenceQueue;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Stream;
@@ -8,6 +9,7 @@ import java.util.stream.Stream;
 import ca.bc.gov.open.pcss.common.comparison.config.DualProtocolSaajSoapMessageFactory;
 import ca.bc.gov.open.pcss.common.comparison.config.WebServiceSenderWithAuth;
 import ca.bc.gov.open.pcss.models.serializers.InstantSoapConverter;
+import ca.bc.gov.open.wsdl.pcss.three.DomainNmType;
 import ca.bc.gov.open.wsdl.pcss.three.OperationModeRscAvType;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -52,6 +54,7 @@ public class TestService {
 
     private String RAID = "83.0001";
     private String partId = RAID;
+    private DomainNmType domainNm = DomainNmType.PROVJUDGE;
     private Instant dtm = Instant.now();
 
     private PrintWriter fileOutput;
@@ -62,17 +65,130 @@ public class TestService {
     public void runCompares() throws IOException {
         System.out.println("INFO: PCSS Common Diff testing started");
 
-        //getCourtCalendarCompare();
+        getCourtCalendarCompare();
 
-        //getFileSearchCompare();
+        getResourceAvailabilityCompare();
 
-        //getResourceAvailabilityCompare();
-
-        //getOperationLovReportCompare();
+        getOperationLovReportCompare();
 
         getOperationReportCompare();
 
-        //getUserLoginCompare();
+        getUserLoginCompare();
+
+        getCodeValuesCompare();
+
+        getReservedJudgementCompare();
+
+        //TODO:
+        //getFileSearchCompare();
+        //getJustinReportCompare();
+        //getJustinAdobeReportCompare();
+    }
+
+    // Might need to split to multiple (based on search mode)
+    private void getFileSearchCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetFileSearch request = new GetFileSearch();
+        GetFileSearchRequest two = new GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        one.setRequestDtm(dtm);
+        one.setRequestPartId(partId);
+        one.setRequestAgencyIdentifierId(RAID);
+        two.setGetFileSearchRequest(one);
+        request.setGetFileSearchRequest(two);
+
+        //getFileSearchPCSSCompare();
+        //getFileSearchCCSSCompare();
+    }
+
+    private void getFileSearchPCSSCompare() {
+
+    }
+
+    private void getReservedJudgementCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetReservedJudgment request = new GetReservedJudgment();
+        GetReservedJudgmentRequest two = new GetReservedJudgmentRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest();
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setRequestDtm(dtm);
+        one.setRequestPartId(partId);
+        two.setGetReservedJudgmentRequest(one);
+        request.setGetReservedJudgmentRequest(two);
+
+        fileOutput = new PrintWriter(outputDir + "GetReservedJudgment.txt", "UTF-8");
+        String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
+
+        System.out.println("\nINFO: GetReservedJudgment");
+        if (!compare(new GetReservedJudgmentResponse(), request, contextPath)) {
+            fileOutput.println("INFO: GetReservedJudgment\n\n");
+            ++diffCounter;
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetReservedJudgment Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetReservedJudgment Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    private void getCodeValuesCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetCodeValues request = new GetCodeValues();
+        GetCodeValuesRequest two = new GetCodeValuesRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest();
+        one.setRequestDtm(InstantSoapConverter.parse("2021-09-14 09:26:56.6"));
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setRequestPartId("19014.0001");
+        one.setLastRetrievedDate(InstantSoapConverter.parse("2021-09-14 09:26:56.6"));
+        two.setGetCodeValuesRequest(one);
+        request.setGetCodeValuesRequest(two);
+
+        fileOutput = new PrintWriter(outputDir + "GetCodeValues.txt", "UTF-8");
+        String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
+
+        System.out.println("\nINFO: GetCodeValues");
+        if (!compare(new GetCodeValuesResponse(), request, contextPath)) {
+            fileOutput.println("INFO: GetCodeValues\n\n");
+            ++diffCounter;
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetCodeValues Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetCodeValues Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     private void getUserLoginCompare()
@@ -84,11 +200,12 @@ public class TestService {
         ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest one
                 = new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
         one.setRequestDtm(dtm);
+        one.setDomainNm(domainNm);
         two.setGetUserLoginRequest(one);
         request.setGetUserLoginRequest(two);
 
         InputStream inputIds =
-                getClass().getResourceAsStream("/getUserLoginUserGUID.csv");
+                getClass().getResourceAsStream("/getUserLogin.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -96,17 +213,20 @@ public class TestService {
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            String[] params = line.split(",");
 
-            System.out.println("\nINFO: GetUserLogin with PrimaryAgencyId: "
-                    + line);
-            one.setDomainUserGuid(line);
+            System.out.println("\nINFO: GetUserLogin with DomainUserId: "
+                    + params[0]
+                    + " DomainUserGuid: " + params[1]);
+            one.setDomainUserId(params[0]);
+            one.setDomainUserGuid(params[1]);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three",
-                    "ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
-            if (!compare(new GetResourceAvailabilityResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetUserLogin with PrimaryAgencyId: "
-                        + line + "\n\n");
+            if (!compare(new GetUserLoginResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetUserLogin with DomainUserId: "
+                        + params[0]
+                        + " DomainUserGuid: " + params[1] + "\n\n");
                 ++diffCounter;
             }
         }
@@ -159,7 +279,7 @@ public class TestService {
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
                     "ca.bc.gov.open.wsdl.pcss.one"};
 
-            if (!compare(new GetResourceAvailabilityResponse(), request, contextPath)) {
+            if (!compare(new GetOperationReportResponse(), request, contextPath)) {
                 fileOutput.println("INFO: GetOperationReport with PartId: "
                         + line + "\n\n");
                 ++diffCounter;
@@ -220,7 +340,7 @@ public class TestService {
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
                     "ca.bc.gov.open.wsdl.pcss.one"};
 
-            if (!compare(new GetCourtCalendarDetailByDayResponse(), request, contextPath)) {
+            if (!compare(new GetOperationReportLovResponse(), request, contextPath)) {
                 fileOutput.println("INFO: GetOperationReportLov with"
                         + " ReportNm: " + params[0]
                         + " ParmNm: " + params[1] + "\n\n");
@@ -302,12 +422,6 @@ public class TestService {
 
         overallDiff += diffCounter;
         fileOutput.close();
-    }
-
-    // Might need to split to multiple (based on search mode)
-    private void getFileSearchCompare()
-            throws FileNotFoundException, UnsupportedEncodingException {
-
     }
 
     private void getCourtCalendarCompare()
@@ -429,8 +543,22 @@ public class TestService {
     }
 
     private void printDiff(Diff diff) {
-        int diffSize = diff.getChanges().size();
+        List<Change> actualChanges = new ArrayList<>(diff.getChanges());
+
+        actualChanges.removeIf(
+                c -> {
+                    if (c instanceof ValueChange) {
+                        return ((ValueChange) c).getLeft() == null
+                                && ((ValueChange) c).getRight().toString().isBlank();
+                    }
+
+                    return false;
+                });
+
+        int diffSize = actualChanges.size();
+
         if (diffSize == 0) {
+            System.out.println("Only null and blank changes detected");
             return;
         }
 
