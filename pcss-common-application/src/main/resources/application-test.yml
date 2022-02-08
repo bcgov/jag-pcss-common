@@ -4,6 +4,7 @@ security:
     username: ${BASIC_AUTH_USER}
 pcss:
   host: http://127.0.0.1/
-  namespace: ${PCSS_NAMESPACE}
-  oracle_host: http://127.0.0.1/
-  oracle_name: oracle
+  adobe-host: http://127.0.0.1/
+  oracle-host: http://127.0.0.1/
+  oracle-name: oracle
+

@@ -31,15 +31,15 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class ReportController {
 
     @Value("${pcss.host}")
-    private String ords_host = "https://127.0.0.1/";
+    private String ordsHost = "https://127.0.0.1/";
 
-    @Value("${pcss.oracle_host}")
-    private String oracle_host = "https://127.0.0.1/";
+    @Value("${pcss.oracle-host}")
+    private String oracleHost = "https://127.0.0.1/";
 
-    @Value("${pcss.adobe_host}")
-    private String adobe_host = "https://127.0.0.1/";
+    @Value("${pcss.adobe-host}")
+    private String adobeHost = "https://127.0.0.1/";
 
-    @Value("${pcss.oracle_name}")
+    @Value("${pcss.oracle-name}")
     private String oracleServerName;
 
     private final RestTemplate restTemplate;
@@ -63,7 +63,7 @@ public class ReportController {
                         ? search.getGetJustinAdobeReportRequest()
                         : new GetJustinReportAdobeRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ords_host + "adobe-report");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "adobe-report");
 
         var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
@@ -72,7 +72,7 @@ public class ReportController {
 
             String url = (String) resp.getBody().get("url");
             String adobe_url =
-                    (url.indexOf('?') == -1) ? "" : adobe_host + url.substring(url.indexOf('?'));
+                    (url.indexOf('?') == -1) ? "" : adobeHost + url.substring(url.indexOf('?'));
 
             HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
@@ -122,7 +122,7 @@ public class ReportController {
             throw new BadRequestException();
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(oracle_host);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(oracleHost);
 
         builder.queryParam("cmdKey", "pcss_" + inner.getReportName().toLowerCase());
         builder.queryParam("server", oracleServerName);
@@ -176,7 +176,7 @@ public class ReportController {
                         : new GetOperationReportRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "operation-report")
+                UriComponentsBuilder.fromHttpUrl(ordsHost + "operation-report")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());
@@ -220,7 +220,7 @@ public class ReportController {
                         : new GetOperationReportLovRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "operation-report-lov");
+                UriComponentsBuilder.fromHttpUrl(ordsHost + "operation-report-lov");
 
         var body = new HttpEntity<>(inner, new HttpHeaders());
 
