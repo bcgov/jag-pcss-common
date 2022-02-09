@@ -8,6 +8,7 @@ import ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,11 +53,11 @@ public class ResourceController {
                         : new GetResourceAvailabilityRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                UriComponentsBuilder.fromHttpUrl(host + "resource")
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("bookingDate", InstantSerializer.convert(inner.getBookingDt()))
+                        .queryParam("requestDtm", inner.getRequestDtm())
+                        .queryParam("bookingDt", inner.getBookingDt())
                         .queryParam("modeCd", inner.getModeCd())
                         .queryParam("assetTypeCd", inner.getAssetTypeCd())
                         .queryParam("bookingForRoleCd", inner.getBookingForRoleCd())
@@ -105,30 +106,16 @@ public class ResourceController {
                         ? search.getSetResourceBookingRequest().getSetResourceBookingRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingRequest();
 
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("bookingDate", InstantSerializer.convert(inner.getBookingDt()))
-                        .queryParam("operationModeCd", inner.getOperationModeCd())
-                        .queryParam("appearanceId", inner.getAppearanceId())
-                        .queryParam("courtDivisionId", inner.getCourtDivisionCd())
-                        .queryParam("resourceId", inner.getResourceId())
-                        .queryParam("bookingFromTm", inner.getBookingFromTm())
-                        .queryParam("bookingToTm", inner.getBookingToTm())
-                        .queryParam("courtAgencyId", inner.getCourtAgencyId())
-                        .queryParam("courtRoomCd", inner.getCourtRoomCd())
-                        .queryParam("bookingCommentTxt", inner.getBookingCommentTxt())
-                        .queryParam("bookingId", inner.getBookingId())
-                        .queryParam("bookingCcn", inner.getBookingCcn());
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "resource");
+
+        var body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
-                            new HttpEntity<>(new HttpHeaders()),
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.SetResourceBookingResponse.class);
 
             var out = new SetResourceBookingResponse();
@@ -161,20 +148,16 @@ public class ResourceController {
                         ? search.getSetResourceCancelRequest().getSetResourceCancelRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelRequest();
 
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("bookingId", inner.getBookingId())
-                        .queryParam("bookingCcn", inner.getBookingCcn());
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "/resource/cancel");
+
+        var body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.PUT,
-                            new HttpEntity<>(new HttpHeaders()),
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.SetResourceCancelResponse.class);
 
             var out = new SetResourceCancelResponse();
@@ -196,7 +179,7 @@ public class ResourceController {
 
     @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCodeValues")
     @ResponsePayload
-    public GetCodeValuesResponse getCodeValues(@RequestPayload GetCodeValues search)
+    public GetCodeValuesResponse getCodeValues(@RequestPayload @Valid GetCodeValues search)
             throws JsonProcessingException {
 
         var inner =
@@ -207,8 +190,8 @@ public class ResourceController {
                         : new ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                UriComponentsBuilder.fromHttpUrl(host + "code-values")
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
                         .queryParam(
@@ -218,7 +201,7 @@ public class ResourceController {
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse.class);
@@ -252,28 +235,16 @@ public class ResourceController {
                         ? search.getSetSyncCompleteRequest().getSetSyncCompleteRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteRequest();
 
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam(
-                                "proccessUptoDtm",
-                                InstantSerializer.convert(inner.getProcessUpToDtm()))
-                        .queryParam("criminalAppearanceYn", inner.getCivilAppearanceYn())
-                        .queryParam("civilAppearanceYn", inner.getCivilAppearanceYn())
-                        .queryParam(
-                                "criminalHearingRestrictionYn",
-                                inner.getCivilHearingRestrictionYn())
-                        .queryParam(
-                                "civilHearingRestrictionYn", inner.getCivilHearingRestrictionYn());
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "sync-complete");
+
+        var body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.PUT,
-                            new HttpEntity<>(new HttpHeaders()),
+                            HttpMethod.POST,
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse.class);
 
             var out = new SetSyncCompleteResponse();
@@ -304,7 +275,7 @@ public class ResourceController {
                         : new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
+                UriComponentsBuilder.fromHttpUrl(host + "login")
                         .queryParam("requestDtm", inner.getRequestDtm())
                         .queryParam("domainNm", inner.getDomainNm())
                         .queryParam("domainUserGuid", inner.getDomainUserGuid())
@@ -325,6 +296,8 @@ public class ResourceController {
             out.setGetUserLoginResponse(one);
             return out;
         } catch (Exception ex) {
+            inner.setDomainUserId("");
+            inner.setTemporaryAccessGuid("");
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(

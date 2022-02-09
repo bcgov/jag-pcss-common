@@ -1,7 +1,7 @@
 <xsd:schema xmlns:dx="http://courts.gov.bc.ca/XMLSchema/PCSS/common/1.0.0"
             xmlns:pcss="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0"
             targetNamespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/common/1.0.0"/>
+    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/common/1.0.0" />
     <xsd:element name="getCodeValuesRequest" type="pcss:getCodeValuesRequest"/>
     <xsd:element name="getCodeValuesResponse" type="pcss:getCodeValuesResponse"/>
     <xsd:element name="getOperationReportRequest" type="pcss:getOperationReportRequest"/>
@@ -473,8 +473,8 @@
             <xsd:element form="qualified" name="CourtDivisionCd" type="dx:CourtDivisionType"/>
             <xsd:element form="qualified" name="CourtClassCd" type="dx:CourtClassType"/>
             <xsd:element form="qualified" name="CourtRoomCd" type="dx:CourtRoomCdType"/>
-            <xsd:element form="qualified" name="AppearanceDt" type="dx:DateType"/>
-            <xsd:element form="qualified" name="AppearanceTm" type="dx:TimeType"/>
+            <xsd:element form="qualified" name="AppearanceDt" type="dx:DateTimeType"/>
+            <xsd:element form="qualified" name="AppearanceTm" type="dx:DateTimeType"/>
             <xsd:element form="qualified" name="AppearanceReasonCd" type="dx:AppearanceReasonCriminalType"/>
             <xsd:element form="qualified" minOccurs="0" name="DurationHour" type="xsd:string"/>
             <xsd:element form="qualified" minOccurs="0" name="DurationMin" type="xsd:string"/>

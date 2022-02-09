@@ -15,7 +15,8 @@ public final class InstantSoapConverter {
 
     public static String print(Instant xml) {
         String first = xml.toString();
-        return first.substring(0, first.length() - 1);
+        first = first.replace("T", " ");
+        return first.substring(0, first.length() - 1) + ".0";
     }
 
     public static Instant parse(String value) {

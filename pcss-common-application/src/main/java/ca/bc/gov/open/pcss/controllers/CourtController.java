@@ -51,14 +51,14 @@ public class CourtController {
                         ? search.getSetCourtListMoveRequest().getSetCourtListMoveRequest()
                         : new SetCourtListMoveRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "courtlist/move");
         HttpEntity<SetCourtListMoveRequest> body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.POST,
+                            HttpMethod.PUT,
                             body,
                             ca.bc.gov.open.wsdl.pcss.one.SetCourtListMoveResponse.class);
 
@@ -94,13 +94,12 @@ public class CourtController {
                         : new GetCourtCalendarDetailByDayRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                UriComponentsBuilder.fromHttpUrl(host + "calendar-detail")
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
                         .queryParam(
-                                "appearanceDate",
-                                InstantSerializer.convert(inner.getAppearanceDt()))
+                                "appearanceDt", InstantSerializer.convert(inner.getAppearanceDt()))
                         .queryParam("courtRoomCd", inner.getCourtRoomCd())
                         .queryParam("courtAgencyId", inner.getCourtAgencyId());
 
@@ -141,7 +140,7 @@ public class CourtController {
                         ? search.getSetCourtCalendarRequest().getSetCourtCalendarRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "calendar");
         HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarRequest> body =
                 new HttpEntity<>(inner, new HttpHeaders());
 
@@ -150,7 +149,7 @@ public class CourtController {
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.POST,
-                            new HttpEntity<>(new HttpHeaders()),
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.SetCourtCalendarResponse.class);
 
             var out = new SetCourtCalendarResponse();
@@ -183,9 +182,11 @@ public class CourtController {
                         ? search.getGetReservedJudgmentRequest().getGetReservedJudgmentRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
-        HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest> body =
-                new HttpEntity<>(inner, new HttpHeaders());
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(host + "reserved-judgement")
+                        .queryParam("requestDt", inner.getRequestDtm())
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
+                        .queryParam("requestPartId", inner.getRequestPartId());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentResponse> resp =
@@ -224,15 +225,15 @@ public class CourtController {
                         ? search.getGetFileSearchRequest().getGetFileSearchRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
 
-        //    TODO figure out how to handle params
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "file-search");
 
+        var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetFileSearchResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            HttpMethod.POST,
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.GetFileSearchResponse.class);
 
             var out = new GetFileSearchResponse();
@@ -242,6 +243,9 @@ public class CourtController {
 
             return out;
         } catch (Exception ex) {
+            inner.setGivenNm("");
+            inner.setLastNm("");
+            inner.setBirthDt("");
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(

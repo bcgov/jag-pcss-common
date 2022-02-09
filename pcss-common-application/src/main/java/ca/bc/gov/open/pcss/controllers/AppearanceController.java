@@ -89,7 +89,7 @@ public class AppearanceController {
                         ? search.getSetAppearanceMoveRequest().getSetAppearanceMoveRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance/move");
 
         HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveRequest> body =
                 new HttpEntity<>(inner, new HttpHeaders());
@@ -98,7 +98,7 @@ public class AppearanceController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.POST,
+                            HttpMethod.PUT,
                             body,
                             ca.bc.gov.open.wsdl.pcss.one.SetAppearanceMoveResponse.class);
 
@@ -131,7 +131,7 @@ public class AppearanceController {
                         ? search.getSetAppearanceStatusRequest().getSetAppearanceStatusRequest()
                         : new ca.bc.gov.open.wsdl.pcss.one.SetAppearanceStatusRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance/status");
 
         HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceStatusRequest> body =
                 new HttpEntity<>(inner, new HttpHeaders());

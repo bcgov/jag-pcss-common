@@ -2,7 +2,7 @@
             targetNamespace="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:tns="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport">
-    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0"/>
+    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0" />
 
 
     <xsd:element name="getJustinAdobeReport">
@@ -18,7 +18,7 @@
         <xsd:sequence>
             <xsd:element name="RequestAgencyIdentifierId" type="xsd:string"/>
             <xsd:element name="RequestPartId" nillable="true" type="xsd:string"/>
-            <xsd:element name="RequestDtm" nillable="true" type="xsd:string"/>
+            <xsd:element name="RequestDtm" nillable="true" type="xsd:dateTime"/>
             <xsd:element name="FormNm" nillable="true" type="xsd:string"/>
             <xsd:element name="PrintYn" nillable="true" type="xsd:string"/>
             <xsd:element name="Param1" nillable="true" type="xsd:string"/>

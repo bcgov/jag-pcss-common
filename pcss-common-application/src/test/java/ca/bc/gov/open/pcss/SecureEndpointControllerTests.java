@@ -10,6 +10,7 @@ import ca.bc.gov.open.wsdl.pcss.secure.two.GetCourtCalendarDetailByDaySecureRequ
 import ca.bc.gov.open.wsdl.pcss.secure.two.GetFileSearchRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -115,7 +116,7 @@ public class SecureEndpointControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
                                 .<Class<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse>>
@@ -171,7 +172,7 @@ public class SecureEndpointControllerTests {
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
@@ -213,7 +214,7 @@ public class SecureEndpointControllerTests {
         ap.setCourtClassCd(CourtClassType.Y);
         ap.setCourtRoomCd("A");
         ap.setAppearanceDt(Instant.now());
-        ap.setAppearanceTm("A");
+        ap.setAppearanceTm(Instant.now());
         ap.setAppearanceReasonCd("A");
         ap.setDurationHour("A");
         ap.setDurationMin("A");
@@ -252,7 +253,7 @@ public class SecureEndpointControllerTests {
                 responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
 
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito

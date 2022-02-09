@@ -48,7 +48,8 @@ public class SecureEndpointController {
                         ? search.getGetFileSearchSecureRequest().getGetFileSearchRequest()
                         : new ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchRequest();
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance");
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromHttpUrl(host + "secure/file-search");
 
         HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchRequest> body =
                 new HttpEntity<>(inner, new HttpHeaders());
@@ -56,16 +57,29 @@ public class SecureEndpointController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
+                            HttpMethod.POST,
                             body,
                             ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse.class);
 
             var out = new GetFileSearchSecureResponse();
             var one = new GetFileSearchResponse();
+            if (resp.getBody().getFileDetail() != null) {
+                resp.getBody()
+                        .getFileDetail()
+                        .forEach(
+                                d -> {
+                                    if (d.getPcssCourtDivisionCd() == null) {
+                                        d.setPcssCourtDivisionCd("");
+                                    }
+                                });
+            }
             one.setGetFileSearchResponse(resp.getBody());
             out.setGetFileSearchResponse(one);
             return out;
         } catch (Exception ex) {
+            inner.setGivenNm("");
+            inner.setLastNm("");
+            inner.setBirthDt("");
             log.error(
                     objectMapper.writeValueAsString(
                             new OrdsErrorLog(
@@ -77,7 +91,7 @@ public class SecureEndpointController {
         }
     }
 
-    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCodesValuesSecure")
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getCodeValuesSecure")
     @ResponsePayload
     public GetCodeValuesSecureResponse getCodesValuesSecure(
             @RequestPayload GetCodeValuesSecure search) throws JsonProcessingException {
@@ -90,11 +104,11 @@ public class SecureEndpointController {
                         : new ca.bc.gov.open.wsdl.pcss.secure.one.GetGetCodeValueSecureRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                UriComponentsBuilder.fromHttpUrl(host + "secure/code-values")
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
-                        .queryParam("applciationCd", inner.getApplicationCd())
+                        .queryParam("applicationCd", inner.getApplicationCd())
                         .queryParam(
                                 "lastRetrievedDate",
                                 InstantSerializer.convert(inner.getLastRetrievedDate()));
@@ -102,7 +116,7 @@ public class SecureEndpointController {
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetCodeValuesResponse> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             ca.bc.gov.open.wsdl.pcss.secure.one.GetCodeValuesResponse.class);
@@ -142,14 +156,13 @@ public class SecureEndpointController {
                                 .GetCourtCalendarDetailByDaySecureRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                UriComponentsBuilder.fromHttpUrl(host + "secure/calendar-detail")
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
                         .queryParam(
-                                "appearanceDate",
-                                InstantSerializer.convert(inner.getAppearanceDt()))
-                        .queryParam("applciationCd", inner.getApplicationCd())
+                                "appearanceDt", InstantSerializer.convert(inner.getAppearanceDt()))
+                        .queryParam("applicationCd", inner.getApplicationCd())
                         .queryParam("courtRoomCd", inner.getCourtRoomCd())
                         .queryParam("courtAgencyId", inner.getCourtAgencyId());
 
@@ -157,7 +170,7 @@ public class SecureEndpointController {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetCourtCalendarDetailByDayResponse>
                     resp =
                             restTemplate.exchange(
-                                    builder.toUriString(),
+                                    builder.build().toUri(),
                                     HttpMethod.GET,
                                     new HttpEntity<>(new HttpHeaders()),
                                     ca.bc.gov.open.wsdl.pcss.secure.one

@@ -10,15 +10,15 @@ import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Map;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -31,12 +31,15 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class ReportController {
 
     @Value("${pcss.host}")
-    private String ords_host = "https://127.0.0.1/";
+    private String ordsHost = "https://127.0.0.1/";
 
-    @Value("${pcss.oracle_host}")
-    private String oracle_host = "http://orafr-1.dev.ag.bcgov:8080/reports/rwservlet";
+    @Value("${pcss.oracle-host}")
+    private String oracleHost = "https://127.0.0.1/";
 
-    @Value("${pcss.oracle_name}")
+    @Value("${pcss.adobe-host}")
+    private String adobeHost = "https://127.0.0.1/";
+
+    @Value("${pcss.oracle-name}")
     private String oracleServerName;
 
     private final RestTemplate restTemplate;
@@ -48,7 +51,9 @@ public class ReportController {
         this.objectMapper = objectMapper;
     }
 
-    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getJustinAdobeReport")
+    @PayloadRoot(
+            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            localPart = "getJustinAdobeReport")
     @ResponsePayload
     public GetJustinAdobeReportResponse getJustinAdobeReport(
             @RequestPayload GetJustinAdobeReport search) throws JsonProcessingException {
@@ -58,31 +63,34 @@ public class ReportController {
                         ? search.getGetJustinAdobeReportRequest()
                         : new GetJustinReportAdobeRequest();
 
-        Map<String, String> paramMap = objectMapper.convertValue(inner, Map.class);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "adobe-report");
 
-        UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm())
-                        .queryParam("formNm", inner.getFormNm())
-                        .queryParam("printYn", inner.getPrintYn());
-
-        for (int i = 1; i < 16; i++) {
-            builder.queryParam("param" + i, paramMap.get("Param" + i));
-        }
-
+        var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
-            HttpEntity<GetJustinReportAdobeResponse> resp =
+            HttpEntity<Map> resp =
+                    restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
+
+            String url = (String) resp.getBody().get("url");
+            String adobe_url =
+                    (url.indexOf('?') == -1) ? "" : adobeHost + url.substring(url.indexOf('?'));
+
+            HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            adobe_url,
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            GetJustinReportAdobeResponse.class);
+                            byte[].class);
+
+            String bs64 =
+                    resp2.getBody() != null ? Base64Utils.encodeToString(resp2.getBody()) : "";
 
             var out = new GetJustinAdobeReportResponse();
-            out.setGetJustinAdobeReportResponse(resp.getBody());
 
+            var one = new ca.bc.gov.open.wsdl.pcss.report.two.GetJustinReportAdobeResponse();
+            one.setReportContent(bs64);
+            one.setResponseCd("0");
+
+            out.setGetJustinAdobeReportResponse(one);
             return out;
         } catch (Exception ex) {
             log.error(
@@ -96,9 +104,11 @@ public class ReportController {
         }
     }
 
-    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "getJustinReport")
+    @PayloadRoot(
+            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            localPart = "getJustinReport")
     @ResponsePayload
-    public GetJustinReportResponse getJustinReport(@RequestPayload GetJustinReport search)
+    public GetJustinReportResponse getJustinReport(@RequestPayload @Valid GetJustinReport search)
             throws JsonProcessingException, BadRequestException {
 
         var inner =
@@ -112,7 +122,7 @@ public class ReportController {
             throw new BadRequestException();
         }
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(oracle_host);
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(oracleHost);
 
         builder.queryParam("cmdKey", "pcss_" + inner.getReportName().toLowerCase());
         builder.queryParam("server", oracleServerName);
@@ -129,12 +139,14 @@ public class ReportController {
                             String.class);
 
             String b64EncodedReport =
-                    Base64.getEncoder()
-                            .encodeToString(resp.getBody().getBytes(StandardCharsets.UTF_8));
+                    resp.getBody() != null
+                            ? Base64Utils.encodeToString(resp.getBody().getBytes())
+                            : "";
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
             var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportResponse();
+            one.setGetJustinReportResponse(two);
             two.setReportContent(b64EncodedReport);
             two.setResponseCd("0");
             out.setGetJustinReportResponse(one);
@@ -164,8 +176,8 @@ public class ReportController {
                         : new GetOperationReportRequest();
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
+                UriComponentsBuilder.fromHttpUrl(ordsHost + "operation-report")
+                        .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", inner.getRequestDtm());
 
@@ -207,19 +219,17 @@ public class ReportController {
                         ? search.getGetOperationReportLovRequest().getGetOperationReportLovRequest()
                         : new GetOperationReportLovRequest();
 
-        // TODO figure out how to send parameters
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(ords_host + "appearance")
-                        .queryParam("requestAgenId", inner.getRequestAgencyIdentifierId())
-                        .queryParam("requestPartId", inner.getRequestPartId())
-                        .queryParam("requestDtm", inner.getRequestDtm());
+                UriComponentsBuilder.fromHttpUrl(ordsHost + "operation-report-lov");
+
+        var body = new HttpEntity<>(inner, new HttpHeaders());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
-                            HttpMethod.GET,
-                            new HttpEntity<>(new HttpHeaders()),
+                            HttpMethod.POST,
+                            body,
                             ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse.class);
 
             var out = new GetOperationReportLovResponse();

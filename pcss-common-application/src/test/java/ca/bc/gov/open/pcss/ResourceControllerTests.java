@@ -11,6 +11,7 @@ import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -46,8 +47,8 @@ public class ResourceControllerTests {
         two.setBookingDt(Instant.now());
         two.setAssetTypeCd("A");
         two.setBookingForRoleCd("A");
-        two.setBookingFromTm("A");
-        two.setBookingToTm("A");
+        two.setBookingFromTm(Instant.now());
+        two.setBookingToTm(Instant.now());
         two.setPrimaryAgencyId("A");
         two.setPrimaryCourtRoomCd("A");
         two.setSecondaryAgencyId("A");
@@ -80,8 +81,8 @@ public class ResourceControllerTests {
         d.setDayOfWeek(DayOfWeekType.MO);
 
         BookedTime bt = new BookedTime();
-        bt.setBookedFromTm("A");
-        bt.setBookedToTm("A");
+        bt.setBookedFromTm(Instant.now());
+        bt.setBookedToTm(Instant.now());
         bt.setCourtAgencyId("A");
         bt.setCourtRoomCd("A");
         bt.setBookedByNm("A");
@@ -137,8 +138,8 @@ public class ResourceControllerTests {
         two.setCourtDivisionCd(CourtDivisionType.I);
         two.setResourceId("A");
         two.setBookingDt(Instant.now());
-        two.setBookingFromTm("A");
-        two.setBookingToTm("A");
+        two.setBookingFromTm(Instant.now());
+        two.setBookingToTm(Instant.now());
         two.setCourtAgencyId("A");
         two.setCourtRoomCd("A");
         two.setBookingCommentTxt("A");
@@ -253,7 +254,7 @@ public class ResourceControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse>>any()))
@@ -292,7 +293,7 @@ public class ResourceControllerTests {
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.PUT),
+                        Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse>>any()))
                 .thenReturn(responseEntity);
