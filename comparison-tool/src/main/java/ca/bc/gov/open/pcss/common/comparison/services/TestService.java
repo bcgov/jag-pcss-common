@@ -1,10 +1,5 @@
 package ca.bc.gov.open.pcss.common.comparison.services;
 
-import java.io.*;
-import java.time.Instant;
-import java.util.*;
-import java.util.stream.Stream;
-
 import ca.bc.gov.open.pcss.common.comparison.config.DualProtocolSaajSoapMessageFactory;
 import ca.bc.gov.open.pcss.common.comparison.config.WebServiceSenderWithAuth;
 import ca.bc.gov.open.pcss.models.serializers.InstantSoapConverter;
@@ -12,6 +7,10 @@ import ca.bc.gov.open.wsdl.pcss.one.Permission;
 import ca.bc.gov.open.wsdl.pcss.one.SearchByCrown;
 import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
+import java.io.*;
+import java.time.Instant;
+import java.util.*;
+import java.util.stream.Stream;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.javers.core.Javers;
 import org.javers.core.JaversBuilder;
@@ -93,8 +92,8 @@ public class TestService {
 
         GetFileSearch request = new GetFileSearch();
         GetFileSearchRequest two = new GetFileSearchRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
@@ -103,8 +102,7 @@ public class TestService {
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchPHYSID.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getFileSearchPHYSID.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -113,8 +111,10 @@ public class TestService {
         for (int idx = 0; scanner.hasNextLine(); idx++) {
             String line = scanner.nextLine();
 
-            System.out.println("\nINFO: GetFileSearch with SearchType: PHYSID"
-                    + " PhysicalFileIdSet: " + line);
+            System.out.println(
+                    "\nINFO: GetFileSearch with SearchType: PHYSID"
+                            + " PhysicalFileIdSet: "
+                            + line);
             one.setPhysicalFileIdSet(line);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
@@ -122,12 +122,14 @@ public class TestService {
             permissions.add(permission);
             one.setPermission(permissions);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetFileSearchResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetFileSearch with SearchType: PHYSID"
-                        + " PhysicalFileIdSet: " + line + "\n\n");
+                fileOutput.println(
+                        "INFO: GetFileSearch with SearchType: PHYSID"
+                                + " PhysicalFileIdSet: "
+                                + line
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -156,8 +158,8 @@ public class TestService {
 
         GetFileSearch request = new GetFileSearch();
         GetFileSearchRequest two = new GetFileSearchRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
@@ -166,8 +168,7 @@ public class TestService {
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchJUSTINNO.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getFileSearchJUSTINNO.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -176,8 +177,10 @@ public class TestService {
         for (int idx = 0; scanner.hasNextLine(); idx++) {
             String line = scanner.nextLine();
 
-            System.out.println("\nINFO: GetFileSearch with SearchType: JUSTINNO"
-                    + " MdocJustinNoSet: " + line);
+            System.out.println(
+                    "\nINFO: GetFileSearch with SearchType: JUSTINNO"
+                            + " MdocJustinNoSet: "
+                            + line);
             one.setMdocJustinNoSet(line);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
@@ -185,12 +188,14 @@ public class TestService {
             permissions.add(permission);
             one.setPermission(permissions);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetFileSearchResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetFileSearch with SearchType: JUSTINNO"
-                        + " MdocJustinNoSet: " + line + "\n\n");
+                fileOutput.println(
+                        "INFO: GetFileSearch with SearchType: JUSTINNO"
+                                + " MdocJustinNoSet: "
+                                + line
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -219,8 +224,8 @@ public class TestService {
 
         GetFileSearch request = new GetFileSearch();
         GetFileSearchRequest two = new GetFileSearchRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
@@ -229,8 +234,7 @@ public class TestService {
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchCROWN.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getFileSearchCROWN.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -239,9 +243,12 @@ public class TestService {
         for (int idx = 0; scanner.hasNextLine(); idx++) {
             String[] params = scanner.nextLine().split(",");
 
-            System.out.println("\nINFO: GetFileSearch with SearchType: CROWN"
-                    + " CrownPartId: " + params[0]
-                    + " FileDesignationCd: " + params[1]);
+            System.out.println(
+                    "\nINFO: GetFileSearch with SearchType: CROWN"
+                            + " CrownPartId: "
+                            + params[0]
+                            + " FileDesignationCd: "
+                            + params[1]);
             SearchByCrown searchByCrown = new SearchByCrown();
             searchByCrown.setCrownPartId(params[0]);
             searchByCrown.setActiveOnlyYN(YesNoType.Y);
@@ -253,13 +260,20 @@ public class TestService {
             permissions.add(permission);
             one.setPermission(permissions);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three", "ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {
+                "ca.bc.gov.open.wsdl.pcss.three",
+                "ca.bc.gov.open.wsdl.pcss.two",
+                "ca.bc.gov.open.wsdl.pcss.one"
+            };
 
             if (!compare(new GetFileSearchResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetFileSearch with SearchType: CROWN"
-                        + " CrownPartId: " + params[0]
-                        + " FileDesignationCd: " + params[1] + "\n\n");
+                fileOutput.println(
+                        "INFO: GetFileSearch with SearchType: CROWN"
+                                + " CrownPartId: "
+                                + params[0]
+                                + " FileDesignationCd: "
+                                + params[1]
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -288,8 +302,8 @@ public class TestService {
 
         GetFileSearch request = new GetFileSearch();
         GetFileSearchRequest two = new GetFileSearchRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
@@ -297,8 +311,7 @@ public class TestService {
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchPARTNAME.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getFileSearchPARTNAME.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -321,11 +334,16 @@ public class TestService {
                     break;
             }
 
-            System.out.println("\nINFO: GetFileSearch with SearchType: PARTNAME"
-                    + " NameSearchType: " + one.getNameSearchTypeCd().toString()
-                    + " OrgNm: " + params[0]
-                    + " LastNm: " + params[1]
-                    + " GivenNm: " + params[2]);
+            System.out.println(
+                    "\nINFO: GetFileSearch with SearchType: PARTNAME"
+                            + " NameSearchType: "
+                            + one.getNameSearchTypeCd().toString()
+                            + " OrgNm: "
+                            + params[0]
+                            + " LastNm: "
+                            + params[1]
+                            + " GivenNm: "
+                            + params[2]);
             if (params[0] == "" && params[1] == "") {
                 System.out.println("WARN: Invalid data - OrgName and LastName both are empty");
                 fileOutput.println("WARN: Invalid data - OrgName and LastName both are empty");
@@ -345,15 +363,20 @@ public class TestService {
             permissions.add(permission);
             one.setPermission(permissions);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetFileSearchResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetFileSearch with SearchType: PARTNAME"
-                        + " NameSearchType: " + one.getNameSearchTypeCd().toString()
-                        + " OrgNm: " + params[0]
-                        + " LastNm: " + params[1]
-                        + " GivenNm: " + params[2] + "\n\n");
+                fileOutput.println(
+                        "INFO: GetFileSearch with SearchType: PARTNAME"
+                                + " NameSearchType: "
+                                + one.getNameSearchTypeCd().toString()
+                                + " OrgNm: "
+                                + params[0]
+                                + " LastNm: "
+                                + params[1]
+                                + " GivenNm: "
+                                + params[2]
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -377,13 +400,13 @@ public class TestService {
     }
 
     private void getFileSearchFILENOCompare()
-        throws FileNotFoundException, UnsupportedEncodingException {
+            throws FileNotFoundException, UnsupportedEncodingException {
         int diffCounter = 0;
 
         GetFileSearch request = new GetFileSearch();
         GetFileSearchRequest two = new GetFileSearchRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
@@ -391,8 +414,7 @@ public class TestService {
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchFILENO.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getFileSearchFILENO.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -402,9 +424,12 @@ public class TestService {
             String line = scanner.nextLine();
             String[] params = line.split(",");
 
-            System.out.println("\nINFO: GetFileSearch with SearchType: FILENO"
-                    + " FileHomeAgencyId: " + params[0]
-                    + " FileNumberTxt: " + params[1]);
+            System.out.println(
+                    "\nINFO: GetFileSearch with SearchType: FILENO"
+                            + " FileHomeAgencyId: "
+                            + params[0]
+                            + " FileNumberTxt: "
+                            + params[1]);
             one.setFileHomeAgencyId(params[0]);
             one.setFileNumberTxt(params[1]);
             Permission permission = new Permission();
@@ -413,13 +438,16 @@ public class TestService {
             permissions.add(permission);
             one.setPermission(permissions);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetFileSearchResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetFileSearch with SearchType: FILENO"
-                        + " FileHomeAgencyId: " + params[0]
-                        + " FileNumberTxt: " + params[1] + "\n\n");
+                fileOutput.println(
+                        "INFO: GetFileSearch with SearchType: FILENO"
+                                + " FileHomeAgencyId: "
+                                + params[0]
+                                + " FileNumberTxt: "
+                                + params[1]
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -448,8 +476,8 @@ public class TestService {
 
         GetReservedJudgment request = new GetReservedJudgment();
         GetReservedJudgmentRequest two = new GetReservedJudgmentRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetReservedJudgmentRequest();
         one.setRequestAgencyIdentifierId(RAID);
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
@@ -483,14 +511,13 @@ public class TestService {
         fileOutput.close();
     }
 
-    private void getCodeValuesCompare()
-            throws FileNotFoundException, UnsupportedEncodingException {
+    private void getCodeValuesCompare() throws FileNotFoundException, UnsupportedEncodingException {
         int diffCounter = 0;
 
         GetCodeValues request = new GetCodeValues();
         GetCodeValuesRequest two = new GetCodeValuesRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesRequest();
         one.setRequestDtm(InstantSoapConverter.parse("2021-09-14 09:26:56.6"));
         one.setRequestAgencyIdentifierId(RAID);
         one.setRequestPartId("19014.0001");
@@ -525,21 +552,19 @@ public class TestService {
         fileOutput.close();
     }
 
-    private void getUserLoginCompare()
-            throws FileNotFoundException, UnsupportedEncodingException {
+    private void getUserLoginCompare() throws FileNotFoundException, UnsupportedEncodingException {
         int diffCounter = 0;
 
         GetUserLogin request = new GetUserLogin();
         GetUserLoginRequest two = new GetUserLoginRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetUserLoginRequest();
         one.setRequestDtm(dtm);
         one.setDomainNm(domainNm);
         two.setGetUserLoginRequest(one);
         request.setGetUserLoginRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getUserLogin.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getUserLogin.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -549,18 +574,23 @@ public class TestService {
             String line = scanner.nextLine();
             String[] params = line.split(",");
 
-            System.out.println("\nINFO: GetUserLogin with DomainUserId: "
-                    + params[0]
-                    + " DomainUserGuid: " + params[1]);
+            System.out.println(
+                    "\nINFO: GetUserLogin with DomainUserId: "
+                            + params[0]
+                            + " DomainUserGuid: "
+                            + params[1]);
             one.setDomainUserId(params[0]);
             one.setDomainUserGuid(params[1]);
 
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetUserLoginResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetUserLogin with DomainUserId: "
-                        + params[0]
-                        + " DomainUserGuid: " + params[1] + "\n\n");
+                fileOutput.println(
+                        "INFO: GetUserLogin with DomainUserId: "
+                                + params[0]
+                                + " DomainUserGuid: "
+                                + params[1]
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -589,15 +619,14 @@ public class TestService {
 
         GetOperationReport request = new GetOperationReport();
         GetOperationReportRequest two = new GetOperationReportRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest();
         one.setRequestAgencyIdentifierId(RAID);
         one.setRequestDtm(dtm);
         two.setGetOperationReportRequest(one);
         request.setGetOperationReportRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getOperationReportPartId.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getOperationReportPartId.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -606,16 +635,13 @@ public class TestService {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
-            System.out.println("\nINFO: GetOperationReport with PartId: "
-                    + line);
+            System.out.println("\nINFO: GetOperationReport with PartId: " + line);
             one.setRequestPartId(line);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetOperationReportResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetOperationReport with PartId: "
-                        + line + "\n\n");
+                fileOutput.println("INFO: GetOperationReport with PartId: " + line + "\n\n");
                 ++diffCounter;
             }
         }
@@ -645,8 +671,8 @@ public class TestService {
 
         GetOperationReportLov request = new GetOperationReportLov();
         GetOperationReportLovRequest two = new GetOperationReportLovRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest();
         one.setRequestDtm(dtm);
         one.setRequestAgencyIdentifierId(RAID);
         // partId 83.0001 results in "Error fetching JUSTIN UserId for part_id 83.0001"
@@ -654,8 +680,7 @@ public class TestService {
         two.setGetOperationReportLovRequest(one);
         request.setGetOperationReportLovRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getOperationLovReport.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getOperationLovReport.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -665,19 +690,25 @@ public class TestService {
             String line = scanner.nextLine();
             String[] params = line.split(",");
 
-            System.out.println("\nINFO: GetOperationReportLov with"
-                    + " ReportNm: " + params[0]
-                    + " ParmNm: " + params[1]);
+            System.out.println(
+                    "\nINFO: GetOperationReportLov with"
+                            + " ReportNm: "
+                            + params[0]
+                            + " ParmNm: "
+                            + params[1]);
             one.setReportNm(params[0]);
             one.setParmNm(params[1]);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
-                    "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetOperationReportLovResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetOperationReportLov with"
-                        + " ReportNm: " + params[0]
-                        + " ParmNm: " + params[1] + "\n\n");
+                fileOutput.println(
+                        "INFO: GetOperationReportLov with"
+                                + " ReportNm: "
+                                + params[0]
+                                + " ParmNm: "
+                                + params[1]
+                                + "\n\n");
                 ++diffCounter;
             }
         }
@@ -706,8 +737,8 @@ public class TestService {
 
         GetResourceAvailability request = new GetResourceAvailability();
         GetResourceAvailabilityRequest two = new GetResourceAvailabilityRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest();
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
@@ -716,8 +747,7 @@ public class TestService {
         two.setGetResourceAvailabilityRequest(one);
         request.setGetResourceAvailabilityRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchPrimaryAgencyId.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getFileSearchPrimaryAgencyId.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -726,16 +756,18 @@ public class TestService {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
 
-            System.out.println("\nINFO: GetResourceAvailability with PrimaryAgencyId: "
-                    + line);
+            System.out.println("\nINFO: GetResourceAvailability with PrimaryAgencyId: " + line);
             one.setPrimaryAgencyId(line);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three",
-                    "ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {
+                "ca.bc.gov.open.wsdl.pcss.three",
+                "ca.bc.gov.open.wsdl.pcss.two",
+                "ca.bc.gov.open.wsdl.pcss.one"
+            };
 
             if (!compare(new GetResourceAvailabilityResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetResourceAvailability with PrimaryAgencyId: "
-                        + line + "\n\n");
+                fileOutput.println(
+                        "INFO: GetResourceAvailability with PrimaryAgencyId: " + line + "\n\n");
                 ++diffCounter;
             }
         }
@@ -764,16 +796,15 @@ public class TestService {
 
         GetCourtCalendarDetailByDay request = new GetCourtCalendarDetailByDay();
         GetCourtCalendarDetailByDayRequest two = new GetCourtCalendarDetailByDayRequest();
-        ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest one
-                = new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest one =
+                new ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest();
         one.setRequestDtm(dtm);
         one.setRequestAgencyIdentifierId(RAID);
         one.setRequestPartId(partId);
         two.setGetCourtCalendarDetailByDayRequest(one);
         request.setGetCourtCalendarDetailByDayRequest(two);
 
-        InputStream inputIds =
-                getClass().getResourceAsStream("/getCourtCalendar.csv");
+        InputStream inputIds = getClass().getResourceAsStream("/getCourtCalendar.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
@@ -783,22 +814,32 @@ public class TestService {
             String line = scanner.nextLine();
             String[] params = line.split(",");
 
-            System.out.println("\nINFO: GetCourtCalendarDetailByDay with CourtAgencyId: "
-                    + params[0]
-                    + " CourtRoomCd: " + params[1]
-                    + " AppearanceDt: " + params[2]);
+            System.out.println(
+                    "\nINFO: GetCourtCalendarDetailByDay with CourtAgencyId: "
+                            + params[0]
+                            + " CourtRoomCd: "
+                            + params[1]
+                            + " AppearanceDt: "
+                            + params[2]);
             one.setCourtAgencyId(params[0]);
             one.setCourtRoomCd(params[1]);
             one.setAppearanceDt(InstantSoapConverter.parse(params[2]));
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three",
-                    "ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
+            String[] contextPath = {
+                "ca.bc.gov.open.wsdl.pcss.three",
+                "ca.bc.gov.open.wsdl.pcss.two",
+                "ca.bc.gov.open.wsdl.pcss.one"
+            };
 
             if (!compare(new GetCourtCalendarDetailByDayResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetCourtCalendarDetailByDay with CourtAgencyId: "
-                    + params[0]
-                    + " CourtRoomCd: " + params[1]
-                    + " AppearanceDt: " + params[2] + "\n\n");
+                fileOutput.println(
+                        "INFO: GetCourtCalendarDetailByDay with CourtAgencyId: "
+                                + params[0]
+                                + " CourtRoomCd: "
+                                + params[1]
+                                + " AppearanceDt: "
+                                + params[2]
+                                + "\n\n");
                 ++diffCounter;
             }
         }
