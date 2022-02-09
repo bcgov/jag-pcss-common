@@ -9,6 +9,7 @@ import ca.bc.gov.open.pcss.common.comparison.config.DualProtocolSaajSoapMessageF
 import ca.bc.gov.open.pcss.common.comparison.config.WebServiceSenderWithAuth;
 import ca.bc.gov.open.pcss.models.serializers.InstantSoapConverter;
 import ca.bc.gov.open.wsdl.pcss.one.Permission;
+import ca.bc.gov.open.wsdl.pcss.one.SearchByCrown;
 import ca.bc.gov.open.wsdl.pcss.three.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -64,28 +65,152 @@ public class TestService {
     public void runCompares() throws IOException {
         System.out.println("INFO: PCSS Common Diff testing started");
 
-//        getCourtCalendarCompare();
-//
-//        getResourceAvailabilityCompare();
-//
-//        getOperationLovReportCompare();
-//
-//        getOperationReportCompare();
-//
-//        getUserLoginCompare();
-//
-//        getCodeValuesCompare();
-//
-//        getReservedJudgementCompare();
+        getCourtCalendarCompare();
 
-        //getFileSearchFILENOCompare();
+        getResourceAvailabilityCompare();
+
+        getOperationLovReportCompare();
+
+        getOperationReportCompare();
+
+        getUserLoginCompare();
+
+        getCodeValuesCompare();
+
+        getReservedJudgementCompare();
+
+        // getFileSearch compare is tested with five search modes
+        getFileSearchFILENOCompare();
         getFileSearchPARTNAMECompare();
         getFileSearchCROWNCompare();
+        getFileSearchJUSTINNOCompare();
+        getFileSearchPHYSIDCompare();
+    }
 
-        //TODO:
-        //getFileSearchCompare();
-        //getJustinReportCompare();
-        //getJustinAdobeReportCompare();
+    private void getFileSearchPHYSIDCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetFileSearch request = new GetFileSearch();
+        GetFileSearchRequest two = new GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        one.setRequestDtm(dtm);
+        one.setRequestPartId(partId);
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setSearchMode(SearchModeType.PHYSID);
+        one.setFileDivisionCd(CourtDivisionType.valueOf("I"));
+        two.setGetFileSearchRequest(one);
+        request.setGetFileSearchRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getFileSearchPHYSID.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetFileSearchPHYSID.txt", "UTF-8");
+
+        for (int idx = 0; scanner.hasNextLine(); idx++) {
+            String line = scanner.nextLine();
+
+            System.out.println("\nINFO: GetFileSearch with SearchType: PHYSID"
+                    + " PhysicalFileIdSet: " + line);
+            one.setPhysicalFileIdSet(line);
+            Permission permission = new Permission();
+            permission.setCourtClassCd(CourtClassType.A);
+            List<Permission> permissions = new ArrayList();
+            permissions.add(permission);
+            one.setPermission(permissions);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetFileSearchResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetFileSearch with SearchType: PHYSID"
+                        + " PhysicalFileIdSet: " + line + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch PHYSID Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch PHYSID Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
+    }
+
+    private void getFileSearchJUSTINNOCompare()
+            throws FileNotFoundException, UnsupportedEncodingException {
+        int diffCounter = 0;
+
+        GetFileSearch request = new GetFileSearch();
+        GetFileSearchRequest two = new GetFileSearchRequest();
+        ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest one
+                = new ca.bc.gov.open.wsdl.pcss.one.GetFileSearchRequest();
+        one.setRequestDtm(dtm);
+        one.setRequestPartId(partId);
+        one.setRequestAgencyIdentifierId(RAID);
+        one.setSearchMode(SearchModeType.JUSTINNO);
+        one.setFileDivisionCd(CourtDivisionType.valueOf("R"));
+        two.setGetFileSearchRequest(one);
+        request.setGetFileSearchRequest(two);
+
+        InputStream inputIds =
+                getClass().getResourceAsStream("/getFileSearchJUSTINNO.csv");
+        assert inputIds != null;
+        Scanner scanner = new Scanner(inputIds);
+
+        fileOutput = new PrintWriter(outputDir + "GetFileSearchJUSTINNO.txt", "UTF-8");
+
+        for (int idx = 0; scanner.hasNextLine(); idx++) {
+            String line = scanner.nextLine();
+
+            System.out.println("\nINFO: GetFileSearch with SearchType: JUSTINNO"
+                    + " MdocJustinNoSet: " + line);
+            one.setMdocJustinNoSet(line);
+            Permission permission = new Permission();
+            permission.setCourtClassCd(CourtClassType.A);
+            List<Permission> permissions = new ArrayList();
+            permissions.add(permission);
+            one.setPermission(permissions);
+
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+                    "ca.bc.gov.open.wsdl.pcss.one"};
+
+            if (!compare(new GetFileSearchResponse(), request, contextPath)) {
+                fileOutput.println("INFO: GetFileSearch with SearchType: JUSTINNO"
+                        + " MdocJustinNoSet: " + line + "\n\n");
+                ++diffCounter;
+            }
+        }
+
+        System.out.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch JUSTINNO Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        fileOutput.println(
+                "########################################################\n"
+                        + "INFO: GetFileSearch JUSTINNO Completed there are "
+                        + diffCounter
+                        + " diffs\n"
+                        + "########################################################");
+
+        overallDiff += diffCounter;
+        fileOutput.close();
     }
 
     private void getFileSearchCROWNCompare()
@@ -99,66 +224,56 @@ public class TestService {
         one.setRequestDtm(dtm);
         one.setRequestPartId(partId);
         one.setRequestAgencyIdentifierId(RAID);
-        one.setSearchMode(SearchModeType.PARTNAME);
+        one.setSearchMode(SearchModeType.CROWN);
+        one.setFileDivisionCd(CourtDivisionType.valueOf("R"));
         two.setGetFileSearchRequest(one);
         request.setGetFileSearchRequest(two);
 
         InputStream inputIds =
-                getClass().getResourceAsStream("/getFileSearchPARTNAME.csv");
+                getClass().getResourceAsStream("/getFileSearchCROWN.csv");
         assert inputIds != null;
         Scanner scanner = new Scanner(inputIds);
 
-        fileOutput = new PrintWriter(outputDir + "GetFileSearchPARTNAME.txt", "UTF-8");
+        fileOutput = new PrintWriter(outputDir + "GetFileSearchCROWN.txt", "UTF-8");
 
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            String[] params = line.split("\\|", -1);
+        for (int idx = 0; scanner.hasNextLine(); idx++) {
+            String[] params = scanner.nextLine().split(",");
 
-            System.out.println("\nINFO: GetFileSearch with SearchType: PARTNAME"
-                    + " OrgNm: " + params[0]
-                    + " LastNm: " + params[1]
-                    + " GivenNm: " + params[2]);
-            if (params[0] == "" && params[1] == "") {
-                System.out.println("WARN: Invalid data - OrgName and LastName both are empty");
-                fileOutput.println("WARN: Invalid data - OrgName and LastName both are empty");
-            }
-            if (params[0] != "") {
-                one.setOrgNm(params[0]);
-            }
-            if (params[1] != "") {
-                one.setLastNm(params[1]);
-            }
-            if (params[2] != "") {
-                one.setGivenNm(params[2]);
-            }
+            System.out.println("\nINFO: GetFileSearch with SearchType: CROWN"
+                    + " CrownPartId: " + params[0]
+                    + " FileDesignationCd: " + params[1]);
+            SearchByCrown searchByCrown = new SearchByCrown();
+            searchByCrown.setCrownPartId(params[0]);
+            searchByCrown.setActiveOnlyYN(YesNoType.Y);
+            searchByCrown.setFileDesignationCd(FileComplexityType.fromValue(params[1]));
+            one.setSearchByCrown(searchByCrown);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
             List<Permission> permissions = new ArrayList();
             permissions.add(permission);
             one.setPermission(permissions);
 
-            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two",
+            String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.three", "ca.bc.gov.open.wsdl.pcss.two",
                     "ca.bc.gov.open.wsdl.pcss.one"};
 
             if (!compare(new GetFileSearchResponse(), request, contextPath)) {
-                fileOutput.println("INFO: GetFileSearch with SearchType: PARTNAME"
-                        + " OrgNm: " + params[0]
-                        + " LastNm: " + params[1]
-                        + " GivenNm: " + params[2] + "\n\n");
+                fileOutput.println("INFO: GetFileSearch with SearchType: CROWN"
+                        + " CrownPartId: " + params[0]
+                        + " FileDesignationCd: " + params[1] + "\n\n");
                 ++diffCounter;
             }
         }
 
         System.out.println(
                 "########################################################\n"
-                        + "INFO: GetFileSearch PARTNAME Completed there are "
+                        + "INFO: GetFileSearch CROWN Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
 
         fileOutput.println(
                 "########################################################\n"
-                        + "INFO: GetFileSearch PARTNAME Completed there are "
+                        + "INFO: GetFileSearch CROWN Completed there are "
                         + diffCounter
                         + " diffs\n"
                         + "########################################################");
