@@ -664,7 +664,6 @@ public class TestService {
         fileOutput.close();
     }
 
-    // diffs detected -wm acting crazy?
     private void getOperationLovReportCompare()
             throws FileNotFoundException, UnsupportedEncodingException {
         int diffCounter = 0;
