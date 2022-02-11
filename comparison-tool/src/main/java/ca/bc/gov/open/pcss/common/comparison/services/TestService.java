@@ -674,7 +674,6 @@ public class TestService {
                 new ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest();
         one.setRequestDtm(dtm);
         one.setRequestAgencyIdentifierId(RAID);
-        // partId 83.0001 results in "Error fetching JUSTIN UserId for part_id 83.0001"
         one.setRequestPartId("19014.0001");
         two.setGetOperationReportLovRequest(one);
         request.setGetOperationReportLovRequest(two);
