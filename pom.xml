@@ -32,6 +32,7 @@
         <module>pcss-common-models</module>
         <module>pcss-reports-models</module>
         <module>pcss-code-coverage</module>
+        <module>comparison-tool</module>
     </modules>
 
 
