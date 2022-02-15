@@ -240,7 +240,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: dist-without-markdown
+          name: integration-tests-report
           path: |
             TestErrors.zip
           retention-days: 5
