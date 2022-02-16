@@ -4,6 +4,7 @@ import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.BadRequestException;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest;
 import ca.bc.gov.open.wsdl.pcss.report.two.*;
@@ -89,8 +90,10 @@ public class ReportController {
             var one = new ca.bc.gov.open.wsdl.pcss.report.two.GetJustinReportAdobeResponse();
             one.setReportContent(bs64);
             one.setResponseCd("0");
-
             out.setGetJustinAdobeReportResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getJustinAdobeReport")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -150,6 +153,9 @@ public class ReportController {
             two.setReportContent(b64EncodedReport);
             two.setResponseCd("0");
             out.setGetJustinReportResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getJustinReport")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -193,6 +199,9 @@ public class ReportController {
             var one = new GetOperationReportResponse2();
             one.setGetOperationReportResponse(resp.getBody());
             out.setGetOperationReportResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getOperationReport")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -236,6 +245,9 @@ public class ReportController {
             var one = new GetOperationReportLovResponse2();
             one.setGetOperationReportLovResponse(resp.getBody());
             out.setGetOperationReportLovResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getOperationReportLov")));
             return out;
         } catch (Exception ex) {
             log.error(

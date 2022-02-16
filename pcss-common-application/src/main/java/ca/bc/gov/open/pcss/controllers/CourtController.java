@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayRequest;
 import ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayResponse;
@@ -66,6 +67,9 @@ public class CourtController {
             var one = new SetCourtListMoveResponse2();
             one.setSetCourtListMoveResponse(resp.getBody());
             out.setSetCourtListMoveResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setCourtListMove")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -115,7 +119,10 @@ public class CourtController {
             var one = new GetCourtCalendarDetailByDayResponse2();
             out.setGetCourtCalendarDetailByDayResponse(one);
             one.setGetCourtCalendarDetailByDayResponse(resp.getBody());
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success", "getCourtCalendarDetailByDay")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -156,7 +163,9 @@ public class CourtController {
             var one = new SetCourtCalendarResponse2();
             one.setSetCourtCalendarResponse(resp.getBody());
             out.setSetCourtCalendarResponse(one);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setCourtCalendar")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -200,7 +209,9 @@ public class CourtController {
             var one = new GetReservedJudgmentResponse2();
             one.setGetReservedJudgmentResponse(resp.getBody());
             out.setGetReservedJudgmentResponse(one);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getReservedJudgment")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -240,7 +251,9 @@ public class CourtController {
             var one = new GetFileSearchResponse2();
             one.setGetFileSearchResponse(resp.getBody());
             out.setGetFileSearchResponse(one);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getFileSearch")));
             return out;
         } catch (Exception ex) {
             inner.setGivenNm("");
