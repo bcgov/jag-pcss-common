@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.secure.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -75,6 +76,9 @@ public class SecureEndpointController {
             }
             one.setGetFileSearchResponse(resp.getBody());
             out.setGetFileSearchResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getFileSearchSecure")));
             return out;
         } catch (Exception ex) {
             inner.setGivenNm("");
@@ -125,6 +129,9 @@ public class SecureEndpointController {
             var one = new GetCodeValuesResponse();
             one.setGetCodeValuesResponse(resp.getBody());
             out.setGetCodeValuesResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getCodesValuesSecure")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -180,6 +187,10 @@ public class SecureEndpointController {
             var one = new GetCourtCalendarDetailByDayResponse();
             one.setGetCourtCalendarDetailByDayResponse(resp.getBody());
             out.setGetCourtCalendarDetailByDayResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success", "getCourtCalendarDetailByDaySecure")));
             return out;
         } catch (Exception ex) {
             log.error(

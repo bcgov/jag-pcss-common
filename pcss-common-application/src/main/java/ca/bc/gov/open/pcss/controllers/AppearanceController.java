@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -64,6 +65,9 @@ public class AppearanceController {
             var one = new SetAppearanceUpdateResponse2();
             one.setSetAppearanceUpdateResponse(resp.getBody());
             out.setSetAppearanceUpdateResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setAppearanceUpdate")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -106,6 +110,9 @@ public class AppearanceController {
             var one = new SetAppearanceMoveResponse2();
             one.setSetAppearanceMoveResponse(resp.getBody());
             out.setSetAppearanceMoveResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setAppearanceMove")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -148,6 +155,9 @@ public class AppearanceController {
             var one = new SetAppearanceStatusResponse2();
             one.setSetAppearanceStatusResponse(resp.getBody());
             out.setSetAppearanceStatusResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setAppearanceStatus")));
             return out;
         } catch (Exception ex) {
             log.error(

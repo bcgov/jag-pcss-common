@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.wsdl.pcss.two.GetHealth;
 import ca.bc.gov.open.wsdl.pcss.two.GetHealthResponse;
 import ca.bc.gov.open.wsdl.pcss.two.GetPing;
@@ -51,7 +52,9 @@ public class HealthController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             GetHealthResponse.class);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getHealth")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
@@ -76,7 +79,9 @@ public class HealthController {
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             GetPingResponse.class);
-
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getPing")));
             return resp.getBody();
         } catch (Exception ex) {
             log.error(
