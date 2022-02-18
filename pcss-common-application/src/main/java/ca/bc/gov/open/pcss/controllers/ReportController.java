@@ -53,7 +53,7 @@ public class ReportController {
     }
 
     @PayloadRoot(
-            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            namespace = "http://courts.gov.bc.ca/xml/ns/pcss/report/v1",
             localPart = "getJustinAdobeReport")
     @ResponsePayload
     public GetJustinAdobeReportResponse getJustinAdobeReport(
@@ -108,7 +108,7 @@ public class ReportController {
     }
 
     @PayloadRoot(
-            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            namespace = "http://courts.gov.bc.ca/xml/ns/pcss/report/v1",
             localPart = "getJustinReport")
     @ResponsePayload
     public GetJustinReportResponse getJustinReport(@RequestPayload @Valid GetJustinReport search)
