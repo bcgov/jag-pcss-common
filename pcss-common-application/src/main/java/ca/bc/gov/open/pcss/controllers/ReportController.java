@@ -11,11 +11,13 @@ import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.Locale;
 import java.util.Map;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -64,14 +66,38 @@ public class ReportController {
                         ? search.getGetJustinAdobeReportRequest()
                         : new GetJustinReportAdobeRequest();
 
+        inner.setFormNm(inner.getFormNm().toUpperCase(Locale.ROOT));
+        inner.setPrintYn(inner.getPrintYn().toUpperCase(Locale.ROOT));
+
+        inner.setParam1(inner.getParam1().toUpperCase(Locale.ROOT));
+        inner.setParam2(inner.getParam2().toUpperCase(Locale.ROOT));
+        inner.setParam3(inner.getParam3().toUpperCase(Locale.ROOT));
+        inner.setParam4(inner.getParam4().toUpperCase(Locale.ROOT));
+        inner.setParam5(inner.getParam5().toUpperCase(Locale.ROOT));
+        inner.setParam6(inner.getParam6().toUpperCase(Locale.ROOT));
+        inner.setParam7(inner.getParam7().toUpperCase(Locale.ROOT));
+        inner.setParam8(inner.getParam8().toUpperCase(Locale.ROOT));
+        inner.setParam9(inner.getParam9().toUpperCase(Locale.ROOT));
+        inner.setParam10(inner.getParam10().toUpperCase(Locale.ROOT));
+
+        inner.setParam11("N");
+        inner.setParam12("N");
+        inner.setParam13("N");
+        inner.setParam14("N");
+        inner.setParam15("N");
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "adobe-report");
 
         var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
-            HttpEntity<Map> resp =
-                    restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
+            HttpEntity<Map<String, String>> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.POST,
+                            body,
+                            new ParameterizedTypeReference<>() {});
 
-            String url = (String) resp.getBody().get("url");
+            String url = resp.getBody().get("url");
             String adobe_url =
                     (url.indexOf('?') == -1) ? "" : adobeHost + url.substring(url.indexOf('?'));
 
