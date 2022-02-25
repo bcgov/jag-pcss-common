@@ -214,7 +214,7 @@ public class ReportsControllerTests {
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<ParameterizedTypeReference<Map<String,String>>>any()))
+                        Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
