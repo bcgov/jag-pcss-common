@@ -27,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -179,12 +180,12 @@ public class ReportsControllerTests {
         var req = new GetJustinAdobeReport();
 
         //    Create the 15 parameters
-        String s = "{";
+        StringBuilder s = new StringBuilder("{");
         for (int i = 1; i < 16; i++) {
-            s += "\"param" + i + "\": \"A\",";
+            s.append("\"param").append(i).append("\": \"A\",");
         }
-        s = s.substring(0, s.length() - 1) + "}";
-        var one = objectMapper.readValue(s, GetJustinReportAdobeRequest.class);
+        s = new StringBuilder(s.substring(0, s.length() - 1) + "}");
+        var one = objectMapper.readValue(s.toString(), GetJustinReportAdobeRequest.class);
         one.setFormNm("A");
         one.setRequestDtm(Instant.now());
         one.setFormNm("A");
@@ -205,14 +206,15 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        Map m = new HashMap();
+        Map<String, String> m = new HashMap<>();
         m.put("url", "A");
-        ResponseEntity<Map> responseEntity2 = new ResponseEntity<>(m, HttpStatus.OK);
+        ResponseEntity<Map<String, String>> responseEntity2 =
+                new ResponseEntity<>(m, HttpStatus.OK);
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<Map>>any()))
+                        Mockito.<ParameterizedTypeReference<Map<String,String>>>any()))
                 .thenReturn(responseEntity2);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
