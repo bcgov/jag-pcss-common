@@ -69,9 +69,7 @@ public class CourtController {
             out.setSetCourtListMoveResponse(one);
             log.info(
                     objectMapper.writeValueAsString(
-                            new RequestSuccessLog(
-                                    "Request Success",
-                                    "setCourtListMove" + " - request: " + inner)));
+                            new RequestSuccessLog("Request Success", "setCourtListMove", inner)));
             return out;
         } catch (Exception ex) {
             log.error(
