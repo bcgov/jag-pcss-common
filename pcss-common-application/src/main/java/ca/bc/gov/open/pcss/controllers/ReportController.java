@@ -132,7 +132,11 @@ public class ReportController {
             out.setGetJustinAdobeReportResponse(one);
             log.info(
                     objectMapper.writeValueAsString(
-                            new RequestSuccessLog("Request Success", "getJustinAdobeReport")));
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    "getJustinAdobeReport"
+                                            + " - request: "
+                                            + objectMapper.writeValueAsString(inner))));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -194,7 +198,11 @@ public class ReportController {
             out.setGetJustinReportResponse(one);
             log.info(
                     objectMapper.writeValueAsString(
-                            new RequestSuccessLog("Request Success", "getJustinReport")));
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    "getJustinReport"
+                                            + " - request: "
+                                            + objectMapper.writeValueAsString(inner))));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -240,7 +248,11 @@ public class ReportController {
             out.setGetOperationReportResponse(one);
             log.info(
                     objectMapper.writeValueAsString(
-                            new RequestSuccessLog("Request Success", "getOperationReport")));
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    "getOperationReport"
+                                            + " - request: "
+                                            + objectMapper.writeValueAsString(inner))));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -286,7 +298,11 @@ public class ReportController {
             out.setGetOperationReportLovResponse(one);
             log.info(
                     objectMapper.writeValueAsString(
-                            new RequestSuccessLog("Request Success", "getOperationReportLov")));
+                            new RequestSuccessLog(
+                                    "Request Success",
+                                    "getOperationReportLov"
+                                            + " - request: "
+                                            + objectMapper.writeValueAsString(inner))));
             return out;
         } catch (Exception ex) {
             log.error(
