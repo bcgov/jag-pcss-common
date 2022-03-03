@@ -160,14 +160,14 @@ public class ReportsControllerTests {
 
         var out = "Report";
 
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(out.getBytes(), HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<String>>any()))
+                        Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
