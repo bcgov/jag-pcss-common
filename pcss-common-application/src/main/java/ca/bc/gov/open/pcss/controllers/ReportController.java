@@ -177,17 +177,15 @@ public class ReportController {
             builder.queryParam(param.getParmNm(), param.getParmValue());
         }
         try {
-            HttpEntity<String> resp =
+            HttpEntity<byte[]> resp =
                     restTemplate.exchange(
                             builder.toUriString(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            String.class);
+                            byte[].class);
 
             String b64EncodedReport =
-                    resp.getBody() != null
-                            ? Base64Utils.encodeToString(resp.getBody().getBytes())
-                            : "";
+                    resp.getBody() != null ? Base64Utils.encodeToString(resp.getBody()) : "";
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
