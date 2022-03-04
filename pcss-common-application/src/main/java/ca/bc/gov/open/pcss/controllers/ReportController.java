@@ -176,6 +176,8 @@ public class ReportController {
         for (var param : inner.getParameters()) {
             builder.queryParam(param.getParmNm(), param.getParmValue());
         }
+
+        log.info("Report url: " + builder.toUriString());
         try {
             HttpEntity<byte[]> resp =
                     restTemplate.exchange(
