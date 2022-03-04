@@ -128,7 +128,7 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(URI.class),
+                        Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
@@ -165,7 +165,7 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<byte[]>>any()))
