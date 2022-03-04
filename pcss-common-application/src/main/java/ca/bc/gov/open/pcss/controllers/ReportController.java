@@ -179,7 +179,7 @@ public class ReportController {
         try {
             HttpEntity<byte[]> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
                             byte[].class);

@@ -17,6 +17,7 @@ import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Collections;
@@ -127,7 +128,7 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito
