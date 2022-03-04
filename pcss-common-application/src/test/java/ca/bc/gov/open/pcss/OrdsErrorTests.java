@@ -15,6 +15,8 @@ import ca.bc.gov.open.wsdl.pcss.secure.two.GetFileSearchSecure;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.URI;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -468,6 +470,13 @@ public class OrdsErrorTests {
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
                         Mockito.<Class<Object>>any()))
+                .thenThrow(new RestClientException("BAD"));
+
+        when(restTemplate.exchange(
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<Object>>any()))
                 .thenThrow(new RestClientException("BAD"));
 
         when(restTemplate.exchange(
