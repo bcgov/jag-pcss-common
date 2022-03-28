@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Locale;
 import java.util.Map;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -151,11 +150,27 @@ public class ReportController {
     }
 
     @PayloadRoot(
+            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            localPart = "getJustinReport")
+    @ResponsePayload
+    public GetJustinReportResponse getJustinReportNameSpaceTwo(
+            @RequestPayload GetJustinReport search)
+            throws JsonProcessingException, BadRequestException {
+        return getJustinReportResponse(search);
+    }
+
+    @PayloadRoot(
             namespace = "http://courts.gov.bc.ca/xml/ns/pcss/report/v1",
             localPart = "getJustinReport")
     @ResponsePayload
-    public GetJustinReportResponse getJustinReport(@RequestPayload @Valid GetJustinReport search)
+    public GetJustinReportResponse getJustinReportNameSpaceOne(
+            @RequestPayload GetJustinReport search)
             throws JsonProcessingException, BadRequestException {
+        return getJustinReportResponse(search);
+    }
+
+    private GetJustinReportResponse getJustinReportResponse(GetJustinReport search)
+            throws BadRequestException, JsonProcessingException {
 
         var inner =
                 search.getGetJustinReportRequest() != null
