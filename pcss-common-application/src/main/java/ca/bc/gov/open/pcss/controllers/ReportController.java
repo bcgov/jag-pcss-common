@@ -11,6 +11,8 @@ import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -110,8 +112,11 @@ public class ReportController {
 
             assert resp.getBody().containsKey("url");
             String url = resp.getBody().get("url");
+            url = URLDecoder.decode(url, StandardCharsets.UTF_8);
             String adobe_url =
-                    (url.indexOf('?') == -1) ? "" : adobeHost + url.substring(url.indexOf('?'));
+                    (url.indexOf('?') == -1)
+                            ? ""
+                            : adobeHost + '?' + url.substring(url.indexOf("param1"));
 
             HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
