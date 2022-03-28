@@ -172,7 +172,7 @@ public class ReportsControllerTests {
                 .thenReturn(responseEntity);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
-        var resp = resourceController.getJustinReport(req);
+        var resp = resourceController.getJustinReportNameSpaceTwo(req);
         assert resp != null;
     }
 
