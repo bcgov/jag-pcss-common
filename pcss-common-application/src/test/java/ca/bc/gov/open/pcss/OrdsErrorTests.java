@@ -251,7 +251,7 @@ public class OrdsErrorTests {
         setUpRestTemplate();
 
         try {
-            reportController.getJustinReport(new GetJustinReport());
+            reportController.getJustinReportNameSpaceOne(new GetJustinReport());
         } catch (ORDSException | BadRequestException ex) {
             // Exception caught as expected
             assert true;
