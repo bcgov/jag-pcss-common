@@ -1,0 +1,24 @@
+<xsd:schema xmlns:pcss="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport"
+            targetNamespace="http://reeks.bcgov/common/JusticePCSSCommon.wsProvider:pcssReport"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport">
+    <xsd:import namespace="http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport"/>
+    <xsd:simpleType name="AgencyIdentifierType">
+        <xsd:restriction base="xsd:string">
+            <xsd:whiteSpace value="preserve"/>
+            <xsd:maxLength value="16"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="SystemIdType">
+        <xsd:restriction base="xsd:string">
+            <xsd:whiteSpace value="preserve"/>
+            <xsd:maxLength value="16"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="DateTimeType">
+        <xsd:restriction base="xsd:dateTime">
+            <xsd:whiteSpace value="preserve"/>
+            <xsd:length value="21"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

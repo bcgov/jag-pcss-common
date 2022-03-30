@@ -153,10 +153,17 @@ public class ReportController {
             namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
             localPart = "getJustinReport")
     @ResponsePayload
-    public GetJustinReportResponse getJustinReportNameSpaceTwo(
-            @RequestPayload GetJustinReport search)
+    public ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReportResponse getJustinReportNameSpaceTwo(
+            @RequestPayload ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReport search)
             throws JsonProcessingException, BadRequestException {
-        return getJustinReportResponse(search);
+        //    This is not great
+        GetJustinReport tmp =
+                objectMapper.readValue(
+                        objectMapper.writeValueAsString(search), GetJustinReport.class);
+        var out = getJustinReportResponse(tmp);
+        return objectMapper.readValue(
+                objectMapper.writeValueAsString(out),
+                ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReportResponse.class);
     }
 
     @PayloadRoot(
