@@ -1,0 +1,29 @@
+<xsd:schema xmlns:pcss="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0"
+            targetNamespace="http://reeks.bcgovJusticePCSSCommon.wsProvider:pcssReport"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dx="http://reeks.bcgov/common/JusticePCSSCommon.wsProvider:pcssReport">
+
+    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0"/>
+    <xsd:complexType name="getJustinReportRequest">
+        <xsd:sequence>
+            <xsd:element name="RequestAgencyIdentifierId" form="qualified" type="dx:AgencyIdentifierType"/>
+            <xsd:element name="RequestPartId" form="qualified" type="dx:SystemIdType"/>
+            <xsd:element name="RequestDtm" form="qualified" type="dx:DateTimeType"/>
+            <xsd:element name="ReportName" form="qualified" type="xsd:string"/>
+            <xsd:element name="Parameters" form="qualified" type="pcss:Parameters" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="Parameters">
+        <xsd:sequence>
+            <xsd:element name="ParmNm" form="qualified" type="xsd:string"/>
+            <xsd:element name="ParmValue" form="qualified" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="getJustinReportResponse">
+        <xsd:sequence>
+            <xsd:element name="ResponseCd" form="qualified" type="xsd:string"/>
+            <xsd:element name="ResponseMessageTxt" form="qualified" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="ReportContent" form="qualified" type="xsd:string" minOccurs="0"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
