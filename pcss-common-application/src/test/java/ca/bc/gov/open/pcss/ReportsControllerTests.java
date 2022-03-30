@@ -142,9 +142,44 @@ public class ReportsControllerTests {
     }
 
     @Test
-    public void getJustinReportTest() throws JsonProcessingException, BadRequestException {
+    public void getJustinReportTestOne() throws JsonProcessingException, BadRequestException {
         var req = new GetJustinReport();
         var one = new GetJustinReportRequest();
+        var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
+
+        two.setRequestAgencyIdentifierId("A");
+        two.setRequestPartId("A");
+        two.setRequestDtm(Instant.now());
+        two.setReportName("A");
+        Parameters p = new Parameters();
+        p.setParmNm("A");
+        p.setParmValue("A");
+        two.setParameters(Collections.singletonList(p));
+
+        one.setGetJustinReportRequest(two);
+        req.setGetJustinReportRequest(one);
+
+        var out = "Report";
+
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(out.getBytes(), HttpStatus.OK);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(URI.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<byte[]>>any()))
+                .thenReturn(responseEntity);
+
+        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        var resp = resourceController.getJustinReportNameSpaceOne(req);
+        assert resp != null;
+    }
+
+    @Test
+    public void getJustinReportTestTwo() throws JsonProcessingException, BadRequestException {
+        var req = new ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReport();
+        var one = new ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReportRequest();
         var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
 
         two.setRequestAgencyIdentifierId("A");
