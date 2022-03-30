@@ -32,9 +32,14 @@ public class InstantDeserializer extends JsonDeserializer<Instant> {
                 sfd.setTimeZone(TimeZone.getTimeZone("UTC"));
                 return sfd.parse(jsonParser.getText()).toInstant();
             } catch (ParseException e2) {
-                log.error(e2.getLocalizedMessage());
+                try {
+                    var sfd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+                    sfd.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    return sfd.parse(jsonParser.getText()).toInstant();
+                } catch (ParseException e3) {
+                    return null;
+                }
             }
         }
-        return null;
     }
 }
