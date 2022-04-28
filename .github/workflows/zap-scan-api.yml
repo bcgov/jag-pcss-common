@@ -1,0 +1,47 @@
+name: ZAP Scanner for PCSS-COMMON APIs
+on:
+  workflow_dispatch:
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-20.04
+    name: Scan the application
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Update zap properties file
+        run: echo  "replacer.full_list(0).replacement=${{ secrets.BASIC_AUTH_HEADER_DEV }}" >> "$GITHUB_WORKSPACE/zapoptions.prop"
+      
+      - name: ZAP Scan - PCSS Common API
+        uses: zaproxy/action-api-scan@v0.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          format: soap
+          docker_name: 'owasp/zap2docker-stable'
+          issue_title: 'ZAP Scan Report - PCSS Common API'
+          target: '${{ secrets.JAG_PCSS_Common_API_RouteUrl }}/ws/JusticePCSSCommon.wsProvider:pcssCommon?WSDL'
+          fail_action: true
+          cmd_options: '-c "zaprules.conf" -S -z "-configFile /zap/wrk/zapoptions.prop"'
+      
+      - name: ZAP Scan - PCSS Common Secure API
+        uses: zaproxy/action-api-scan@v0.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          format: soap
+          docker_name: 'owasp/zap2docker-stable'
+          issue_title: 'ZAP Scan Report - PCSS Common Secure API'
+          target: '${{ secrets.JAG_PCSS_Common_API_RouteUrl }}/ws/JusticePCSSCommon.wsProvider:pcssCommonSecure?WSDL'
+          fail_action: true
+          cmd_options: '-c "zaprules.conf" -S -z "-configFile /zap/wrk/zapoptions.prop"'
+      
+      - name: ZAP Scan - PCSS Report API
+        uses: zaproxy/action-api-scan@v0.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          format: soap
+          docker_name: 'owasp/zap2docker-stable'
+          issue_title: 'ZAP Scan Report - PCSS Report API'
+          target: '${{ secrets.JAG_PCSS_Common_API_RouteUrl }}/ws/JusticePCSSCommon.wsProvider:pcssReport?WSDL'
+          fail_action: true
+          cmd_options: '-c "zaprules.conf" -S -z "-configFile /zap/wrk/zapoptions.prop"'
