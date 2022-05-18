@@ -296,7 +296,7 @@ public class ResourceController {
                         .queryParam("domainNm", inner.getDomainNm())
                         .queryParam("domainUserGuid", inner.getDomainUserGuid())
                         .queryParam("domainUserId", inner.getDomainUserId())
-                        .queryParam("temporaryAccessGuid", inner.getTemporaryAccessGuid());
+                        .queryParam("tempAccessGuid", inner.getTemporaryAccessGuid());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetUserLoginResponse> resp =
