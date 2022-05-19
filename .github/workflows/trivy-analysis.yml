@@ -35,14 +35,14 @@ jobs:
           COMPOSE_DOCKER_CLI_BUILD: 1
           DOCKER_BUILDKIT: 1
         run: |
-          docker build -t jag-pcss-common:${{ github.sha }} .
+          docker build -t docker.io/pcss/jag-pcss-common:${{ github.sha }} .
 
       #Run Vulnerability Scan usinig Trivy scanner
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: image
-          image-ref: jag-pcss-common:${{ github.sha }}
+          image-ref: docker.io/pcss/jag-pcss-common:${{ github.sha }}
           format: sarif
           output: trivy-results.sarif
           exit-code: 1
