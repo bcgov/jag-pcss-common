@@ -7,4 +7,6 @@ pcss:
   adobe-host: http://127.0.0.1/
   oracle-host: http://127.0.0.1/
   oracle-name: oracle
+  generic-agent-id: 1
+  generic-part-id: 1
 
