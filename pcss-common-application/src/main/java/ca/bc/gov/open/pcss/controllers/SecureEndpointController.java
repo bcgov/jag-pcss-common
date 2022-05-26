@@ -114,7 +114,9 @@ public class SecureEndpointController {
                         : new ca.bc.gov.open.wsdl.pcss.secure.one.GetGetCodeValueSecureRequest();
 
         String secureExt =
-                inner.getRequestAgencyIdentifierId().equals(genericAgenId)
+                inner.getRequestAgencyIdentifierId() != null
+                                && inner.getRequestPartId() != null
+                                && inner.getRequestAgencyIdentifierId().equals(genericAgenId)
                                 && inner.getRequestPartId().equals(genericPartId)
                         ? "/"
                         : "secure/";
