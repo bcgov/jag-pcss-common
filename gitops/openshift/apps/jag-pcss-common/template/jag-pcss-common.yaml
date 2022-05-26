@@ -135,6 +135,16 @@ objects:
                 secretKeyRef:
                   name: pcss-common-application-secrets
                   key: ORACLE_NAME
+            - name: GENERIC_AGEN_ID
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: GENERIC_AGEN_ID
+            - name: GENERIC_PART_ID
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: GENERIC_PART_ID
             resources:
               limits:
                 cpu: 500m
