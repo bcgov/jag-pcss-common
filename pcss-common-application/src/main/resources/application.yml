@@ -7,8 +7,6 @@ pcss:
   adobe-host: ${ADOBE_HOST}
   oracle-host: ${ORACLE_HOST}
   oracle-name: ${ORACLE_NAME}
-  generic-agent-id: ${GENERIC_AGEN_ID}
-  generic-part-id: ${GENERIC_PART_ID}
 management:
   endpoints:
     web:
