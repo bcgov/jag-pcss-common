@@ -116,11 +116,11 @@ public class SecureEndpointController {
         String secureExt =
                 inner.getRequestAgencyIdentifierId().equals(genericAgenId)
                                 && inner.getRequestPartId().equals(genericPartId)
-                        ? ""
-                        : "secure";
+                        ? "/"
+                        : "secure/";
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + secureExt + "/code-values")
+                UriComponentsBuilder.fromHttpUrl(host + secureExt + "code-values")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
