@@ -9,9 +9,5 @@ pcss:
   oracle-name: ${ORACLE_NAME}
   generic-agent-id: ${GENERIC_AGEN_ID}
   generic-part-id: ${GENERIC_PART_ID}
-management:
-  endpoints:
-    web:
-      exposure:
-        include: metrics,prometheus,health
+
 
