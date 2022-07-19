@@ -26,6 +26,7 @@ jobs:
     env:
       BASIC_AUTH_USER: ${{ secrets.BASIC_AUTH_USER }}
       BASIC_AUTH_PASS: ${{ secrets.BASIC_AUTH_PASS }}
+      GENERIC_AGEN_ID: ${{ secrets.GENERIC_AGEN_ID }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
