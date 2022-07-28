@@ -17,6 +17,7 @@ import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.two.GetOperationReportRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Collections;
@@ -27,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -140,7 +142,7 @@ public class ReportsControllerTests {
     }
 
     @Test
-    public void getJustinReportTest() throws JsonProcessingException, BadRequestException {
+    public void getJustinReportTestOne() throws JsonProcessingException, BadRequestException {
         var req = new GetJustinReport();
         var one = new GetJustinReportRequest();
         var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
@@ -159,18 +161,53 @@ public class ReportsControllerTests {
 
         var out = "Report";
 
-        ResponseEntity<String> responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(out.getBytes(), HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
+                        Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<String>>any()))
+                        Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);
-        var resp = resourceController.getJustinReport(req);
+        var resp = resourceController.getJustinReportNameSpaceOne(req);
+        assert resp != null;
+    }
+
+    @Test
+    public void getJustinReportTestTwo() throws JsonProcessingException, BadRequestException {
+        var req = new ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReport();
+        var one = new ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReportRequest();
+        var two = new ca.bc.gov.open.wsdl.pcss.report.one.GetJustinReportRequest();
+
+        two.setRequestAgencyIdentifierId("A");
+        two.setRequestPartId("A");
+        two.setRequestDtm(Instant.now());
+        two.setReportName("A");
+        Parameters p = new Parameters();
+        p.setParmNm("A");
+        p.setParmValue("A");
+        two.setParameters(Collections.singletonList(p));
+
+        one.setGetJustinReportRequest(two);
+        req.setGetJustinReportRequest(one);
+
+        var out = "Report";
+
+        ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(out.getBytes(), HttpStatus.OK);
+
+        //     Set up to mock ords response
+        when(restTemplate.exchange(
+                        Mockito.any(URI.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<byte[]>>any()))
+                .thenReturn(responseEntity);
+
+        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        var resp = resourceController.getJustinReportNameSpaceTwo(req);
         assert resp != null;
     }
 
@@ -179,12 +216,12 @@ public class ReportsControllerTests {
         var req = new GetJustinAdobeReport();
 
         //    Create the 15 parameters
-        String s = "{";
+        StringBuilder s = new StringBuilder("{");
         for (int i = 1; i < 16; i++) {
-            s += "\"param" + i + "\": \"A\",";
+            s.append("\"param").append(i).append("\": \"A\",");
         }
-        s = s.substring(0, s.length() - 1) + "}";
-        var one = objectMapper.readValue(s, GetJustinReportAdobeRequest.class);
+        s = new StringBuilder(s.substring(0, s.length() - 1) + "}");
+        var one = objectMapper.readValue(s.toString(), GetJustinReportAdobeRequest.class);
         one.setFormNm("A");
         one.setRequestDtm(Instant.now());
         one.setFormNm("A");
@@ -205,14 +242,15 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        Map m = new HashMap();
+        Map<String, String> m = new HashMap<>();
         m.put("url", "A");
-        ResponseEntity<Map> responseEntity2 = new ResponseEntity<>(m, HttpStatus.OK);
+        ResponseEntity<Map<String, String>> responseEntity2 =
+                new ResponseEntity<>(m, HttpStatus.OK);
         when(restTemplate.exchange(
                         Mockito.any(String.class),
                         Mockito.eq(HttpMethod.POST),
                         Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<Map>>any()))
+                        Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
         ReportController resourceController = new ReportController(restTemplate, objectMapper);

@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.secure.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,6 +27,12 @@ public class SecureEndpointController {
 
     @Value("${pcss.host}")
     private String host = "https://127.0.0.1/";
+
+    @Value("${pcss.generic-agent-id}")
+    private String genericAgenId = "";
+
+    @Value("${pcss.generic-part-id}")
+    private String genericPartId = "";
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -75,6 +82,9 @@ public class SecureEndpointController {
             }
             one.setGetFileSearchResponse(resp.getBody());
             out.setGetFileSearchResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getFileSearchSecure")));
             return out;
         } catch (Exception ex) {
             inner.setGivenNm("");
@@ -103,8 +113,16 @@ public class SecureEndpointController {
                         ? search.getGetCodeValuesSecureRequest().getGetGetCodeValueSecureRequest()
                         : new ca.bc.gov.open.wsdl.pcss.secure.one.GetGetCodeValueSecureRequest();
 
+        String secureExt =
+                inner.getRequestAgencyIdentifierId() != null
+                                && inner.getRequestPartId() != null
+                                && inner.getRequestAgencyIdentifierId().equals(genericAgenId)
+                                && inner.getRequestPartId().equals(genericPartId)
+                        ? "/"
+                        : "secure/";
+
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromHttpUrl(host + "secure/code-values")
+                UriComponentsBuilder.fromHttpUrl(host + secureExt + "code-values")
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
@@ -125,6 +143,9 @@ public class SecureEndpointController {
             var one = new GetCodeValuesResponse();
             one.setGetCodeValuesResponse(resp.getBody());
             out.setGetCodeValuesResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getCodesValuesSecure")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -180,6 +201,10 @@ public class SecureEndpointController {
             var one = new GetCourtCalendarDetailByDayResponse();
             one.setGetCourtCalendarDetailByDayResponse(resp.getBody());
             out.setGetCourtCalendarDetailByDayResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog(
+                                    "Request Success", "getCourtCalendarDetailByDaySecure")));
             return out;
         } catch (Exception ex) {
             log.error(

@@ -4,17 +4,21 @@ import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.BadRequestException;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovRequest;
 import ca.bc.gov.open.wsdl.pcss.one.GetOperationReportRequest;
 import ca.bc.gov.open.wsdl.pcss.report.two.*;
 import ca.bc.gov.open.wsdl.pcss.two.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
 import java.util.Map;
-import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -52,7 +56,7 @@ public class ReportController {
     }
 
     @PayloadRoot(
-            namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
+            namespace = "http://courts.gov.bc.ca/xml/ns/pcss/report/v1",
             localPart = "getJustinAdobeReport")
     @ResponsePayload
     public GetJustinAdobeReportResponse getJustinAdobeReport(
@@ -63,16 +67,56 @@ public class ReportController {
                         ? search.getGetJustinAdobeReportRequest()
                         : new GetJustinReportAdobeRequest();
 
+        inner.setFormNm(
+                inner.getFormNm() != null ? inner.getFormNm().toUpperCase(Locale.ROOT) : "");
+        inner.setPrintYn(
+                inner.getPrintYn() != null ? inner.getPrintYn().toUpperCase(Locale.ROOT) : "");
+
+        inner.setParam1(
+                inner.getParam1() != null ? inner.getParam1().toUpperCase(Locale.ROOT) : "");
+        inner.setParam2(
+                inner.getParam2() != null ? inner.getParam2().toUpperCase(Locale.ROOT) : "");
+        inner.setParam3(
+                inner.getParam3() != null ? inner.getParam3().toUpperCase(Locale.ROOT) : "");
+        inner.setParam4(
+                inner.getParam4() != null ? inner.getParam4().toUpperCase(Locale.ROOT) : "");
+        inner.setParam5(
+                inner.getParam5() != null ? inner.getParam5().toUpperCase(Locale.ROOT) : "");
+        inner.setParam6(
+                inner.getParam6() != null ? inner.getParam6().toUpperCase(Locale.ROOT) : "");
+        inner.setParam7(
+                inner.getParam7() != null ? inner.getParam7().toUpperCase(Locale.ROOT) : "");
+        inner.setParam8(
+                inner.getParam8() != null ? inner.getParam8().toUpperCase(Locale.ROOT) : "");
+        inner.setParam9(
+                inner.getParam9() != null ? inner.getParam9().toUpperCase(Locale.ROOT) : "");
+        inner.setParam10(
+                inner.getParam10() != null ? inner.getParam10().toUpperCase(Locale.ROOT) : "");
+
+        inner.setParam11("N");
+        inner.setParam12("N");
+        inner.setParam13("N");
+        inner.setParam14("N");
+        inner.setParam15("N");
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(ordsHost + "adobe-report");
 
         var body = new HttpEntity<>(inner, new HttpHeaders());
         try {
-            HttpEntity<Map> resp =
-                    restTemplate.exchange(builder.toUriString(), HttpMethod.POST, body, Map.class);
+            HttpEntity<Map<String, String>> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.POST,
+                            body,
+                            new ParameterizedTypeReference<>() {});
 
-            String url = (String) resp.getBody().get("url");
+            assert resp.getBody().containsKey("url");
+            String url = resp.getBody().get("url");
+            url = URLDecoder.decode(url, StandardCharsets.UTF_8);
             String adobe_url =
-                    (url.indexOf('?') == -1) ? "" : adobeHost + url.substring(url.indexOf('?'));
+                    (url.indexOf('?') == -1)
+                            ? ""
+                            : adobeHost + '?' + url.substring(url.indexOf("param1"));
 
             HttpEntity<byte[]> resp2 =
                     restTemplate.exchange(
@@ -89,8 +133,10 @@ public class ReportController {
             var one = new ca.bc.gov.open.wsdl.pcss.report.two.GetJustinReportAdobeResponse();
             one.setReportContent(bs64);
             one.setResponseCd("0");
-
             out.setGetJustinAdobeReportResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getJustinAdobeReport")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -108,8 +154,31 @@ public class ReportController {
             namespace = "http://reeks.bcgov/JusticePCSSCommon.wsProvider:pcssReport",
             localPart = "getJustinReport")
     @ResponsePayload
-    public GetJustinReportResponse getJustinReport(@RequestPayload @Valid GetJustinReport search)
+    public ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReportResponse getJustinReportNameSpaceTwo(
+            @RequestPayload ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReport search)
             throws JsonProcessingException, BadRequestException {
+        //    This is not great
+        GetJustinReport tmp =
+                objectMapper.readValue(
+                        objectMapper.writeValueAsString(search), GetJustinReport.class);
+        var out = getJustinReportResponse(tmp);
+        return objectMapper.readValue(
+                objectMapper.writeValueAsString(out),
+                ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReportResponse.class);
+    }
+
+    @PayloadRoot(
+            namespace = "http://courts.gov.bc.ca/xml/ns/pcss/report/v1",
+            localPart = "getJustinReport")
+    @ResponsePayload
+    public GetJustinReportResponse getJustinReportNameSpaceOne(
+            @RequestPayload GetJustinReport search)
+            throws JsonProcessingException, BadRequestException {
+        return getJustinReportResponse(search);
+    }
+
+    private GetJustinReportResponse getJustinReportResponse(GetJustinReport search)
+            throws BadRequestException, JsonProcessingException {
 
         var inner =
                 search.getGetJustinReportRequest() != null
@@ -130,18 +199,17 @@ public class ReportController {
         for (var param : inner.getParameters()) {
             builder.queryParam(param.getParmNm(), param.getParmValue());
         }
+
         try {
-            HttpEntity<String> resp =
+            HttpEntity<byte[]> resp =
                     restTemplate.exchange(
-                            builder.toUriString(),
+                            builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
-                            String.class);
+                            byte[].class);
 
             String b64EncodedReport =
-                    resp.getBody() != null
-                            ? Base64Utils.encodeToString(resp.getBody().getBytes())
-                            : "";
+                    resp.getBody() != null ? Base64Utils.encodeToString(resp.getBody()) : "";
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
@@ -150,6 +218,9 @@ public class ReportController {
             two.setReportContent(b64EncodedReport);
             two.setResponseCd("0");
             out.setGetJustinReportResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getJustinReport")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -193,6 +264,9 @@ public class ReportController {
             var one = new GetOperationReportResponse2();
             one.setGetOperationReportResponse(resp.getBody());
             out.setGetOperationReportResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getOperationReport")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -236,6 +310,9 @@ public class ReportController {
             var one = new GetOperationReportLovResponse2();
             one.setGetOperationReportLovResponse(resp.getBody());
             out.setGetOperationReportLovResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getOperationReportLov")));
             return out;
         } catch (Exception ex) {
             log.error(

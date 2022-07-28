@@ -1,9 +1,9 @@
 <xsd:schema xmlns:pcss="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0"
-            xmlns:dx="http://courts.gov.bc.ca/XMLSchema/PCSS/common/1.0.0"
-            targetNamespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/common/1.0.0" schemaLocation="pcss-reports-models-3v.xsd"/>
-    <xsd:element name="getJustinReportRequest" type="pcss:getJustinReportRequest"/>
-    <xsd:element name="getJustinReportResponse" type="pcss:getJustinReportResponse"/>
+            targetNamespace="http://reeks.bcgovJusticePCSSCommon.wsProvider:pcssReport"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dx="http://reeks.bcgov/common/JusticePCSSCommon.wsProvider:pcssReport">
+
+    <xsd:import namespace="http://courts.gov.bc.ca/XMLSchema/PCSS/1.0.0"/>
     <xsd:complexType name="getJustinReportRequest">
         <xsd:sequence>
             <xsd:element name="RequestAgencyIdentifierId" form="qualified" type="dx:AgencyIdentifierType"/>

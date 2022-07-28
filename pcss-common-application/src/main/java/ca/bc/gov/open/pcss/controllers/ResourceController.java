@@ -3,6 +3,7 @@ package ca.bc.gov.open.pcss.controllers;
 import ca.bc.gov.open.pcss.configuration.SoapConfig;
 import ca.bc.gov.open.pcss.exceptions.ORDSException;
 import ca.bc.gov.open.pcss.models.OrdsErrorLog;
+import ca.bc.gov.open.pcss.models.RequestSuccessLog;
 import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
 import ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityRequest;
 import ca.bc.gov.open.wsdl.pcss.two.*;
@@ -80,6 +81,9 @@ public class ResourceController {
             var one = new GetResourceAvailabilityResponse2();
             one.setGetResourceAvailabilityResponse(resp.getBody());
             out.setGetResourceAvailabilityResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getResourceAvailability")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -122,6 +126,9 @@ public class ResourceController {
             var one = new SetResourceBookingResponse2();
             one.setSetResourceBookingResponse(resp.getBody());
             out.setSetResourceBookingResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setResourceBooking")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -164,6 +171,9 @@ public class ResourceController {
             var one = new SetResourceCancelResponse2();
             one.setSetResourceCancelResponse(resp.getBody());
             out.setSetResourceCancelResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setResourceCancel")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -210,6 +220,9 @@ public class ResourceController {
             var one = new GetCodeValuesResponse2();
             one.setGetCodeValuesResponse(resp.getBody());
             out.setGetCodeValuesResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getCodeValues")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -251,6 +264,9 @@ public class ResourceController {
             var one = new SetSyncCompleteResponse2();
             one.setSetSyncCompleteResponse(resp.getBody());
             out.setSetSyncCompleteResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setSyncComplete")));
             return out;
         } catch (Exception ex) {
             log.error(
@@ -280,7 +296,7 @@ public class ResourceController {
                         .queryParam("domainNm", inner.getDomainNm())
                         .queryParam("domainUserGuid", inner.getDomainUserGuid())
                         .queryParam("domainUserId", inner.getDomainUserId())
-                        .queryParam("temporaryAccessGuid", inner.getTemporaryAccessGuid());
+                        .queryParam("tempAccessGuid", inner.getTemporaryAccessGuid());
 
         try {
             HttpEntity<ca.bc.gov.open.wsdl.pcss.one.GetUserLoginResponse> resp =
@@ -294,6 +310,9 @@ public class ResourceController {
             var one = new GetUserLoginResponse2();
             one.setGetUserLoginResponse(resp.getBody());
             out.setGetUserLoginResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "getUserLogin")));
             return out;
         } catch (Exception ex) {
             inner.setDomainUserId("");
