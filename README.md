@@ -6,13 +6,16 @@
 
 PCSS Common WebMethods Replacement
 
-### Java requirement
-The project requires Java 11.
+### Recommended Tools
+* Intellij
+* Docker
+* Docker Compose
+* Maven
+* Java 11
+* Lombok
 
-### Running the tests
-Since it is not Maven's expected behaviour, it is good to highlight that you have to first run the package phase to 
-generate all the required classes and then run the test phase. In code that looks like:
-```shell
-mvn clean install -DskipTests
-mvn test
-```
+### Required Environmental Variables
+
+BASIC_AUTH_PASS: The password for the basic authentication. This can be any value for local.
+
+BASIC_AUTH_USER: The username for the basic authentication. This can be any value for local.
