@@ -19,3 +19,21 @@ PCSS Common WebMethods Replacement
 BASIC_AUTH_PASS: The password for the basic authentication. This can be any value for local.
 
 BASIC_AUTH_USER: The username for the basic authentication. This can be any value for local.
+
+
+### Application Endpoints
+
+LOCAL - WSDL Endpoint Common: 
+```
+http://localhost:8080/common/JusticePCSSCommon.wsProvider:pcssCommon?WSDL
+```
+
+LOCAL - WSDL Endpoint Secure: 
+```
+http://localhost:8080/common/JusticePCSSCommon.wsProvider:pcssCommonSecure?WSDL
+```
+
+LOCAL - WSDL Endpoint Report: 
+```
+http://localhost:8080/common/JusticePCSSCommon.wsProvider:pcssReport?WSDL
+```
