@@ -1,6 +1,6 @@
 # jag-pcss-common
 
-[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/jag-pcss-criminal)
+[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/jag-pcss-common)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a492f352f279a2d1621e/maintainability)](https://codeclimate.com/github/bcgov/jag-pcss-common/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/a492f352f279a2d1621e/test_coverage)](https://codeclimate.com/github/bcgov/jag-pcss-common/test_coverage)
 
@@ -23,26 +23,12 @@ Actuator Endpoint Local: http://localhost:8080/actuator/health
 Code Climate: https://codeclimate.com/github/bcgov/jag-pcss-common
 
 WSDL Endpoint Local:
-* jag-ccd-application-1-1(SOAP 1.1):
-1) localhost:8080/ws/CCD.Source.CCDUserMapping.ws:ccdUserMapping?WSDL
-2) localhost:8080/ws/CCD.Source.CivilFileContent.ws:CivilFileContent?WSDL
-3) localhost:8080/ws/CCD.Source.CodeValues.ws.provider:CodeValues?WSDL
-4) localhost:8080/ws/CCD.Source.CourtLists.ws.provider:CourtList?WSDL
-5) localhost:8080/ws/CCD.Source.CriminalFileContent.ws.provider:CriminalFileContent?WSDL
-6) localhost:8080/ws/CCD.Source.GetROPReport.ws:GetROPReport?WSDL
-7) localhost:8080/ws/CCD.Source.GetUserLogin.WS:getUserLogin?WSDL
-8) localhost:8080/ws/CCD.Source.ProcessResults.ws.provider:ProcessResults?WSDL
-9) localhost:8080/ws/CCD.Source.GetDocument.ws:GetDocument?WSDL
-10) localhost:8080/ws/CCD.Source.DevUtil.ws:DevUtils?WSDL
-11) localhost:8080/ws/CCD.Source.GetParticipantInfo.WS:getParticipantInfo?WSDL
+* localhost:8080/common/JusticePCSSCommon.wsProvider:pcssCommon?WSDL
 
-* jad-ccd-application-1-2(SOAP 1.2):
-1) localhost:8080/ws/CCD.Source.CivilFileContent.ws:CivilFileContentSecure?WSDL
-2) localhost:8080/ws/CCD.Source.CodeValues.ws.provider:CodeValuesSecure?WSDL
-3) localhost:8080/ws/CCD.Source.CourtLists.ws.provider:CourtListSecure?WSDL
-4) localhost:8080/ws/CCD.Source.CriminalFileContent.ws.provider:CriminalFileContentSecure?WSDL
-5) localhost:8080/ws/CCD.Source.GetROPReport.ws:GetROPReportSecure?WSDL
-6) localhost:8080/ws/CCD.Source.GetDocument.ws:GetDocumentSecure?WSDL
+* localhost:8080/common/JusticePCSSCommon.wsProvider:pcssCommonSecure?WSDL
+
+* localhost:8080/common/JusticePCSSCommon.wsProvider:pcssReport?WSDL
+
 
 ### Required Environmental Variables
 
@@ -90,6 +76,10 @@ Option C) Docker
 2) Run ```cd pcss-common-application```
 3) Run ```docker build -t pcss-common-application .```
 4) Run ```docker run -p 8080:8080 pcss-common-application $ENV_VAR$```  (Note that $ENV_VAR$ are environment variables)
+
+Option D) Docker Compose
+1) Run ```mvn package```
+2) Run ```docker-compose up pcss-common-application```
 
 ### Pre Commit
 1) Do not commit \CRLF use unix line enders
