@@ -4,10 +4,13 @@ security:
     username: ${BASIC_AUTH_USER}
 pcss:
   host: ${ORDS_HOST}
+  username: ${ORDS_USERNAME}
+  password: ${ORDS_PASSWORD}
   adobe-host: ${ADOBE_HOST}
   oracle-host: ${ORACLE_HOST}
   oracle-name: ${ORACLE_NAME}
   generic-agent-id: ${GENERIC_AGEN_ID}
   generic-part-id: ${GENERIC_PART_ID}
+
 
 
