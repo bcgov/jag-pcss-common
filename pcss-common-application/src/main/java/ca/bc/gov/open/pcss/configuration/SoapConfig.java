@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
@@ -55,12 +53,7 @@ public class SoapConfig extends WsConfigurerAdapter {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
 
-        var rt =
-                restTemplateBuilder
-                        .setConnectTimeout(Duration.of(100, ChronoUnit.SECONDS))
-                        .setReadTimeout(Duration.of(100, ChronoUnit.SECONDS))
-                        .basicAuthentication(username, password)
-                        .build();
+        var rt = restTemplateBuilder.basicAuthentication(username, password).build();
 
         return rt;
     }
