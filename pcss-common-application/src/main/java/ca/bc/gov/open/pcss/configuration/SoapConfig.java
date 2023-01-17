@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import javax.xml.soap.SOAPMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -34,6 +33,11 @@ import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 @Configuration
 @Slf4j
 public class SoapConfig extends WsConfigurerAdapter {
+    @Value("${pcss.username}")
+    private String username;
+
+    @Value("${pcss.password}")
+    private String password;
 
     public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/xml/ns/pcss/common/v1";
 
@@ -48,16 +52,9 @@ public class SoapConfig extends WsConfigurerAdapter {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
-
-        var rt =
-                restTemplateBuilder
-                        .setConnectTimeout(Duration.of(100, ChronoUnit.SECONDS))
-                        .setReadTimeout(Duration.of(100, ChronoUnit.SECONDS))
-                        .build();
-
-        rt.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
-
-        return rt;
+        var restTemplate = restTemplateBuilder.basicAuthentication(username, password).build();
+        restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
+        return restTemplate;
     }
 
     private MappingJackson2HttpMessageConverter createMappingJacksonHttpMessageConverter() {
