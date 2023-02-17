@@ -173,6 +173,13 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
+        when(restTemplateOracle.exchange(
+                        Mockito.any(URI.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<byte[]>>any()))
+                .thenReturn(responseEntity);
+
         ReportController resourceController =
                 new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceOne(req);
@@ -203,6 +210,13 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
+                        Mockito.any(URI.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<byte[]>>any()))
+                .thenReturn(responseEntity);
+
+        when(restTemplateOracle.exchange(
                         Mockito.any(URI.class),
                         Mockito.eq(HttpMethod.GET),
                         Mockito.<HttpEntity<String>>any(),
