@@ -57,7 +57,7 @@ public class SoapConfig extends WsConfigurerAdapter {
 
     @Bean(name = "restTemplateOracle")
     public RestTemplate restTemplateOracle(RestTemplateBuilder restTemplateBuilder) {
-        var restTemplate = restTemplateBuilder.basicAuthentication(username, password).build();
+        var restTemplate = restTemplateBuilder.build();
         return restTemplate;
     }
 
