@@ -208,7 +208,7 @@ public class ReportController {
 
         try {
             HttpEntity<byte[]> resp =
-                    restTemplate.exchange(
+                    restTemplateOracle.exchange(
                             builder.build().toUri(),
                             HttpMethod.GET,
                             new HttpEntity<>(new HttpHeaders()),
