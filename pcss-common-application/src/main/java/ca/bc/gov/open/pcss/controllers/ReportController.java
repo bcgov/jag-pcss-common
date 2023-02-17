@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -47,11 +48,16 @@ public class ReportController {
     private String oracleServerName;
 
     private final RestTemplate restTemplate;
+    private final RestTemplate restTemplateOracle;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public ReportController(RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public ReportController(
+            RestTemplate restTemplate,
+            @Qualifier("restTemplateOracle") RestTemplate restTemplateOracle,
+            ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
+        this.restTemplateOracle = restTemplateOracle;
         this.objectMapper = objectMapper;
     }
 

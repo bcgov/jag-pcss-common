@@ -19,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
@@ -53,14 +52,13 @@ public class SoapConfig extends WsConfigurerAdapter {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         var restTemplate = restTemplateBuilder.basicAuthentication(username, password).build();
-        restTemplate.getMessageConverters().add(0, createMappingJacksonHttpMessageConverter());
         return restTemplate;
     }
 
-    private MappingJackson2HttpMessageConverter createMappingJacksonHttpMessageConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper());
-        return converter;
+    @Bean(name = "restTemplateOracle")
+    public RestTemplate restTemplateOracle(RestTemplateBuilder restTemplateBuilder) {
+        var restTemplate = restTemplateBuilder.basicAuthentication(username, password).build();
+        return restTemplate;
     }
 
     @Bean
