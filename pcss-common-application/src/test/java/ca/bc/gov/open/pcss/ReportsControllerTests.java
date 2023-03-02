@@ -40,7 +40,7 @@ import org.springframework.web.client.RestTemplate;
 @ActiveProfiles("test")
 public class ReportsControllerTests {
     @Autowired private ObjectMapper objectMapper;
-
+    @Mock private RestTemplate restTemplateOracle;
     @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
@@ -91,7 +91,8 @@ public class ReportsControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getOperationReport(req);
         assert resp != null;
     }
@@ -136,7 +137,8 @@ public class ReportsControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getOperationReportLov(req);
         assert resp != null;
     }
@@ -171,7 +173,15 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        when(restTemplateOracle.exchange(
+                        Mockito.any(URI.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<byte[]>>any()))
+                .thenReturn(responseEntity);
+
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceOne(req);
         assert resp != null;
     }
@@ -206,7 +216,15 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        when(restTemplateOracle.exchange(
+                        Mockito.any(URI.class),
+                        Mockito.eq(HttpMethod.GET),
+                        Mockito.<HttpEntity<String>>any(),
+                        Mockito.<Class<byte[]>>any()))
+                .thenReturn(responseEntity);
+
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceTwo(req);
         assert resp != null;
     }
@@ -253,7 +271,8 @@ public class ReportsControllerTests {
                         Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
-        ReportController resourceController = new ReportController(restTemplate, objectMapper);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinAdobeReport(req);
         assert resp != null;
     }

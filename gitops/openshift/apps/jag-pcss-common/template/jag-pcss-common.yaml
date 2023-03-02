@@ -125,6 +125,16 @@ objects:
                 secretKeyRef:
                   name: pcss-common-application-secrets
                   key: ORDS_HOST
+            - name: ORDS_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: ORDS_USERNAME
+            - name: ORDS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: ORDS_PASSWORD
             - name: ORACLE_HOST
               valueFrom:
                 secretKeyRef:

@@ -37,7 +37,7 @@ import org.springframework.web.client.RestTemplate;
 @AutoConfigureMockMvc
 public class OrdsErrorTests {
     @Mock private RestTemplate restTemplate;
-
+    @Mock private RestTemplate restTemplateOracle;
     @Autowired private ObjectMapper objectMapper;
 
     @Autowired private MockMvc mockMvc;
@@ -227,7 +227,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetJustinAdobeReportOrdsFail() throws JsonProcessingException {
-        ReportController reportController = new ReportController(restTemplate, objectMapper);
+        ReportController reportController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
 
         // Set up to mock ords response
         setUpRestTemplate();
@@ -245,7 +246,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetJustinReportOrdsFail() throws JsonProcessingException {
-        ReportController reportController = new ReportController(restTemplate, objectMapper);
+        ReportController reportController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
 
         // Set up to mock ords response
         setUpRestTemplate();
@@ -263,7 +265,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetOperationReportOrdsFail() throws JsonProcessingException {
-        ReportController reportController = new ReportController(restTemplate, objectMapper);
+        ReportController reportController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
 
         // Set up to mock ords response
         setUpRestTemplate();
@@ -281,7 +284,8 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetOperationReportLovOrdsFail() throws JsonProcessingException {
-        ReportController reportController = new ReportController(restTemplate, objectMapper);
+        ReportController reportController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
 
         // Set up to mock ords response
         setUpRestTemplate();
