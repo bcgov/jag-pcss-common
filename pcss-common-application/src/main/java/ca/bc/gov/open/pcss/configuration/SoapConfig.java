@@ -39,7 +39,7 @@ public class SoapConfig extends WsConfigurerAdapter {
     @Value("${pcss.password}")
     private String password;
 
-    @Value("${ords-read-timeout}")
+    @Value("${pcss.ords-read-timeout}")
     private String ordsReadTimeout;
 
     public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/xml/ns/pcss/common/v1";
