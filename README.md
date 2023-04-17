@@ -52,6 +52,8 @@ GENERIC_AGENCY_ID: generic agency id being configured on server. The value is pa
 
 GENERIC_PART_ID: generic agency id being configured on server. The value is part of CodeValuesSecure's request.
 
+ORDS_READ_TIME_OUT: Timeout in seconds which expects the response/result from ORDS.
+
 ### Optional Enviromental Variables
 SPLUNK_HTTP_URL: The url for the splunk hec.
 

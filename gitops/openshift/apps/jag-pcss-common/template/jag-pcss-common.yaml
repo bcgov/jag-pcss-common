@@ -155,6 +155,11 @@ objects:
                 secretKeyRef:
                   name: pcss-common-application-secrets
                   key: GENERIC_PART_ID
+            - name: ORDS_READ_TIME_OUT
+              valueFrom:
+                secretKeyRef:
+                  name: pcss-common-application-secrets
+                  key: ORDS_READ_TIME_OUT
             resources:
               limits:
                 cpu: 500m

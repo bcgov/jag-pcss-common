@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,6 +39,9 @@ public class SoapConfig extends WsConfigurerAdapter {
     @Value("${pcss.password}")
     private String password;
 
+    @Value("${ords-read-time-out}")
+    private String ordsReadTimeOut;
+
     public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/xml/ns/pcss/common/v1";
 
     @Bean
@@ -51,13 +55,20 @@ public class SoapConfig extends WsConfigurerAdapter {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
-        var restTemplate = restTemplateBuilder.basicAuthentication(username, password).build();
+        var restTemplate =
+                restTemplateBuilder
+                        .basicAuthentication(username, password)
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeOut)))
+                        .build();
         return restTemplate;
     }
 
     @Bean(name = "restTemplateOracle")
     public RestTemplate restTemplateOracle(RestTemplateBuilder restTemplateBuilder) {
-        var restTemplate = restTemplateBuilder.build();
+        var restTemplate =
+                restTemplateBuilder
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeOut)))
+                        .build();
         return restTemplate;
     }
 
