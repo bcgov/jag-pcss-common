@@ -39,8 +39,8 @@ public class SoapConfig extends WsConfigurerAdapter {
     @Value("${pcss.password}")
     private String password;
 
-    @Value("${ords-read-time-out}")
-    private String ordsReadTimeOut;
+    @Value("${ords-read-timeout}")
+    private String ordsReadTimeout;
 
     public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/xml/ns/pcss/common/v1";
 
@@ -58,7 +58,7 @@ public class SoapConfig extends WsConfigurerAdapter {
         var restTemplate =
                 restTemplateBuilder
                         .basicAuthentication(username, password)
-                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeOut)))
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeout)))
                         .build();
         return restTemplate;
     }
@@ -67,7 +67,7 @@ public class SoapConfig extends WsConfigurerAdapter {
     public RestTemplate restTemplateOracle(RestTemplateBuilder restTemplateBuilder) {
         var restTemplate =
                 restTemplateBuilder
-                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeOut)))
+                        .setReadTimeout(Duration.ofSeconds(Integer.parseInt(ordsReadTimeout)))
                         .build();
         return restTemplate;
     }
