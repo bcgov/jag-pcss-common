@@ -11,5 +11,6 @@ pcss:
   oracle-name: oracle
   generic-agent-id: 1
   generic-part-id: 1
+  ords-read-timeout: 1
 
 
