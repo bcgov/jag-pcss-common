@@ -11,3 +11,4 @@ pcss:
   oracle-name: ${ORACLE_NAME}
   generic-agent-id: ${GENERIC_AGEN_ID}
   generic-part-id: ${GENERIC_PART_ID}
+  ords-read-timeout: ${ORDS_READ_TIMEOUT}
