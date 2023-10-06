@@ -29,6 +29,8 @@
             <xsd:element name="setCourtCalendarResponse" type="pcss:setCourtCalendarResponse"/>
             <xsd:element name="setAppearanceUpdateRequest" type="pcss:setAppearanceUpdateRequest"/>
             <xsd:element name="setAppearanceUpdateResponse" type="pcss:setAppearanceUpdateResponse"/>
+            <xsd:element name="setAppearanceBailRequest" type="pcss:setAppearanceBailRequest"/>
+            <xsd:element name="setAppearanceBailResponse" type="pcss:setAppearanceBailResponse"/>
             <xsd:element name="getFileSearchRequest" type="pcss:getFileSearchRequest"/>
             <xsd:element name="getFileSearchResponse" type="pcss:getFileSearchResponse"/>
             <xsd:element name="getCourtCalendarDetailByDayRequest" type="pcss:getCourtCalendarDetailByDayRequest"/>
@@ -367,6 +369,28 @@
                 <xsd:sequence>
                     <xsd:element form="qualified" name="ResponseCd" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="AppearanceCcn" type="dx:ConcurrencyControlType"/>
+                    <xsd:element form="qualified" minOccurs="0" name="ResponseMessageTxt" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailRequest">
+                <xsd:sequence>
+                    <xsd:element form="qualified" name="RequestAgencyIdentifierId" type="dx:AgencyIdentifierType"/>
+                    <xsd:element form="qualified" name="RequestPartId" type="dx:SystemIdType"/>
+                    <xsd:element form="qualified" name="RequestDtm" type="dx:DateTimeType"/>
+                    <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Detail" type="pcss:BailDetail"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="BailDetail">
+                <xsd:sequence>
+                    <xsd:element form="qualified" name="AppearanceId" type="dx:SystemIdType"/>
+                    <xsd:element form="qualified" name="AppearanceCcn" type="dx:ConcurrencyControlType"/>
+                    <xsd:element form="qualified" name="BailPositionTypeCd" type="xsd:string"/>
+                    <xsd:element form="qualified" name="BailDecisionTypeCD" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailResponse">
+                <xsd:sequence>
+                    <xsd:element form="qualified" name="ResponseCd" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="ResponseMessageTxt" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>

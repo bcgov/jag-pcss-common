@@ -170,4 +170,49 @@ public class AppearanceController {
             throw new ORDSException();
         }
     }
+
+    @PayloadRoot(namespace = SoapConfig.SOAP_NAMESPACE, localPart = "setAppearanceBail")
+    @ResponsePayload
+    public SetAppearanceBailResponse setAppearanceBail(
+            @RequestPayload SetAppearanceBail appearanceBail) throws JsonProcessingException {
+        var inner =
+                appearanceBail.getSetAppearanceBailRequest() != null
+                        && appearanceBail.getSetAppearanceBailRequest()
+                        .getSetAppearanceBailRequest()
+                        != null
+                        ? appearanceBail.getSetAppearanceBailRequest().getSetAppearanceBailRequest()
+                        : new ca.bc.gov.open.wsdl.pcss.one.SetAppearanceBailRequest();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(host + "appearance/bail");
+
+        HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceBailRequest> body =
+                new HttpEntity<>(inner, new HttpHeaders());
+
+        try {
+            HttpEntity<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceBailResponse> resp =
+                    restTemplate.exchange(
+                            builder.toUriString(),
+                            HttpMethod.POST,
+                            body,
+                            ca.bc.gov.open.wsdl.pcss.one.SetAppearanceBailResponse.class);
+
+            var out = new SetAppearanceBailResponse();
+            var one = new SetAppearanceBailResponse2();
+            one.setSetAppearanceBailResponse(resp.getBody());
+            out.setSetAppearanceBailResponse(one);
+            log.info(
+                    objectMapper.writeValueAsString(
+                            new RequestSuccessLog("Request Success", "setAppearanceBail")));
+            return out;
+        } catch (Exception ex) {
+            log.error(
+                    objectMapper.writeValueAsString(
+                            new OrdsErrorLog(
+                                    "Error received from ORDS",
+                                    "setAppearanceBail",
+                                    ex.getMessage(),
+                                    inner)));
+            throw new ORDSException();
+        }
+    }
 }
