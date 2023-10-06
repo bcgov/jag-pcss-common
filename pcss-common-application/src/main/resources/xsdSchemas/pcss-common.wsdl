@@ -477,6 +477,7 @@
                     <xsd:element form="qualified" name="RequestAgencyIdentifierId" type="dx:AgencyIdentifierType"/>
                     <xsd:element form="qualified" name="RequestPartId" type="dx:SystemIdType"/>
                     <xsd:element form="qualified" name="RequestDtm" type="dx:DateTimeType"/>
+                    <xsd:element form="qualified" minOccurs="0" name="ApplicationCd" type="xsd:string"/>
                     <xsd:element form="qualified" name="CourtAgencyId" type="dx:AgencyIdentifierType"/>
                     <xsd:element form="qualified" name="AppearanceDt" type="dx:DateType"/>
                     <xsd:element form="qualified" name="CourtRoomCd" type="dx:CourtRoomCdType"/>
@@ -521,6 +522,8 @@
                     <xsd:element form="qualified" minOccurs="0" name="PhysicalFileId" type="dx:SystemIdType"/>
                     <xsd:element form="qualified" minOccurs="0" name="CourtLevelCd" type="dx:CourtLevelType"/>
                     <xsd:element form="qualified" minOccurs="0" name="NoteTxt" type="xsd:string"/>
+                    <xsd:element form="qualified" minOccurs="0" name="BailPositionTypeCd" type="xsd:string"/>
+                    <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCD" type="xsd:string"/>
                     <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Party" type="pcss:Party"/>
                 </xsd:sequence>
             </xsd:complexType>
