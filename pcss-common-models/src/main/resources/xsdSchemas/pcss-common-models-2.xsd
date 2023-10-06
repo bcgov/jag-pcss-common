@@ -297,6 +297,35 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:element name="setAppearanceBail">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="setAppearanceBailRequest" nillable="true" type="tns:setAppearanceBailRequest"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="setAppearanceBailRequest">
+        <xsd:sequence>
+            <xsd:element ref="pcss:setAppearanceBailRequest"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="setAppearanceBailResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="setAppearanceBailResponse" nillable="true"
+                             type="tns:setAppearanceBailResponse2"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="setAppearanceBailResponse2">
+        <xsd:sequence>
+            <xsd:element ref="pcss:setAppearanceBailResponse"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:element name="setSyncComplete">
         <xsd:complexType>
             <xsd:sequence>
