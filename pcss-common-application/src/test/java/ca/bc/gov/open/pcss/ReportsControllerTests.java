@@ -23,9 +23,13 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
@@ -36,12 +40,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ReportsControllerTests {
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
     @Mock private RestTemplate restTemplateOracle;
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @Mock private ReportController resourceController;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        resourceController = Mockito.spy(new ReportController(restTemplate, restTemplateOracle, objectMapper));
+    }
 
     @Test
     public void getOperationReportTest() throws JsonProcessingException {
@@ -75,8 +85,8 @@ public class ReportsControllerTests {
         p.setFormatMaskTxt("A");
         p.setBindVariableYN(YesNoType.Y);
 
-        r.setParm(Collections.singletonList(p));
-        out.setReport(Collections.singletonList(r));
+        r.getParm().add(p);
+        out.getReport().add(r);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
@@ -91,8 +101,6 @@ public class ReportsControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getOperationReport(req);
         assert resp != null;
     }
@@ -111,7 +119,7 @@ public class ReportsControllerTests {
 
         ParmValue pv = new ParmValue();
         pv.setValTxt("A");
-        two.setParmValue(Collections.singletonList(pv));
+        two.getParmValue().add(pv);
 
         one.setGetOperationReportLovRequest(two);
         req.setGetOperationReportLovRequest(one);
@@ -122,7 +130,7 @@ public class ReportsControllerTests {
         Lov lv = new Lov();
         lv.setCd("A");
         lv.setVal("A");
-        out.setLov(Collections.singletonList(lv));
+        out.getLov().add(lv);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
@@ -136,9 +144,6 @@ public class ReportsControllerTests {
                                 .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
                                         any()))
                 .thenReturn(responseEntity);
-
-        ReportController resourceController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getOperationReportLov(req);
         assert resp != null;
     }
@@ -156,7 +161,7 @@ public class ReportsControllerTests {
         Parameters p = new Parameters();
         p.setParmNm("A");
         p.setParmValue("A");
-        two.setParameters(Collections.singletonList(p));
+        two.getParameters().add(p);
 
         one.setGetJustinReportRequest(two);
         req.setGetJustinReportRequest(one);
@@ -180,8 +185,6 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceOne(req);
         assert resp != null;
     }
@@ -199,7 +202,7 @@ public class ReportsControllerTests {
         Parameters p = new Parameters();
         p.setParmNm("A");
         p.setParmValue("A");
-        two.setParameters(Collections.singletonList(p));
+        two.getParameters().add(p);
 
         one.setGetJustinReportRequest(two);
         req.setGetJustinReportRequest(one);
@@ -223,8 +226,6 @@ public class ReportsControllerTests {
                         Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        ReportController resourceController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceTwo(req);
         assert resp != null;
     }
@@ -271,8 +272,6 @@ public class ReportsControllerTests {
                         Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
-        ReportController resourceController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinAdobeReport(req);
         assert resp != null;
     }

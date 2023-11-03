@@ -7,7 +7,7 @@ import java.io.PushbackInputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.StringTokenizer;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;

@@ -118,9 +118,7 @@ public class TestService {
             one.setPhysicalFileIdSet(line);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
-            List<Permission> permissions = new ArrayList();
-            permissions.add(permission);
-            one.setPermission(permissions);
+            one.getPermission().add(permission);
 
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
@@ -184,9 +182,7 @@ public class TestService {
             one.setMdocJustinNoSet(line);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
-            List<Permission> permissions = new ArrayList();
-            permissions.add(permission);
-            one.setPermission(permissions);
+            one.getPermission().add(permission);
 
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
@@ -256,9 +252,7 @@ public class TestService {
             one.setSearchByCrown(searchByCrown);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
-            List<Permission> permissions = new ArrayList();
-            permissions.add(permission);
-            one.setPermission(permissions);
+            one.getPermission().add(permission);
 
             String[] contextPath = {
                 "ca.bc.gov.open.wsdl.pcss.three",
@@ -359,9 +353,7 @@ public class TestService {
             }
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
-            List<Permission> permissions = new ArrayList();
-            permissions.add(permission);
-            one.setPermission(permissions);
+            one.getPermission().add(permission);
 
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 
@@ -434,9 +426,7 @@ public class TestService {
             one.setFileNumberTxt(params[1]);
             Permission permission = new Permission();
             permission.setCourtClassCd(CourtClassType.A);
-            List<Permission> permissions = new ArrayList();
-            permissions.add(permission);
-            one.setPermission(permissions);
+            one.getPermission().add(permission);
 
             String[] contextPath = {"ca.bc.gov.open.wsdl.pcss.two", "ca.bc.gov.open.wsdl.pcss.one"};
 

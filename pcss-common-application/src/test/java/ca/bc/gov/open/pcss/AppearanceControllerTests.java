@@ -12,9 +12,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.Collections;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -24,13 +28,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AppearanceControllerTests {
 
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @Mock private AppearanceController appearanceController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        appearanceController = Mockito.spy(new AppearanceController(restTemplate, objectMapper));
+    }
 
     @Test
     public void setAppearanceUpdateTest() throws JsonProcessingException {
@@ -72,9 +81,6 @@ public class AppearanceControllerTests {
                                 .<Class<ca.bc.gov.open.wsdl.pcss.one.SetAppearanceUpdateResponse>>
                                         any()))
                 .thenReturn(responseEntity);
-
-        AppearanceController appearanceController =
-                new AppearanceController(restTemplate, objectMapper);
         var resp = appearanceController.setAppearanceUpdate(req);
         assert resp != null;
     }
@@ -93,7 +99,7 @@ public class AppearanceControllerTests {
         dt.setAppearanceId("A");
         dt.setCourtRoomCd("A");
 
-        two.setDetail(Collections.singletonList(dt));
+        two.getDetail().add(dt);
         one.setSetAppearanceMoveRequest(two);
         req.setSetAppearanceMoveRequest(one);
 
@@ -114,8 +120,6 @@ public class AppearanceControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        AppearanceController appearanceController =
-                new AppearanceController(restTemplate, objectMapper);
         var resp = appearanceController.setAppearanceMove(req);
         assert resp != null;
     }
@@ -134,7 +138,7 @@ public class AppearanceControllerTests {
         dt.setAppearanceId("A");
         dt.setFileDivisionCd(CourtDivisionType.I);
         dt.setOperationModeCd(OperationModeSchdType.CANCEL);
-        two.setDetail(Collections.singletonList(dt));
+        two.getDetail().add(dt);
 
         one.setSetAppearanceStatusRequest(two);
         req.setSetAppearanceStatusRequest(one);
@@ -156,8 +160,6 @@ public class AppearanceControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        AppearanceController appearanceController =
-                new AppearanceController(restTemplate, objectMapper);
         var resp = appearanceController.setAppearanceStatus(req);
         assert resp != null;
     }
