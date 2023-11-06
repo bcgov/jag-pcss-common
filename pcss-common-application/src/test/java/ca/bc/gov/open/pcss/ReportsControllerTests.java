@@ -23,13 +23,9 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
@@ -40,18 +36,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class ReportsControllerTests {
-    @Mock private ObjectMapper objectMapper;
-    @Mock private RestTemplate restTemplate;
+    @Autowired private ObjectMapper objectMapper;
     @Mock private RestTemplate restTemplateOracle;
-    @Mock private ReportController resourceController;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        resourceController = Mockito.spy(new ReportController(restTemplate, restTemplateOracle, objectMapper));
-    }
+    @Mock private RestTemplate restTemplate = new RestTemplate();
 
     @Test
     public void getOperationReportTest() throws JsonProcessingException {
@@ -93,14 +83,16 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse>>
-                                        any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito
+                        .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse>>
+                                any()))
                 .thenReturn(responseEntity);
 
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getOperationReport(req);
         assert resp != null;
     }
@@ -137,13 +129,16 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.POST),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
-                                        any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.POST),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito
+                        .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
+                                any()))
                 .thenReturn(responseEntity);
+
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getOperationReportLov(req);
         assert resp != null;
     }
@@ -172,19 +167,21 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         when(restTemplateOracle.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceOne(req);
         assert resp != null;
     }
@@ -213,19 +210,21 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         when(restTemplateOracle.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinReportNameSpaceTwo(req);
         assert resp != null;
     }
@@ -255,10 +254,10 @@ public class ReportsControllerTests {
 
         // Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         Map<String, String> m = new HashMap<>();
@@ -266,12 +265,14 @@ public class ReportsControllerTests {
         ResponseEntity<Map<String, String>> responseEntity2 =
                 new ResponseEntity<>(m, HttpStatus.OK);
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.POST),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.POST),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
         var resp = resourceController.getJustinAdobeReport(req);
         assert resp != null;
     }
