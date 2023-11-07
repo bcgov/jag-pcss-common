@@ -14,9 +14,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -26,13 +30,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ResourceControllerTests {
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @Mock private ResourceController resourceController;
 
-    @Autowired private ObjectMapper objectMapper;
-
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        resourceController = Mockito.spy(new ResourceController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getResourceAvailabilityTest() throws JsonProcessingException {
@@ -72,7 +80,7 @@ public class ResourceControllerTests {
         AvailableRoom ar = new AvailableRoom();
         ar.setCourtAgencyId("A");
         ar.setCourtRoomCd("A");
-        r1.setAvailableRoom(Collections.singletonList(ar));
+        r1.getAvailableRoom().add(ar);
 
         Day d = new Day();
         d.setAvailabilityDt(Instant.now());
@@ -87,9 +95,9 @@ public class ResourceControllerTests {
         bt.setCourtRoomCd("A");
         bt.setBookedByNm("A");
         bt.setCourtFileNumberTxt("A");
-        d.setBookedTime(Collections.singletonList(bt));
+        d.getBookedTime().add(bt);
 
-        r1.setDay(Collections.singletonList(d));
+        r1.getDay().add(d);
 
         ResourceType r2 = new ResourceType();
         r2.setAgencyId("A");
@@ -99,11 +107,11 @@ public class ResourceControllerTests {
         r2.setAssetUsageRuleCd(AssetUsageRuleType.FIX);
         r2.setPhoneNumberTxt("A");
         r2.setCommentTxt("A");
-        r2.setAvailableRoom(Collections.singletonList(ar));
-        r2.setDay(Collections.singletonList(d));
+        r2.getAvailableRoom().add(ar);
+        r2.getDay().add(d);
 
-        out.setPrimaryResource(Collections.singletonList(r1));
-        out.setSecondaryResource(Collections.singletonList(r2));
+        out.getPrimaryResource().add(r1);
+        out.getSecondaryResource().add(r2);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetResourceAvailabilityResponse>
                 responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
@@ -120,7 +128,6 @@ public class ResourceControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.getResourceAvailability(req);
         assert resp != null;
     }
@@ -168,7 +175,6 @@ public class ResourceControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.setResourceBooking(req);
         assert resp != null;
     }
@@ -205,7 +211,6 @@ public class ResourceControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.setResourceCancel(req);
         assert resp != null;
     }
@@ -243,9 +248,9 @@ public class ResourceControllerTests {
         cv2.setFlex("A");
         cv2.setLongDesc("A");
         cv2.setShortDesc("A");
-        jv.setCodeValue(Collections.singletonList(cv2));
+        jv.getCodeValue().add(cv2);
 
-        cv.setCodeValue(Collections.singletonList(codeValue));
+        cv.getCodeValue().add(codeValue);
         out.setJustinCodeValues(jv);
         out.setCeisCodeValues(cv);
 
@@ -260,7 +265,6 @@ public class ResourceControllerTests {
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetCodeValuesResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.getCodeValues(req);
         assert resp != null;
     }
@@ -298,7 +302,6 @@ public class ResourceControllerTests {
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.SetSyncCompleteResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.setSyncComplete(req);
         assert resp != null;
     }
@@ -336,7 +339,6 @@ public class ResourceControllerTests {
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetUserLoginResponse>>any()))
                 .thenReturn(responseEntity);
 
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
         var resp = resourceController.getUserLogin(req);
         assert resp != null;
     }

@@ -75,20 +75,20 @@ public class ReportsControllerTests {
         p.setFormatMaskTxt("A");
         p.setBindVariableYN(YesNoType.Y);
 
-        r.setParm(Collections.singletonList(p));
-        out.setReport(Collections.singletonList(r));
+        r.getParm().add(p);
+        out.getReport().add(r);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse>>
-                                        any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito
+                        .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportResponse>>
+                                any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController =
@@ -111,7 +111,7 @@ public class ReportsControllerTests {
 
         ParmValue pv = new ParmValue();
         pv.setValTxt("A");
-        two.setParmValue(Collections.singletonList(pv));
+        two.getParmValue().add(pv);
 
         one.setGetOperationReportLovRequest(two);
         req.setGetOperationReportLovRequest(one);
@@ -122,19 +122,19 @@ public class ReportsControllerTests {
         Lov lv = new Lov();
         lv.setCd("A");
         lv.setVal("A");
-        out.setLov(Collections.singletonList(lv));
+        out.getLov().add(lv);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.POST),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito
-                                .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
-                                        any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.POST),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito
+                        .<Class<ca.bc.gov.open.wsdl.pcss.one.GetOperationReportLovResponse>>
+                                any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController =
@@ -156,7 +156,7 @@ public class ReportsControllerTests {
         Parameters p = new Parameters();
         p.setParmNm("A");
         p.setParmValue("A");
-        two.setParameters(Collections.singletonList(p));
+        two.getParameters().add(p);
 
         one.setGetJustinReportRequest(two);
         req.setGetJustinReportRequest(one);
@@ -167,17 +167,17 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         when(restTemplateOracle.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController =
@@ -199,7 +199,7 @@ public class ReportsControllerTests {
         Parameters p = new Parameters();
         p.setParmNm("A");
         p.setParmValue("A");
-        two.setParameters(Collections.singletonList(p));
+        two.getParameters().add(p);
 
         one.setGetJustinReportRequest(two);
         req.setGetJustinReportRequest(one);
@@ -210,17 +210,17 @@ public class ReportsControllerTests {
 
         //     Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         when(restTemplateOracle.exchange(
-                        Mockito.any(URI.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(URI.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         ReportController resourceController =
@@ -254,10 +254,10 @@ public class ReportsControllerTests {
 
         // Set up to mock ords response
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.GET),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<Class<byte[]>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.GET),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
         Map<String, String> m = new HashMap<>();
@@ -265,10 +265,10 @@ public class ReportsControllerTests {
         ResponseEntity<Map<String, String>> responseEntity2 =
                 new ResponseEntity<>(m, HttpStatus.OK);
         when(restTemplate.exchange(
-                        Mockito.any(String.class),
-                        Mockito.eq(HttpMethod.POST),
-                        Mockito.<HttpEntity<String>>any(),
-                        Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
+                Mockito.any(String.class),
+                Mockito.eq(HttpMethod.POST),
+                Mockito.<HttpEntity<String>>any(),
+                Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
         ReportController resourceController =

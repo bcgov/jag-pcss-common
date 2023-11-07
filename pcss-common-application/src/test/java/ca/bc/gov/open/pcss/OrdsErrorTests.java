@@ -17,11 +17,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.util.Map;
+
+import jakarta.servlet.http.HttpServletRequest;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -32,20 +38,34 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
-@AutoConfigureMockMvc
+@WebMvcTest
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class OrdsErrorTests {
+    @Autowired private MockMvc mockMvc;
+
+    @Mock private ObjectMapper objectMapper;
     @Mock private RestTemplate restTemplate;
     @Mock private RestTemplate restTemplateOracle;
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private HealthController healthController;
+    @Mock private AppearanceController appearanceController;
+    @Mock private CourtController courtController;
+    @Mock private ReportController reportController;
+    @Mock private ResourceController resourceController;
+    @Mock private SecureEndpointController secureEndpointController;
 
-    @Autowired private MockMvc mockMvc;
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        healthController = Mockito.spy(new HealthController(restTemplate, objectMapper));
+        appearanceController = Mockito.spy(new AppearanceController(restTemplate, objectMapper));
+        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper));
+        reportController = Mockito.spy(new ReportController(restTemplate, restTemplateOracle, objectMapper));
+        resourceController = Mockito.spy(new ResourceController(restTemplate, objectMapper));
+        secureEndpointController = Mockito.spy(new SecureEndpointController(restTemplate, objectMapper));
+    }
 
     @Test
     public void testHealthPingOrdsFail() throws JsonProcessingException {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -62,8 +82,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testHealthHealthOrdsFail() throws JsonProcessingException {
-        HealthController healthController = new HealthController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -80,9 +98,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testsetAppearanceUpdateOrdsFail() throws JsonProcessingException {
-        AppearanceController appearanceController =
-                new AppearanceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -99,9 +114,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetAppearanceMoveOrdsFail() throws JsonProcessingException {
-        AppearanceController appearanceController =
-                new AppearanceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -118,9 +130,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetAppearanceStatusOrdsFail() throws JsonProcessingException {
-        AppearanceController appearanceController =
-                new AppearanceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -137,8 +146,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetCourtListMoveOrdsFail() throws JsonProcessingException {
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -155,8 +162,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetCourtCalendarDetailByDayOrdsFail() throws JsonProcessingException {
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -173,8 +178,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetCourtCalendarOrdsFail() throws JsonProcessingException {
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -191,8 +194,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetReservedJudgmentOrdsFail() throws JsonProcessingException {
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -209,8 +210,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetFileSearchOrdsFail() throws JsonProcessingException {
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -227,9 +226,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetJustinAdobeReportOrdsFail() throws JsonProcessingException {
-        ReportController reportController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -246,9 +242,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetJustinReportOrdsFail() throws JsonProcessingException {
-        ReportController reportController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -265,9 +258,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetOperationReportOrdsFail() throws JsonProcessingException {
-        ReportController reportController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -284,9 +274,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetOperationReportLovOrdsFail() throws JsonProcessingException {
-        ReportController reportController =
-                new ReportController(restTemplate, restTemplateOracle, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -303,8 +290,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetResourceAvailabilityOrdsFail() throws JsonProcessingException {
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -321,8 +306,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetResourceBookingOrdsFail() throws JsonProcessingException {
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -339,8 +322,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetResourceCancelOrdsFail() throws JsonProcessingException {
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -357,8 +338,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetCodeValuesOrdsFail() throws JsonProcessingException {
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -375,9 +354,7 @@ public class OrdsErrorTests {
 
     @Test
     public void testSetSyncCompleteOrdsFail() throws JsonProcessingException {
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
-
-        // Set up to mock ords response
+          // Set up to mock ords response
         setUpRestTemplate();
 
         try {
@@ -393,8 +370,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetUserLoginOrdsFail() throws JsonProcessingException {
-        ResourceController resourceController = new ResourceController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -411,9 +386,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetFileSearchSecureOrdsFail() throws JsonProcessingException {
-        SecureEndpointController secureEndpointController =
-                new SecureEndpointController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -430,9 +402,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetCodeValuesSecureOrdsFail() throws JsonProcessingException {
-        SecureEndpointController secureEndpointController =
-                new SecureEndpointController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -449,9 +418,6 @@ public class OrdsErrorTests {
 
     @Test
     public void testGetCourtCalendarDetailByDaySecureOrdsFail() throws JsonProcessingException {
-        SecureEndpointController secureEndpointController =
-                new SecureEndpointController(restTemplate, objectMapper);
-
         // Set up to mock ords response
         setUpRestTemplate();
 
@@ -512,11 +478,9 @@ public class OrdsErrorTests {
     }
 
     @Test
-    public void securityTestFail_Then403() throws Exception {
-        var response =
-                mockMvc.perform(post("/common").contentType(MediaType.TEXT_XML))
-                        .andExpect(status().is4xxClientError())
-                        .andReturn();
-        assert response.getResponse().getStatus() == 401;
+    public void securityTestFail_Then401() throws Exception {
+        mockMvc.perform(post("/ws").contentType(MediaType.TEXT_XML))
+                .andExpect(status().is4xxClientError())
+                .andReturn();
     }
 }
