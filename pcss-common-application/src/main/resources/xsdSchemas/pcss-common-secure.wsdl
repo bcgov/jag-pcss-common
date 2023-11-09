@@ -183,7 +183,7 @@
                     <xsd:element form="qualified" minOccurs="0" name="CourtLevelCd" type="dx:CourtLevelType"/>
                     <xsd:element form="qualified" minOccurs="0" name="NoteTxt" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="BailPositionTypeCd" type="xsd:string"/>
-                    <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCD" type="xsd:string"/>
+                    <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCd" type="xsd:string"/>
                     <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Party" type="pcss:Party"/>
                 </xsd:sequence>
             </xsd:complexType>
