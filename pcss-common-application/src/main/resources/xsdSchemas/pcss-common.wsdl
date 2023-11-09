@@ -385,7 +385,7 @@
                     <xsd:element form="qualified" name="AppearanceId" type="dx:SystemIdType"/>
                     <xsd:element form="qualified" name="AppearanceCcn" type="dx:ConcurrencyControlType"/>
                     <xsd:element form="qualified" name="BailPositionTypeCd" type="xsd:string"/>
-                    <xsd:element form="qualified" name="BailDecisionTypeCD" type="xsd:string"/>
+                    <xsd:element form="qualified" name="BailDecisionTypeCd" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="setAppearanceBailResponse">
@@ -523,7 +523,7 @@
                     <xsd:element form="qualified" minOccurs="0" name="CourtLevelCd" type="dx:CourtLevelType"/>
                     <xsd:element form="qualified" minOccurs="0" name="NoteTxt" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="BailPositionTypeCd" type="xsd:string"/>
-                    <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCD" type="xsd:string"/>
+                    <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCd" type="xsd:string"/>
                     <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Party" type="pcss:Party"/>
                 </xsd:sequence>
             </xsd:complexType>
