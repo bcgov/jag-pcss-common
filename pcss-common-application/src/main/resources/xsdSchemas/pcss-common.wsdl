@@ -21,6 +21,8 @@
             <xsd:element name="setResourceCancelResponse" type="pcss:setResourceCancelResponse"/>
             <xsd:element name="setAppearanceStatusRequest" type="pcss:setAppearanceStatusRequest"/>
             <xsd:element name="setAppearanceStatusResponse" type="pcss:setAppearanceStatusResponse"/>
+            <xsd:element name="setAppearanceBailRequest" type="pcss:setAppearanceBailRequest"/>
+            <xsd:element name="setAppearanceBailResponse" type="pcss:setAppearanceBailResponse"/>
             <xsd:element name="setSyncCompleteRequest" type="pcss:setSyncCompleteRequest"/>
             <xsd:element name="setSyncCompleteResponse" type="pcss:setSyncCompleteResponse"/>
             <xsd:element name="setAppearanceMoveRequest" type="pcss:setAppearanceMoveRequest"/>
@@ -29,8 +31,6 @@
             <xsd:element name="setCourtCalendarResponse" type="pcss:setCourtCalendarResponse"/>
             <xsd:element name="setAppearanceUpdateRequest" type="pcss:setAppearanceUpdateRequest"/>
             <xsd:element name="setAppearanceUpdateResponse" type="pcss:setAppearanceUpdateResponse"/>
-            <xsd:element name="setAppearanceBailRequest" type="pcss:setAppearanceBailRequest"/>
-            <xsd:element name="setAppearanceBailResponse" type="pcss:setAppearanceBailResponse"/>
             <xsd:element name="getFileSearchRequest" type="pcss:getFileSearchRequest"/>
             <xsd:element name="getFileSearchResponse" type="pcss:getFileSearchResponse"/>
             <xsd:element name="getCourtCalendarDetailByDayRequest" type="pcss:getCourtCalendarDetailByDayRequest"/>
@@ -282,6 +282,28 @@
                     <xsd:element form="qualified" minOccurs="0" name="ResponseMessageTxt" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailRequest">
+                <xsd:sequence>
+                    <xsd:element form="qualified" name="RequestAgencyIdentifierId" type="dx:AgencyIdentifierType"/>
+                    <xsd:element form="qualified" name="RequestPartId" type="dx:SystemIdType"/>
+                    <xsd:element form="qualified" name="RequestDtm" type="dx:DateTimeType"/>
+                    <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Detail" type="pcss:BailDetail"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="BailDetail">
+                <xsd:sequence>
+                    <xsd:element form="qualified" name="AppearanceId" type="dx:SystemIdType"/>
+                    <xsd:element form="qualified" name="AppearanceCcn" type="dx:ConcurrencyControlType"/>
+                    <xsd:element form="qualified" name="BailPositionTypeCd" type="xsd:string"/>
+                    <xsd:element form="qualified" name="BailDecisionTypeCd" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailResponse">
+                <xsd:sequence>
+                    <xsd:element form="qualified" name="ResponseCd" type="xsd:string"/>
+                    <xsd:element form="qualified" minOccurs="0" name="ResponseMessageTxt" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
             <xsd:complexType name="setSyncCompleteRequest">
                 <xsd:sequence>
                     <xsd:element form="qualified" name="RequestAgencyIdentifierId" type="dx:AgencyIdentifierType"/>
@@ -369,28 +391,6 @@
                 <xsd:sequence>
                     <xsd:element form="qualified" name="ResponseCd" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="AppearanceCcn" type="dx:ConcurrencyControlType"/>
-                    <xsd:element form="qualified" minOccurs="0" name="ResponseMessageTxt" type="xsd:string"/>
-                </xsd:sequence>
-            </xsd:complexType>
-            <xsd:complexType name="setAppearanceBailRequest">
-                <xsd:sequence>
-                    <xsd:element form="qualified" name="RequestAgencyIdentifierId" type="dx:AgencyIdentifierType"/>
-                    <xsd:element form="qualified" name="RequestPartId" type="dx:SystemIdType"/>
-                    <xsd:element form="qualified" name="RequestDtm" type="dx:DateTimeType"/>
-                    <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Detail" type="pcss:BailDetail"/>
-                </xsd:sequence>
-            </xsd:complexType>
-            <xsd:complexType name="BailDetail">
-                <xsd:sequence>
-                    <xsd:element form="qualified" name="AppearanceId" type="dx:SystemIdType"/>
-                    <xsd:element form="qualified" name="AppearanceCcn" type="dx:ConcurrencyControlType"/>
-                    <xsd:element form="qualified" name="BailPositionTypeCd" type="xsd:string"/>
-                    <xsd:element form="qualified" name="BailDecisionTypeCd" type="xsd:string"/>
-                </xsd:sequence>
-            </xsd:complexType>
-            <xsd:complexType name="setAppearanceBailResponse">
-                <xsd:sequence>
-                    <xsd:element form="qualified" name="ResponseCd" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="ResponseMessageTxt" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
@@ -575,6 +575,8 @@
             <xsd:element name="setResourceCancelResponse" type="tns:setResourceCancelResponse"/>
             <xsd:element name="setAppearanceStatus" type="tns:setAppearanceStatus"/>
             <xsd:element name="setAppearanceStatusResponse" type="tns:setAppearanceStatusResponse"/>
+            <xsd:element name="setAppearanceBail" type="tns:setAppearanceBail"/>
+            <xsd:element name="setAppearanceBailResponse" type="tns:setAppearanceBailResponse"/>
             <xsd:element name="setSyncComplete" type="tns:setSyncComplete"/>
             <xsd:element name="setSyncCompleteResponse" type="tns:setSyncCompleteResponse"/>
             <xsd:element name="setAppearanceMove" type="tns:setAppearanceMove"/>
@@ -767,6 +769,26 @@
             <xsd:complexType name="setAppearanceStatusResponse2">
                 <xsd:sequence>
                     <xsd:element ref="pcss:setAppearanceStatusResponse"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBail">
+                <xsd:sequence>
+                    <xsd:element name="setAppearanceBailRequest" nillable="true" type="tns:setAppearanceBailRequest"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailRequest">
+                <xsd:sequence>
+                    <xsd:element ref="pcss:setAppearanceBailRequest"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailResponse">
+                <xsd:sequence>
+                    <xsd:element name="setAppearanceBailResponse" nillable="true" type="tns:setAppearanceBailResponse2"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="setAppearanceBailResponse2">
+                <xsd:sequence>
+                    <xsd:element ref="pcss:setAppearanceBailResponse"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="setSyncComplete">
@@ -1226,6 +1248,10 @@
         <wsdl:part name="parameters" element="tns:setAppearanceStatus">
         </wsdl:part>
     </wsdl:message>
+    <wsdl:message name="pcssCommon_PortType_setAppearanceBail">
+        <wsdl:part name="parameters" element="tns:setAppearanceBail">
+        </wsdl:part>
+    </wsdl:message>
     <wsdl:message name="pcssCommon_PortType_setAppearanceMove">
         <wsdl:part name="parameters" element="tns:setAppearanceMove">
         </wsdl:part>
@@ -1244,6 +1270,10 @@
     </wsdl:message>
     <wsdl:message name="pcssCommon_PortType_setAppearanceStatusResponse">
         <wsdl:part name="parameters" element="tns:setAppearanceStatusResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="pcssCommon_PortType_setAppearanceBailResponse">
+        <wsdl:part name="parameters" element="tns:setAppearanceBailResponse">
         </wsdl:part>
     </wsdl:message>
     <wsdl:message name="pcssCommon_PortType_setResourceCancelResponse">
@@ -1393,6 +1423,12 @@
             <wsdl:output message="tns:pcssCommon_PortType_setAppearanceStatusResponse">
             </wsdl:output>
         </wsdl:operation>
+        <wsdl:operation name="setAppearanceBail">
+            <wsdl:input message="tns:pcssCommon_PortType_setAppearanceBail">
+            </wsdl:input>
+            <wsdl:output message="tns:pcssCommon_PortType_setAppearanceBailResponse">
+            </wsdl:output>
+        </wsdl:operation>
         <wsdl:operation name="setSyncComplete">
             <wsdl:input message="tns:pcssCommon_PortType_setSyncComplete">
             </wsdl:input>
@@ -1524,6 +1560,15 @@
         </wsdl:operation>
         <wsdl:operation name="setAppearanceStatus">
             <soap12:operation soapAction="JusticePCSSCommon_wsProvider_pcssCommon_Binder_setAppearanceStatus" style="document"/>
+            <wsdl:input>
+                <soap12:body parts="parameters" use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body parts="parameters" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="setAppearanceBail">
+            <soap12:operation soapAction="JusticePCSSCommon_wsProvider_pcssCommon_Binder_setAppearanceBail" style="document"/>
             <wsdl:input>
                 <soap12:body parts="parameters" use="literal"/>
             </wsdl:input>
