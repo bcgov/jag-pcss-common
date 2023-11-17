@@ -417,6 +417,8 @@
                     <xsd:enumeration value="SCHD"/>
                     <xsd:enumeration value="CNCL"/>
                     <xsd:enumeration value="UNCF"/>
+                    <xsd:enumeration value="COMP"/>
+                    <xsd:enumeration value="ADJR"/>
                 </xsd:restriction>
             </xsd:simpleType>
         </xsd:schema>
