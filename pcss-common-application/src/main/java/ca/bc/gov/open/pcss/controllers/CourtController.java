@@ -102,6 +102,7 @@ public class CourtController {
                         .queryParam("requestAgencyId", inner.getRequestAgencyIdentifierId())
                         .queryParam("requestPartId", inner.getRequestPartId())
                         .queryParam("requestDtm", InstantSerializer.convert(inner.getRequestDtm()))
+                        .queryParam("applicationCd", inner.getApplicationCd())
                         .queryParam(
                                 "appearanceDt", InstantSerializer.convert(inner.getAppearanceDt()))
                         .queryParam("courtRoomCd", inner.getCourtRoomCd())
