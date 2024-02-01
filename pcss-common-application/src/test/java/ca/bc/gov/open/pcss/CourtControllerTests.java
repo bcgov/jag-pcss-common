@@ -15,9 +15,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Instant;
 import java.util.Collections;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -27,13 +31,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CourtControllerTests {
 
-    @Autowired private ObjectMapper objectMapper;
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @Mock private CourtController courtController;
 
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        courtController = Mockito.spy(new CourtController(restTemplate, objectMapper));
+    }
 
     @Test
     public void setCourtListMoveTest() throws JsonProcessingException {
@@ -72,7 +81,6 @@ public class CourtControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.setCourtListMove(req);
         assert resp != null;
     }
@@ -133,9 +141,9 @@ public class CourtControllerTests {
         party.setPartyId("A");
         party.setPartyNm("A");
         party.setCounselNm("A");
-        app.setParty(Collections.singletonList(party));
+        app.getParty().add(party);
 
-        out.setAppearance(Collections.singletonList(app));
+        out.getAppearance().add(app);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetCourtCalendarDetailByDayResponse>
                 responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
@@ -152,7 +160,6 @@ public class CourtControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.getCourtCalendarDetailByDay(req);
         assert resp != null;
     }
@@ -176,7 +183,7 @@ public class CourtControllerTests {
         dt.setRoomAssignedYn(YesNoType.Y);
         dt.setPcssCourtActivityId("A");
 
-        two.setDetail(Collections.singletonList(dt));
+        two.getDetail().add(dt);
         one.setSetCourtCalendarRequest(two);
         req.setSetCourtCalendarRequest(one);
 
@@ -197,7 +204,6 @@ public class CourtControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.setCourtCalendar(req);
         assert resp != null;
     }
@@ -244,7 +250,6 @@ public class CourtControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.getReservedJudgment(req);
         assert resp != null;
     }
@@ -284,7 +289,7 @@ public class CourtControllerTests {
         Permission p = new Permission();
         p.setCourtClassCd(CourtClassType.C);
 
-        two.setPermission(Collections.singletonList(p));
+        two.getPermission().add(p);
         two.setSearchByCrown(sc);
         one.setGetFileSearchRequest(two);
         req.setGetFileSearchRequest(one);
@@ -316,9 +321,9 @@ public class CourtControllerTests {
         Charge c = new Charge();
         c.setSectionTxt("A");
         c.setSectionDscTxt("A");
-        par.setCharge(Collections.singletonList(c));
+        par.getCharge().add(c);
 
-        out.setFileDetail(Collections.singletonList(fd));
+        out.getFileDetail().add(fd);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.one.GetFileSearchResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
@@ -331,7 +336,6 @@ public class CourtControllerTests {
                         Mockito.<Class<ca.bc.gov.open.wsdl.pcss.one.GetFileSearchResponse>>any()))
                 .thenReturn(responseEntity);
 
-        CourtController courtController = new CourtController(restTemplate, objectMapper);
         var resp = courtController.getFileSearch(req);
         assert resp != null;
     }

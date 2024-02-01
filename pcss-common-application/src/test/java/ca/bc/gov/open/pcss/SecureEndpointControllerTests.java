@@ -13,9 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.time.Instant;
 import java.util.Collections;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
@@ -28,10 +31,15 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public class SecureEndpointControllerTests {
+    @Mock private ObjectMapper objectMapper;
+    @Mock private RestTemplate restTemplate;
+    @Mock private SecureEndpointController secureEndpointController;
 
-    @Autowired private ObjectMapper objectMapper;
-
-    @Mock private RestTemplate restTemplate = new RestTemplate();
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        secureEndpointController = Mockito.spy(new SecureEndpointController(restTemplate, objectMapper));
+    }
 
     @Test
     public void getFileSecureTest() throws JsonProcessingException {
@@ -68,7 +76,7 @@ public class SecureEndpointControllerTests {
         Permission p = new Permission();
         p.setCourtClassCd(CourtClassType.Y);
 
-        two.setPermission(Collections.singletonList(p));
+        two.getPermission().add(p);
         two.setSearchByCrown(c);
         two.setMdocJustinNoSet("A");
         two.setPhysicalFileIdSet("A");
@@ -105,10 +113,10 @@ public class SecureEndpointControllerTests {
         chr.setSectionTxt("A");
         chr.setSectionDscTxt("A");
 
-        par.setCharge(Collections.singletonList(chr));
-        fd.setParticipant(Collections.singletonList(par));
+        par.getCharge().add(chr);
+        fd.getParticipant().add(par);
 
-        out.setFileDetail(Collections.singletonList(fd));
+        out.getFileDetail().add(fd);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetFileSearchResponse> responseEntity =
                 new ResponseEntity<>(out, HttpStatus.OK);
@@ -123,8 +131,6 @@ public class SecureEndpointControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        SecureEndpointController secureEndpointController =
-                new SecureEndpointController(restTemplate, objectMapper);
         var res = secureEndpointController.getFileSearchSecure(req);
         assert res != null;
     }
@@ -162,9 +168,9 @@ public class SecureEndpointControllerTests {
         cv2.setFlex("A");
         cv2.setLongDesc("A");
         cv2.setShortDesc("A");
-        jv.setCodeValue(Collections.singletonList(cv2));
+        jv.getCodeValue().add(cv2);
 
-        cv.setCodeValue(Collections.singletonList(codeValue));
+        cv.getCodeValue().add(codeValue);
         out.setJustinCodeValues(jv);
         out.setCeisCodeValues(cv);
 
@@ -180,8 +186,6 @@ public class SecureEndpointControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        SecureEndpointController secureEndpointController =
-                new SecureEndpointController(restTemplate, objectMapper);
         var res = secureEndpointController.getCodesValuesSecure(req);
         assert res != null;
     }
@@ -245,9 +249,9 @@ public class SecureEndpointControllerTests {
         party.setPartyNm("A");
         party.setCounselNm("A");
 
-        ap.setParty(Collections.singletonList(party));
+        ap.getParty().add(party);
 
-        out.setAppearance(Collections.singletonList(ap));
+        out.getAppearance().add(ap);
 
         ResponseEntity<ca.bc.gov.open.wsdl.pcss.secure.one.GetCourtCalendarDetailByDayResponse>
                 responseEntity = new ResponseEntity<>(out, HttpStatus.OK);
@@ -263,8 +267,6 @@ public class SecureEndpointControllerTests {
                                         any()))
                 .thenReturn(responseEntity);
 
-        SecureEndpointController secureEndpointController =
-                new SecureEndpointController(restTemplate, objectMapper);
         var res = secureEndpointController.getCourtCalendarDetailByDaySecure(req);
         assert res != null;
     }
