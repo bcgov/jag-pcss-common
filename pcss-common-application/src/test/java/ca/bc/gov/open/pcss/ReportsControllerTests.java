@@ -234,7 +234,7 @@ public class ReportsControllerTests {
 
     @Test
     public void getJustinAdobeReportTest() throws JsonProcessingException {
-        var req = new ca.bc.gov.open.wsdl.pcss.report.five.GetJustinReport();
+        var req = new GetJustinAdobeReport();
 
         //    Create the 15 parameters
         StringBuilder s = new StringBuilder("{");
