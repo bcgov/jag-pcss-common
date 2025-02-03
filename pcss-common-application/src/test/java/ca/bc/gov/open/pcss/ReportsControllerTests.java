@@ -3,7 +3,6 @@ package ca.bc.gov.open.pcss;
 import static org.mockito.Mockito.when;
 
 import ca.bc.gov.open.pcss.controllers.ReportController;
-import ca.bc.gov.open.pcss.controllers.SecureEndpointController;
 import ca.bc.gov.open.pcss.exceptions.BadRequestException;
 import ca.bc.gov.open.wsdl.pcss.one.Lov;
 import ca.bc.gov.open.wsdl.pcss.one.Parm;
@@ -24,13 +23,9 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
@@ -41,18 +36,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestTemplate;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
 public class ReportsControllerTests {
-    @Mock private ObjectMapper objectMapper;
+    @Autowired private ObjectMapper objectMapper;
     @Mock private RestTemplate restTemplateOracle;
     @Mock private RestTemplate restTemplate = new RestTemplate();
-    @Mock private ReportController reportController;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        reportController = Mockito.spy(new ReportController(restTemplate, restTemplateOracle, objectMapper));
-    }
 
     @Test
     public void getOperationReportTest() throws JsonProcessingException {
@@ -102,7 +91,9 @@ public class ReportsControllerTests {
                                 any()))
                 .thenReturn(responseEntity);
 
-        var resp = reportController.getOperationReport(req);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
+        var resp = resourceController.getOperationReport(req);
         assert resp != null;
     }
 
@@ -146,7 +137,9 @@ public class ReportsControllerTests {
                                 any()))
                 .thenReturn(responseEntity);
 
-        var resp = reportController.getOperationReportLov(req);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
+        var resp = resourceController.getOperationReportLov(req);
         assert resp != null;
     }
 
@@ -187,7 +180,9 @@ public class ReportsControllerTests {
                 Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        var resp = reportController.getJustinReportNameSpaceOne(req);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
+        var resp = resourceController.getJustinReportNameSpaceOne(req);
         assert resp != null;
     }
 
@@ -228,7 +223,9 @@ public class ReportsControllerTests {
                 Mockito.<Class<byte[]>>any()))
                 .thenReturn(responseEntity);
 
-        var resp = reportController.getJustinReportNameSpaceTwo(req);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
+        var resp = resourceController.getJustinReportNameSpaceTwo(req);
         assert resp != null;
     }
 
@@ -274,7 +271,9 @@ public class ReportsControllerTests {
                 Mockito.<ParameterizedTypeReference<Map<String, String>>>any()))
                 .thenReturn(responseEntity2);
 
-        var resp = reportController.getJustinAdobeReport(req);
+        ReportController resourceController =
+                new ReportController(restTemplate, restTemplateOracle, objectMapper);
+        var resp = resourceController.getJustinAdobeReport(req);
         assert resp != null;
     }
 }
