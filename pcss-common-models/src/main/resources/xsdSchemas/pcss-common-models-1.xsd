@@ -529,7 +529,7 @@
             <xsd:element form="qualified" minOccurs="0" name="BailPositionTypeCd" type="xsd:string"/>
             <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCd" type="xsd:string"/>
             <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Party" type="pcss:Party"/>
-            <xsd:element form="qualified" minOccurs="0" name="OutstandingWarrantYn" type="dx:YesNoType"/>
+            <xsd:element form="qualified" minOccurs="0" name="OutstandingWarrantYN" type="dx:YesNoType"/>
             <xsd:element form="qualified" minOccurs="0" name="OutstandingWarrantFiles" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
