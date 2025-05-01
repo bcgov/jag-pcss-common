@@ -85,6 +85,7 @@
                 <xsd:sequence>
                     <xsd:element form="qualified" name="SectionTxt" type="xsd:string"/>
                     <xsd:element form="qualified" name="SectionDscTxt" type="xsd:string"/>
+                    <xsd:element form="qualified" name="RestrictedStatuteYN" type="dx:YesNoType"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="getGetCodeValueSecureRequest">
@@ -185,6 +186,8 @@
                     <xsd:element form="qualified" minOccurs="0" name="BailPositionTypeCd" type="xsd:string"/>
                     <xsd:element form="qualified" minOccurs="0" name="BailDecisionTypeCd" type="xsd:string"/>
                     <xsd:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="Party" type="pcss:Party"/>
+                    <xsd:element form="qualified" minOccurs="0" name="OutstandingWarrantYN" type="dx:YesNoType"/>
+                    <xsd:element form="qualified" minOccurs="0" name="OutstandingWarrantFiles" type="xsd:string"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="Party">

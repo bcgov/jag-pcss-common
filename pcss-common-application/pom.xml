@@ -100,12 +100,10 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.8</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.4.8</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -185,6 +183,11 @@
             <artifactId>pcss-reports-models</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+            <version>4.1.119.Final</version>
         </dependency>
     </dependencies>
 
