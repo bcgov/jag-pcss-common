@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Locale;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.util.Base64Utils;
+
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -132,7 +133,7 @@ public class ReportController {
                             byte[].class);
 
             String bs64 =
-                    resp2.getBody() != null ? Base64Utils.encodeToString(resp2.getBody()) : "";
+                    resp2.getBody() != null ? Base64.getEncoder().encodeToString(resp2.getBody()) : "";
 
             var out = new GetJustinAdobeReportResponse();
 
@@ -215,7 +216,7 @@ public class ReportController {
                             byte[].class);
 
             String b64EncodedReport =
-                    resp.getBody() != null ? Base64Utils.encodeToString(resp.getBody()) : "";
+                    resp.getBody() != null ? Base64.getEncoder().encodeToString(resp.getBody()) : "";
 
             var out = new GetJustinReportResponse();
             var one = new GetJustinReportResponse2();
