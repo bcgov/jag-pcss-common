@@ -16,7 +16,7 @@ jobs:
   build:
 
     # The type of runner that the job will run on
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     env:
       FILE_COUNTER: 0
@@ -91,7 +91,7 @@ jobs:
 
 # Upload JSON for debugging purposes
       - name: Upload JSON for debugging purposes
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@v4
         with:
           name: pcss-common-coverage-report
           path: ./target/site/jacoco/codeclimate.json
