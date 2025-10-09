@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jre-alpine
 
-RUN apk update && apk add --no-cache libexpat=2.7.2-r0
+RUN apk update && apk add --no-cache libexpat=2.7.3-r0
 
 COPY ./pcss-common-application/target/pcss-common-application.jar pcss-common-application.jar
 
