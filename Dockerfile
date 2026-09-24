@@ -1,11 +1,30 @@
+#############################################################################################
+###              Stage where Docker is building spring boot app using maven               ###
+#############################################################################################
+FROM maven:3.9.9-eclipse-temurin-17 as build
+
+WORKDIR /
+
+COPY . .
+
+RUN mvn clean package -Dmaven.test.skip=true
+
+#############################################################################################
+
+#############################################################################################
+### Stage where Docker is running a java process to run a service built in previous stage ###
+#############################################################################################
 FROM eclipse-temurin:17-jre-alpine
 
-#CVE Fixes
-RUN apk -U upgrade
-RUN apk update && apk add --upgrade --no-cache libexpat libpng gnupg # CVE fixes
-RUN apk del --force libpng ttf-dejavu
-RUN rm -rf /lib/apk/db/installed/libpng
+RUN apk update \
+    && apk add --upgrade --no-cache libexpat \
+    && apk add --upgrade --no-cache libpng \
+    && apk add --upgrade --no-cache openssl \
+    && apk add --upgrade --no-cache gnutls
 
-COPY ./pcss-common-application/target/pcss-common-application.jar pcss-common-application.jar
+ARG SERVICE_NAME=pcss-common-application
 
-ENTRYPOINT ["java", "-Xmx1g", "-jar", "/pcss-common-application.jar"]
+COPY --from=build ./${SERVICE_NAME}/target/${SERVICE_NAME}.jar /app/service.jar
+
+CMD ["java", "-Xmx1g", "-jar", "/app/service.jar"]
+#############################################################################################
