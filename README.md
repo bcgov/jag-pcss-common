@@ -1,8 +1,6 @@
 # jag-pcss-common
 
 [![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/jag-pcss-common)
-[![Maintainability](https://api.codeclimate.com/v1/badges/a492f352f279a2d1621e/maintainability)](https://codeclimate.com/github/bcgov/jag-pcss-common/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/a492f352f279a2d1621e/test_coverage)](https://codeclimate.com/github/bcgov/jag-pcss-common/test_coverage)
 
 PCSS Common WebMethods Replacement
 
@@ -20,8 +18,6 @@ PCSS Common WebMethods Replacement
 Local Host: http://127.0.0.1:8080
 
 Actuator Endpoint Local: http://localhost:8080/actuator/health
-
-Code Climate: https://codeclimate.com/github/bcgov/jag-pcss-common
 
 WSDL Endpoint Local:
 * localhost:8080/common/JusticePCSSCommon.wsProvider:pcssCommon?WSDL
