@@ -2,6 +2,7 @@ package ca.bc.gov.open.pcss.configuration;
 
 import ca.bc.gov.open.pcss.models.serializers.InstantDeserializer;
 import ca.bc.gov.open.pcss.models.serializers.InstantSerializer;
+import ca.bc.gov.open.pcss.observability.SoapMetricsInterceptor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -10,6 +11,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import jakarta.xml.soap.SOAPMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +25,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.soap.SoapVersion;
 import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -33,6 +36,12 @@ import org.springframework.ws.wsdl.wsdl11.Wsdl11Definition;
 @Configuration
 @Slf4j
 public class SoapConfig extends WsConfigurerAdapter {
+    private final SoapMetricsInterceptor soapMetricsInterceptor;
+
+    public SoapConfig(SoapMetricsInterceptor soapMetricsInterceptor) {
+        this.soapMetricsInterceptor = soapMetricsInterceptor;
+    }
+
     @Value("${pcss.username}")
     private String username;
 
@@ -43,6 +52,11 @@ public class SoapConfig extends WsConfigurerAdapter {
     private String ordsReadTimeout;
 
     public static final String SOAP_NAMESPACE = "http://courts.gov.bc.ca/xml/ns/pcss/common/v1";
+
+    @Override
+    public void addInterceptors(List<EndpointInterceptor> interceptors) {
+        interceptors.add(soapMetricsInterceptor);
+    }
 
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(

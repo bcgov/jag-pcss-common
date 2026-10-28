@@ -1,0 +1,60 @@
+# Request rate by service, SOAP operation, caller, and outcome
+sum by (application, operation, caller_application, outcome) (
+  rate(pcss_soap_server_requests_seconds_count[5m])
+)
+
+# Error percentage by service, SOAP operation, and caller
+100 *
+sum by (application, operation, caller_application) (
+  rate(pcss_soap_server_requests_seconds_count{outcome="ERROR"}[5m])
+)
+/
+sum by (application, operation, caller_application) (
+  rate(pcss_soap_server_requests_seconds_count[5m])
+)
+
+# 95th-percentile duration by service, SOAP operation, and caller
+histogram_quantile(
+  0.95,
+  sum by (le, application, operation, caller_application) (
+    rate(pcss_soap_server_requests_seconds_bucket[5m])
+  )
+)
+
+# Average duration by service, SOAP operation, and caller
+sum by (application, operation, caller_application) (
+  rate(pcss_soap_server_requests_seconds_sum[5m])
+)
+/
+sum by (application, operation, caller_application) (
+  rate(pcss_soap_server_requests_seconds_count[5m])
+)
+
+# Requests without a usable ApplicationCd
+sum by (application, operation) (
+  rate(
+    pcss_soap_server_requests_seconds_count{
+      caller_application="UNSPECIFIED"
+    }[5m]
+  )
+)
+
+# Requests containing an unsupported ApplicationCd
+sum by (application, operation) (
+  rate(pcss_soap_server_requests_seconds_count{caller_application="OTHER"}[5m])
+)
+
+# Example alert expression: error ratio above 5% with minimum traffic
+(
+  sum by (application, operation) (
+    rate(pcss_soap_server_requests_seconds_count{outcome="ERROR"}[10m])
+  )
+  /
+  sum by (application, operation) (
+    rate(pcss_soap_server_requests_seconds_count[10m])
+  )
+) > 0.05
+and on (application, operation)
+sum by (application, operation) (
+  rate(pcss_soap_server_requests_seconds_count[10m])
+) > 0.1

@@ -1,0 +1,35 @@
+# Merge these fields into the existing OpenShift DeploymentConfig template.
+# This is not a complete DeploymentConfig and must not replace existing fields.
+
+spec:
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/actuator/prometheus"
+        prometheus.io/port: "9090"
+    spec:
+      containers:
+        - name: ${COMPONENT_NAME}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: metrics
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: metrics
+              scheme: HTTP
+
+# Keep the existing application Service and Route on the HTTP application port.
+# Do not add port 9090 to the externally routed Service.
+# If NetworkPolicies deny pod ingress, allow only the Sysdig scraper to reach
+# TCP port 9090 using source selectors confirmed with the platform team.
